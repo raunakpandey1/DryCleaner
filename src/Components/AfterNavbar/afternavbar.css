@@ -1,0 +1,65 @@
+.typography {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  text-align: center;
+  width: 80%;
+  color: white;
+}
+
+.video {
+  margin-top: 10.9vw;
+}
+
+.welcome {
+  margin-bottom: 50px;
+}
+
+.chicago {
+  margin-bottom: 50px;
+}
+
+.dry {
+  font-size: 1.5vw;
+}
+
+.front {
+  margin-top: 10px;
+  width: 50% !important;
+  height: inherit !important;
+  border-radius: 0.25em !important;
+}
+
+.ripple {
+  font-size: 12px;
+}
+
+@media screen and (max-width: 430px) {
+  .welcome {
+    margin-bottom: 5px;
+    font-size: 24px;
+    display: none;
+  }
+  .video1 {
+    margin-top: 22.0vw;
+  }
+  .typography {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+  }
+  .chicago {
+    margin-bottom: 25px;
+    font-size: 26px;
+    display: none;
+  }
+  .dry {
+    display: none;
+  }
+  .ok {
+    margin: 0;
+  }
+}
+/*# sourceMappingURL=afternavbar.css.map */

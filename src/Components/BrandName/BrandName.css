@@ -1,0 +1,20 @@
+.brand {
+  cursor: pointer;
+}
+
+.brand span {
+  text-transform: uppercase;
+  font-size: xx-large;
+  border: 0.1rem solid #f50460;
+  padding: 0.6rem 1rem;
+  border-radius: 0.3rem;
+  color: #410ba5;
+  font-weight: bolder;
+  letter-spacing: 0.2rem;
+}
+
+.footer span {
+  color: white;
+  border-color: white;
+}
+/*# sourceMappingURL=BrandName.css.map */

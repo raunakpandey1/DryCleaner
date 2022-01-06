@@ -1,0 +1,49 @@
+.join3 {
+  padding: 4%;
+  background-color: #ffffff;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.all {
+  margin: 3rem;
+  padding: 4px;
+}
+
+.ch {
+  margin: 8px;
+  width: inherit !important;
+  height: inherit !important;
+}
+
+@media screen and (max-width: 430px) {
+  .ripple {
+    font-size: 12px;
+  }
+  .all {
+    margin: 1rem;
+    padding: 4px;
+  }
+  .join3 {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    padding: 4rem;
+  }
+  .join3 h2 {
+    font-size: 34px;
+  }
+  .join3 .ko .ser p {
+    font-size: 16px;
+  }
+  .join3 .ko .where {
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+}
+/*# sourceMappingURL=book.css.map */

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,WAAW,CAAA;EACP,OAAO,EAAE,EAAE;EACX,gBAAgB,EAAE,OAAO;CAC5B",
+    "sources": [
+        "count.scss"
+    ],
+    "names": [],
+    "file": "count.css"
+}

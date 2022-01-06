@@ -1,0 +1,218 @@
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0px 40px;
+  position: -webkit-sticky;
+  position: sticky;
+  height: 80px;
+}
+
+.logo-nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 90%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.option {
+  text-decoration: none;
+  color: black;
+}
+
+.logo-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-left: 200px;
+  margin-bottom: 16px;
+}
+
+.nav-options {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (auto)[6];
+      grid-template-columns: repeat(6, auto);
+  grid-gap: 10px;
+  margin-top: 30px;
+  margin-right: -550px;
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  text-decoration: none;
+  margin-bottom: 50px;
+}
+
+.mobile-option {
+  display: none;
+}
+
+.option {
+  color: white;
+  text-decoration: none;
+}
+
+.menu-icon {
+  display: hidden;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.dragon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  float: left;
+  margin-left: 43%;
+  height: 4vh;
+  margin-top: 0;
+  padding-top: 0px;
+  margin-bottom: 40px;
+}
+
+.dragon .cho {
+  margin-left: 2px;
+  width: 5rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.cho9 {
+  margin-left: 4px;
+  width: 8rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.header .logo-nav .dragon .cho9 span {
+  padding-left: 12px;
+}
+
+.header .logo-nav .dragon .cho span {
+  padding-left: 12px;
+}
+
+@media screen and (max-width: 430px) {
+  /*Mobile View */
+  .header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+    background-color: black;
+  }
+  .logo {
+    width: 35px;
+    height: 35px;
+  }
+  .logo-nav {
+    display: block;
+    width: 90%;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .logo-container {
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+  }
+  .nav-options {
+    background-color: white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    height: 500px;
+    position: absolute;
+    left: -100%;
+    opacity: 0;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    list-style-type: none;
+    grid-gap: 0px;
+    margin-top: 2.0vw;
+  }
+  .nav-options.active {
+    height: 80vw;
+    width: 95vw;
+    left: 0;
+    opacity: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    z-index: 999;
+    -ms-flex-line-pack: center;
+        align-content: center;
+    padding-left: 0px;
+  }
+  .menu-icon {
+    width: 45px;
+    height: 45px;
+  }
+  .option {
+    background-color: white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    height: 10vw;
+    z-index: 1;
+    padding: 30px 0px;
+  }
+  .signin-up {
+    display: none;
+  }
+  .mobile-menu {
+    display: block;
+  }
+  .dragon {
+    display: none;
+  }
+  .dragon .cho {
+    display: none;
+  }
+  .cho9 {
+    display: none;
+  }
+  .header .logo-nav .dragon .cho9 span {
+    display: none;
+  }
+  .header .logo-nav .dragon .cho span {
+    display: none;
+  }
+}
+/*# sourceMappingURL=navbar.css.map */

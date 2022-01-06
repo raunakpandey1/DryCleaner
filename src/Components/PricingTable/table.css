@@ -1,0 +1,28 @@
+.initiate {
+  background-color: #f7f7f7;
+  padding: 3vw 3vw 3vw 3vw;
+}
+
+.table1 {
+  border: 1px solid #9F9B97;
+  padding: 3vw 3vw 3vw 3vw;
+  color: #8A7A77;
+  font-weight: 400;
+  margin: 2vw 10vw -2vw 10vw;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  background-color: white;
+}
+
+@media screen and (max-width: 430px) {
+  .table1 {
+    padding: 3vw 3vw 3vw 3vw;
+    color: #8A7A77;
+    font-weight: 400;
+    margin: 0vw 0vw 0vw 0vw;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    background-color: white;
+  }
+}
+/*# sourceMappingURL=table.css.map */

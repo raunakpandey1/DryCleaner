@@ -1,0 +1,95 @@
+.danny {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+}
+
+.danny img {
+  display: fixed;
+}
+
+.danny .tro .lp {
+  display: block;
+  margin-top: 20%;
+}
+
+.danny .tro .lp h2 {
+  color: red;
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.danny .tro .lp p {
+  color: #9C99A1;
+  padding-top: 4%;
+  font-weight: 600;
+}
+
+.danny .no {
+  display: block;
+  margin-right: 4%;
+}
+
+.danny .no .ll p {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: #9C99A1;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.danny .no .zz {
+  margin-top: 6%;
+}
+
+.juice {
+  margin-left: 29%;
+}
+
+@media screen and (max-width: 430px) {
+  .danny {
+    display: block;
+    margin-top: 60%;
+    padding-bottom: 0;
+    height: 100vh;
+  }
+  .danny .hd {
+    position: absolute;
+    z-index: -639654;
+    width: 90%;
+    height: 120vh;
+  }
+  .danny .no .zz {
+    display: block;
+    border-color: white;
+  }
+  .danny .no .ll p {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    padding-left: 4%;
+    color: black;
+  }
+  .juice {
+    margin-left: 42%;
+  }
+  .danny .tro .lp h2 {
+    padding-left: 4%;
+  }
+  .danny .tro .lp p {
+    padding-left: 4%;
+    color: black;
+  }
+  .danny .no .ll {
+    margin-top: 10%;
+  }
+}
+/*# sourceMappingURL=work.css.map */

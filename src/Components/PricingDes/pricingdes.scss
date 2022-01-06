@@ -1,0 +1,50 @@
+.pricing {
+    background-color: #6D9FB2;
+    padding: 2vw;
+    color: white;
+    margin-top: 5vw;
+    
+}
+
+.p {
+    margin-left: 24vw;
+}
+
+.p1111 {
+    margin-left: 18vw;
+    padding-top: 1vw;
+    color: white;
+}
+
+.p2 {
+    padding-top: 1vw;
+    color: white;
+}
+
+.h1 {
+    display: none;
+}
+
+@media screen and (max-width: 430px) {
+    .pricing{
+        margin-top: 23vw;
+    }
+    .h1 {
+        display: flex;
+        margin-left: 4.0vw;
+    }
+    .p {
+        font-size: 3.2vw;
+        margin-left: 10.1vw;
+    }
+    .p1111 {
+        display: flex;
+        font-size: 3.2vw;
+        margin-left: 18.0vw;
+        margin-bottom: -3.0vw;
+        margin-top: 0.2vw;
+    }
+    .p2 {
+        margin-top: 2.0vw;
+    }
+}

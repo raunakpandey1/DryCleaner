@@ -1,0 +1,40 @@
+.op{
+    justify-items: center;
+    justify-content: center;
+}
+.op p{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+
+}
+.op h1{
+    
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  @media screen and (max-width: 430px){
+      .op p{
+          width:100%;
+          margin-left: 20%;
+          
+      }
+      .op{
+          padding-top:13%;
+      }
+      .op h1{
+         font-size:22px;
+         font-weight:bold;
+      }
+  }

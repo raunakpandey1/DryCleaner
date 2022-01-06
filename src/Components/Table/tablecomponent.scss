@@ -1,0 +1,59 @@
+
+.tabl1{
+    border     : 1px solid #EFEFEF;
+    padding: 1vw 0vw 1vw 0vw;
+}
+
+.tab11{
+    font-weight: 600;
+    font-size: 1.8vw;
+}
+
+.tab2{
+    margin-top: 2vw;
+}
+
+.tab3{
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-right: 3vw;
+    margin-top: -2vw;
+    font-weight: 600;
+    font-size: 1.8vw;
+}
+
+
+
+
+@media screen and (max-width: 430px) {
+    .tabl1{
+        border     : 1px solid #EFEFEF;
+        padding: 1vw 0vw 1vw 0vw;
+    }
+    .tab11{
+        font-weight: 600;
+        font-size: 3.8vw;
+    }
+    
+    .tab2{
+        width: 60vw;
+        margin-top: 2vw;
+        font-size: 3.2vw;
+    }
+    
+    .tab3{
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        margin-right: 3vw;
+        margin-top: -6vw;
+        font-weight: 600;
+        font-size: 3.8vw;
+    }
+    
+    
+   
+}
