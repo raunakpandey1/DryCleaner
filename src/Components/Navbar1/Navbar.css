@@ -74,8 +74,11 @@ background-color: white;
 }
 
 .cho {
-    margin-left: 2px;
-    width      : 5rem;
+    cursor: pointer;
+    margin-left: 4px;
+    width: 5rem;
+    margin-top: -11px;
+    padding: 10px;
     align-items: center;
 }
 
@@ -92,6 +95,48 @@ background-color: white;
 .header .dragon .cho span {
     padding-left: 12px;
 }
+ 
+.cpUpperLeft img {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    margin-top: -20px;
+    margin-left: 42px;
+    border: 2px solid #7438FF;
+    position: relative; 
+}
+.profTitle{
+    margin-top: -45px;
+    margin-left: 121px;
+}
+.cpUpperLeft img:hover .menu-content{
+    display: flex;
+    flex-direction: column;
+}
+.menu-content {
+    position: absolute;
+    box-shadow: 0px 2px 6px rgba(0,0,0,20%);
+    padding: 10px 2px;
+    background-color:white;
+    margin-top:-70px;
+    border-radius: 5px;
+    z-index: 100;
+    transition-delay: 0.5s;
+     
+ }
+.menuList{
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 0px 10px;
+ }
+ .links{
+    text-decoration: none;
+    color: #363636;
+    font-family: Roboto;
+}
+
 
 @media screen and (max-width:430px) {
     .header {
@@ -101,7 +146,24 @@ background-color: white;
         overflow        : hidden;
         background-color: rgba(0, 0, 0, .9);
     }
-
+    .cpUpperLeft{
+        display: flex;
+        flex-direction: row;
+        max-width: 10px; 
+    }
+    .cpUpperLeft img {
+        height: 46px;
+        margin-left: 20px;
+    }
+    .navprof{
+        width: 100px;
+    }
+    .profTitle{
+        color: #fff;
+        margin-top: -9px;
+        margin-left: 9px;
+        font-size: 17px;
+    }
     .logo {
         margin-top : 2.2vw;
         width      : 50px;

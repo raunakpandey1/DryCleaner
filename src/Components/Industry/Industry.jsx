@@ -28,7 +28,7 @@ const Industry = () => {
                 <Row className='justify-content-center '>
                     {/* 1 */}
 
-                    <Col lg="4" md="6" s="12" className="bg" >
+                    <Col lg="4" md="6" s="12" className="bg mobImg" >
                        
                             <img src="res.jpg" alt="" data-black-overlay="5" style={{ width: "80%" }} />
                             <div className="centered1">

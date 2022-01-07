@@ -15,6 +15,7 @@ import Button from '../Components/Button/Button';
 import Book from '../Components/Book/Book';
 import Work from '../Components/Work/Work';
 import Popup from '../Components/Popup/Popup';
+import { useNavigate ,Navigate} from "react-router-dom";
 
 
 
@@ -22,12 +23,28 @@ const Home = () => {
   const [buttonPopup, setButtonPopup] = useState (false);
   const [timedPopup, setTimedPopup] = useState (false);
 
+  const navigate = useNavigate();
+  
+
   useEffect (() => {
     setTimeout (() => {
       setTimedPopup (true);
     }, 5000);
   }, []);
 
+
+  const hasToken = (token) => {
+    if (token) {
+      return true
+    }
+  }
+  const { from } = { from: { pathname: '/signin' }};
+  if (!hasToken(JSON.parse(localStorage.getItem('authenticated')))) {
+    return (
+      <Navigate to={from} />
+    )
+  }
+   
   return (
 
     <div style={{overflowX:"hidden", overflowY:"hidden"}}>

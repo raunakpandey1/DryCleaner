@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+ 
 import {
   BoldLink,
   BoxContainer,
@@ -9,10 +10,15 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
+import { useNavigate } from "react-router-dom";
 // import './common.scss'
 export const SignupForm = (props) => {
-  const { switchToSignin } = useContext(AccountContext);
-
+  const navigate = useNavigate()
+  // const { switchToSignin } = useContext(AccountContext);
+  function switchToSignin(e){
+    navigate('/signin')
+    
+   }
   return (
     
     <BoxContainer>
@@ -30,7 +36,7 @@ export const SignupForm = (props) => {
       <Marginer direction="vertical" margin="1em" />
       <MutedLink href="#">
         Already have an account?
-        <BoldLink href="#" onClick={switchToSignin}>
+        <BoldLink onClick={switchToSignin}>
           Signin
         </BoldLink>
       </MutedLink>
