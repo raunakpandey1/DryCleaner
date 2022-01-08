@@ -1,5 +1,5 @@
-import React, {useState, useContext } from "react";
-import { useNavigate ,Redirect} from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import { useNavigate, Redirect } from 'react-router-dom';
 import {
   BoldLink,
   BoxContainer,
@@ -7,14 +7,14 @@ import {
   Input,
   MutedLink,
   SubmitButton,
-  
+
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-import {auth, db} from '../../fbconfig.js'
- 
+import { auth, db } from '../../fbconfig.js'
+
 // import './common.scss'
-import { signInWithEmailAndPassword, signOut} from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 export const LoginForm = (props) => {
   // const { switchToSignup } = useContext(AccountContext);
@@ -26,32 +26,32 @@ export const LoginForm = (props) => {
 
 
   const changeCreds = (event) => {
-    
+
     setState({ ...state, [event.target.name]: event.target.value })
   }
-  
- 
-  function handleClick(e){
+
+
+  function handleClick(e) {
     e.preventDefault();
     console.log(state.email)
     console.log(state.password)
-    signInWithEmailAndPassword(auth,state.email , state.password).then((userCredential) => {
-          console.log("login Successful");
-          localStorage.setItem('authenticated', true)
-          navigate('/')
-        })
-       .catch((error) => {
+    signInWithEmailAndPassword(auth, state.email, state.password).then((userCredential) => {
+      console.log("login Successful");
+      localStorage.setItem('authenticated', true)
+      navigate('/')
+    })
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
       });
-    }
-    
+  }
 
-    function switchToSignup(e){
-       navigate('/signup')
-       
-      }
-  function handleLogOut(e){
+
+  function switchToSignup(e) {
+    navigate('/signup')
+
+  }
+  function handleLogOut(e) {
     signOut(auth).then(() => {
       // Sign-out successful.
       console.log('Sign-out successful')
@@ -62,7 +62,7 @@ export const LoginForm = (props) => {
       const errorCode = error.code;
       console.log(errorCode)
     });
-    
+
   }
 
 
@@ -71,10 +71,10 @@ export const LoginForm = (props) => {
       {/* <button className="close-btn close" aria-label="Close" onClick={() => props.setTrigger(false)}>  <span aria-hidden="true">&times;</span></button>
         {props.children} */}
       <FormContainer>
-      
-        <Input id="email" type="email"  name="email" onChange={(event) => changeCreds(event)} placeholder="Email" />
+
+        <Input id="email" type="email" name="email" onChange={(event) => changeCreds(event)} placeholder="Email" />
         <Input id="password" type="password" name="password" onChange={(event) => changeCreds(event)} placeholder="Password" />
-      </FormContainer> 
+      </FormContainer>
       <Marginer direction="vertical" margin={10} />
       <MutedLink href="#">Forget your password?</MutedLink>
       <Marginer direction="vertical" margin="1.6em" />
@@ -84,7 +84,7 @@ export const LoginForm = (props) => {
       <Marginer direction="vertical" margin="1em" />
       <MutedLink href="#">
         Don't have an accoun?{" "}
-        <BoldLink  onClick={switchToSignup}>
+        <BoldLink onClick={switchToSignup}>
           Signup
         </BoldLink>
       </MutedLink>
