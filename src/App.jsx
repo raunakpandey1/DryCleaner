@@ -9,6 +9,7 @@ import { motion } from 'framer-motion/dist/framer-motion'
 import { LoginForm } from "./Components/accountBox/loginForm";
 import { SignupForm } from "./Components/accountBox/signupForm";
 import { Services } from "./Pages/Services/Services";
+import { Vendors } from "./Pages/Services/Vendors";
 
 
 
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/signin" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/vendors" element={<Vendors />} />
           
           <Route path="/about" element={<About />} />
           <Route path="/specials" element={<Specials />} />

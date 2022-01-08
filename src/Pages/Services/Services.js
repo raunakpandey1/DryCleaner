@@ -1,13 +1,29 @@
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useState ,useEffect } from 'react'
-import Card from '../../Components/Cardfirst/Card'
+// import Card from '../../Components/Cardfirst/Card'
 import Navbar from '../../Components/Navbar1/Navbar'
 import { db } from '../../fbconfig';
 import GridContainer from '../../Components/Grid/GridContainer.js'
 import GridItem from '../../Components/Grid/GridItem.js'
-import { Col, Row } from 'react-bootstrap';
-export const Services = () => {
+import { Col, Row } from 'react-bootstrap';import {
+    Card,
+    CardMedia,
+    makeStyles,
+  } from "@material-ui/core";
+  const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(0),
+      minWidth: 120,
+    },
+    media: {
+      // height: 240,
+      minHeight:250,
+      
+    },
+  }));
 
+export const Services = () => {
+    const classes = useStyles();
     const [categories, setCategories]=useState([]);
     const categoriesCollectionRef = collection(db,"categories")
     const getCategories= async()=>{
@@ -34,23 +50,34 @@ export const Services = () => {
     return (
         <div>
             <Navbar />
-            {/* {
-            categories && categories.length>0 ? categories.map((item, key) => {
-                                        return <><Card value={item} key={key} /></>
-                                    }) : "No Product Found"
-           } */}
+            <br></br><br></br><br></br><br></br>
            <Row >
-           <Col className="mb-4">
+           <Col className="m-4">
                 <GridContainer>
                 {
-                    categories.map((item, key) => {
-                    return <GridItem
-                    xs={12} sm={12} md={6} lg={6}
-                    >
-                    <Card value={item} key={key} />
-                    </GridItem>
-                })
-                }
+          categories.map(category => {
+            return <GridItem
+              xs={12} sm={12} md={6} lg={6}
+            >
+              <Card><CardMedia
+            className={classes.media}
+            image={
+              category.img
+            }
+            
+            title={"Image"}
+          />
+          <button
+                type="button"
+                className="btn btn-danger  m-4 "
+                >
+                {category.name}
+              </button></Card>
+          
+          <br></br>
+            </GridItem>
+          })
+        }
             </GridContainer>
       </Col>
       </Row>
