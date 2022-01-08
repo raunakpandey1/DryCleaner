@@ -65,7 +65,7 @@ const Navbar = () => {
             <a href='/' onClick={closeMenu}>GALLERY</a>
           </li> */}
           <li className='nav-item'>
-            <a href='/' onClick={closeMenu}>CONTACTS</a>
+            <a href='/services' onClick={closeMenu}>SERVICES</a>
           </li>
           <li className='nav-item navprof'>
           <div className="cpUpperLeft">

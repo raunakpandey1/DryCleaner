@@ -8,6 +8,7 @@ import ScrollToTop from '../src/Components/ScrollToTop/ScrollToTop'
 import { motion } from 'framer-motion/dist/framer-motion'
 import { LoginForm } from "./Components/accountBox/loginForm";
 import { SignupForm } from "./Components/accountBox/signupForm";
+import { Services } from "./Pages/Services/Services";
 
 
 
@@ -22,6 +23,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
+          <Route path="/services" element={<Services />} />
+          
           <Route path="/about" element={<About />} />
           <Route path="/specials" element={<Specials />} />
           <Route path="/pricing" element={<Pricing />} />
