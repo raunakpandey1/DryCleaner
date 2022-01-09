@@ -37,6 +37,21 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
   const [dateTime, setDateTime] = useState(new Date().getTime());
   const [description, setDescription] = useState("");
   const [paymentMode, setPaymentMode] = useState("COD");
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    alternative: "",
+    mobile: "",
+    address: "",
+    cardName: "",
+    cardNumber: "",
+    expiry: "",
+    cvv: "",
+  });
+
+  const changeCreds = (event) => {
+    setState({ ...state, [event.target.name]: event.target.value });
+  };
 
   const handleOpenSubTypesModal = () => setSubTypesModal(true);
   const handleCloseSubTypesModal = () => {
@@ -117,9 +132,13 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       userSnap.data().carts &&
       userSnap.data().carts.length
     ) {
-        console.log(userSnap.data().carts);
+      console.log(userSnap.data().carts);
       setUserCartItems(userSnap.data().carts);
       setUserData(userSnap.data());
+      state.name = userSnap.data()["fullName"];
+      state.email = userSnap.data()["email"];
+      state.address = userSnap.data()["currentAddress"]["address"];
+      state.mobile = userSnap.data()["phoneNumber"];
     } else {
       setUserCartItems([]);
     }
@@ -261,7 +280,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
 
   return (
     <div>
-        <Navbar />
+      <Navbar />
       <br></br>
       <br></br>
       <br></br>
@@ -278,96 +297,93 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
         aria-hidden="true"
         centered
       > */}
-        <div className="modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-body">
-              <div className="place_product_main">
-                <div className="row">
-                  <div className="col-lg-6 place_left_main">
-                    <div className="row">
-                      <div
-                        className="row"
-                        style={{
-                          maxHeight: "400px",
-                          overflowY: "auto",
-                          width: "100%",
-                        }}
-                      >
-                        {!loadingCart ? (
-                          userCartItems.length ? (
-                            userCartItems.map((mCartItem, index) => (
-                              <div className="col-12" key={index}>
-                                <div className="booking_product_inr">
-                                  <div className="row align-items-center">
-                                    <div className="col-sm-6 pr-sm-0">
-                                      <img
-                                        className="img-fluid"
-                                        src={mCartItem.img}
-                                        alt="cart-item-img"
-                                      />
-                                    </div>
-                                    <div className="col-sm-6">
-                                      <h4>{mCartItem.name}</h4>
+      <div className="modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-body">
+            <div className="place_product_main">
+              <div className="row">
+                <div className="col-lg-6 place_left_main">
+                  <div className="row">
+                    <div
+                      className="row"
+                      style={{
+                        maxHeight: "400px",
+                        overflowY: "auto",
+                        width: "100%",
+                      }}
+                    >
+                      {!loadingCart ? (
+                        userCartItems.length ? (
+                          userCartItems.map((mCartItem, index) => (
+                            <div className="col-12" key={index}>
+                              <div className="booking_product_inr">
+                                <div className="row align-items-center">
+                                  <div className="col-sm-6 pr-sm-0">
+                                    <img
+                                      className="img-fluid"
+                                      src={mCartItem.img}
+                                      alt="cart-item-img"
+                                    />
+                                  </div>
+                                  <div className="col-sm-6">
+                                    <h4>{mCartItem.name}</h4>
 
-                                      <div className="remove_add_btn d-flex align-items-center justify-content-between">
-                                        <h5>{`$ ${mCartItem.price}`}</h5>
-                                        <button
-                                          className="dlt_btn btn"
-                                          onClick={() =>
-                                            deleteCartItem(mCartItem)
-                                          }
-                                        >
-                                          <i
-                                            className="fa fa-trash"
-                                            aria-hidden="true"
-                                          ></i>
-                                        </button>
-                                      </div>
+                                    <div className="remove_add_btn d-flex align-items-center justify-content-between">
+                                      <h5>{`$ ${mCartItem.price}`}</h5>
+                                      <button
+                                        className="dlt_btn btn"
+                                        onClick={() =>
+                                          deleteCartItem(mCartItem)
+                                        }
+                                      >
+                                        <i
+                                          className="fa fa-trash"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </button>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            ))
-                          ) : (
-                            <span className="p-4">No Cart Items Found!</span>
-                          )
+                            </div>
+                          ))
                         ) : (
-                          <div
-                            className="row"
-                            style={{
-                              width: "100%",
-                              justifyContent: "center",
-                              margin: "1em 0px",
-                            }}
-                          >
-                            <div className="spinner-border"></div>
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-12 d-flex justify-content-center">
-                        <button
-                          style={{ backgroundColor: "#c9002b", border: "none" }}
-                          type="button"
-                          className="btn btn-primary m-2"
-                          onClick={handleCloseSubTypesModal}
+                          <span className="p-4">No Cart Items Found!</span>
+                        )
+                      ) : (
+                        <div
+                          className="row"
+                          style={{
+                            width: "100%",
+                            justifyContent: "center",
+                            margin: "1em 0px",
+                          }}
                         >
-                          Add more items!
-                        </button>
-                      </div>
-                      
+                          <div className="spinner-border"></div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="col-12 d-flex justify-content-center">
+                      <button
+                        style={{ backgroundColor: "#c9002b", border: "none" }}
+                        type="button"
+                        className="btn btn-primary m-2"
+                        onClick={handleCloseSubTypesModal}
+                      >
+                        Add more items!
+                      </button>
                     </div>
                   </div>
-                  <div className="col-lg-6 place_right_main">
-                    <div className="row">
-                      
-                      {/* if nonSubServices array is empty then show bill details */}
-                      {userCartItems &&
-                      userCartItems.length? (
-                        <>
-                          <div className="col-12 add_coupons">
-                            <div className="booking_product_inr">
-                              {/* <button className="btn">ADD COUPONS <i className="fa fa-chevron-right" aria-hidden="true"></i></button> */}
-                              {/* {appliedCoupon &&
+                </div>
+                <div className="col-lg-6 place_right_main">
+                  <div className="row">
+                    {/* if nonSubServices array is empty then show bill details */}
+                    {userCartItems && userCartItems.length ? (
+                      <>
+                        <div className="col-12 add_coupons">
+                          <div className="booking_product_inr">
+                            {/* <button className="btn">ADD COUPONS <i className="fa fa-chevron-right" aria-hidden="true"></i></button> */}
+                            {/* {appliedCoupon &&
                               appliedCoupon.status &&
                               appliedCoupon.coupon ? (
                                 <button
@@ -388,19 +404,18 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                                   ADD COUPONS
                                 </button>
                               )} */}
-                            </div>
                           </div>
-                          <div className="col-12 bill_details">
-                            <div className="booking_product_inr">
-                              <h2 className="d-flex justify-content-between align-items-center">
-                                Bill Details 
-                              </h2>
-                              <h5 className="d-flex justify-content-between align-items-center">
-                                Item Total{" "}
-                                <span>$ {userCartItems[0].price}</span>
-                              </h5>
-                              
-                              {/* {appliedCoupon && appliedCoupon.status ? (
+                        </div>
+                        <div className="col-12 bill_details">
+                          <div className="booking_product_inr">
+                            <h2 className="d-flex justify-content-between align-items-center">
+                              Bill Details
+                            </h2>
+                            <h5 className="d-flex justify-content-between align-items-center">
+                              Item Total <span>$ {userCartItems[0].price}</span>
+                            </h5>
+
+                            {/* {appliedCoupon && appliedCoupon.status ? (
                                 <h5
                                   style={{ color: "green" }}
                                   className="d-flex justify-content-between align-items-center"
@@ -411,56 +426,53 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                               ) : (
                                 ""
                               )} */}
-                              <h6 className="d-flex justify-content-between align-items-center">
-                                Tax Charges{" "}
-                                <span>$ {userCartItems[0].vat}</span>
-                              </h6>
-                              <h4 className="d-flex justify-content-between align-items-center">
-                                You pay{" "}
-                                <span>
-                                  ${" "}
-                                  {appliedCoupon && appliedCoupon.status
-                                    ? userCartItems[0].price +
-                                      userCartItems[0].vat +
-                                      tipAmount -
-                                      appliedCoupon.benefit
-                                    : userCartItems[0].price +
-                                      userCartItems[0].vat +
-                                      tipAmount}
-                                </span>
-                              </h4>
-                            </div>
+                            <h6 className="d-flex justify-content-between align-items-center">
+                              Tax Charges <span>$ {userCartItems[0].vat}</span>
+                            </h6>
+                            <h4 className="d-flex justify-content-between align-items-center">
+                              You pay{" "}
+                              <span>
+                                ${" "}
+                                {appliedCoupon && appliedCoupon.status
+                                  ? userCartItems[0].price +
+                                    userCartItems[0].vat +
+                                    tipAmount -
+                                    appliedCoupon.benefit
+                                  : userCartItems[0].price +
+                                    userCartItems[0].vat +
+                                    tipAmount}
+                              </span>
+                            </h4>
                           </div>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </div>
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </div>
-                  <div className="col-12 text-center">
-                    <button
-                      type="button"
-                      className="btn btn-primary place_btnn"
-                      onClick={() => {
-                        //   verifySubscriptionAndCart();
-                      }}
-                      disabled={!userCartItems.length}
-                      // data-toggle="modal"
-                      // data-target="#exampleModa7"
-                    >
-                      Place Booking
-                    </button>
-                  </div>
+                </div>
+                <div className="col-12 text-center">
+                  <button
+                    type="button"
+                    className="btn btn-primary place_btnn"
+                    onClick={() => {
+                      handleOpenDateTimeModal();
+                    }}
+                    disabled={!userCartItems.length}
+                    // data-toggle="modal"
+                    // data-target="#exampleModa7"
+                  >
+                    Place Booking
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
       {/* </Modal> */}
       {/* END BOOKING MODAL */}
 
-      
-      
       {/* END SUBSCRIPTION STATUS MODAL */}
 
       {/* APPLY COUPOBNS */}
@@ -598,33 +610,150 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                     className="fa fa-arrow-left"
                     aria-hidden="true"
                   ></i>{" "}
-                  Date and time
+                  Details
                 </button>
               </div>
               <div className="date_and_time_body">
                 <div className="row row1">
-                  <label>Name</label>{" "}
-                  <span>{userData && userData.name ? userData.name : ""}</span>
+                  <div className="col-3">
+                    {" "}
+                    <label>Name</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <textarea
+                      className="w-100"
+                      value={state.name}
+                      onChange={(event) => changeCreds(event)}
+                      id="name"
+                      name="name"
+                    ></textarea>
+                  </div>
                 </div>
                 <div className="row row1">
-                  <label>Contact number</label>
-                  <span>
-                    {userData && userData.phone ? userData.phone : ""}
-                  </span>
+                  <div className="col-3">
+                    {" "}
+                    <label>Email</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <textarea
+                      className="w-100"
+                      value={state.email}
+                      onChange={(event) => changeCreds(event)}
+                      id="email"
+                      name="email"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div className="row row1">
+                  <div className="col-3">
+                    {" "}
+                    <label>Number</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <textarea
+                      className="w-100"
+                      value={state.mobile}
+                      onChange={(event) => changeCreds(event)}
+                      id="mobile"
+                      name="mobile"
+                    ></textarea>
+                  </div>
                 </div>
                 <div className="row row1">
-                  <label>Address</label>
-                  <span>
-                    {userData && userData.addresses && userData.addresses.length
-                      ? userData.addresses[0]
-                      : ""}
-                  </span>
+                  <div className="col-3">
+                    {" "}
+                    <label>Alternate Number</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <textarea
+                      className="w-100"
+                      value={state.alternative}
+                      onChange={(event) => changeCreds(event)}
+                      id="alternative"
+                      name="alternative"
+                    ></textarea>
+                  </div>
                 </div>
+
+                <div className="row row1">
+                  <div className="col-3">
+                    {" "}
+                    <label> Address</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <textarea
+                      className="w-100"
+                      value={state.address}
+                      onChange={(event) => changeCreds(event)}
+                      id="address"
+                      name="address"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div className="row row1">
+                  <div className="col-3"> <label>Card Holder Name</label>{" "}</div>
+                  <div className="col-3"> <textarea
+                    className="w-100"
+                    value={state.cardName}
+                    onChange={(event) => changeCreds(event)}
+                    id="cardName"
+                    name="cardName"
+                   
+                  ></textarea></div>
+                  
+                </div>
+
+                <div className="row row1">
+                  <div className="col-3"> <label>Card Number</label>{" "}</div>
+                  <div className="col-3"> <textarea
+                    className="w-100"
+                    value={state.cardNumber}
+                    onChange={(event) => changeCreds(event)}
+                    id="cardNumber"
+                    name="cardNumber"
+                   
+                  ></textarea></div>
+                  
+                </div>
+
+                <div className="row row1">
+                  <div className="col-3"> <label>Expiry</label>{" "}</div>
+                  <div className="col-3"> <textarea
+                    className="w-100"
+                    value={state.expiry}
+                    onChange={(event) => changeCreds(event)}
+                    id="expiry"
+                    name="expiry"
+                   
+                  ></textarea></div>
+                  
+                </div>
+
+                <div className="row row1">
+                  <div className="col-3"> <label>CVV</label>{" "}</div>
+                  <div className="col-3"> <textarea
+                    className="w-100"
+                    value={state.cvv}
+                    onChange={(event) => changeCreds(event)}
+                    id="cvv"
+                    name="cvv"
+                   
+                  ></textarea></div>
+                  
+                </div>
+
                 <div className="row row1">
                   <label></label>
                   <button className="change_btn">Change</button>
                 </div>
-                <p>When do you need the services?</p>
+                
                 <div className="row row2">
                   {/* <div className="col-6">
                       <label>Date</label>
@@ -652,18 +781,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                     />
                   </div>
                 </div>
-                <p>Please discribe the job in as much detail as possible</p>
-                <div className="row row3">
-                  <textarea
-                    className="w-100"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    id=""
-                    name=""
-                    rows=""
-                    cols=""
-                  ></textarea>
-                </div>
+              
                 <div className="row justify-content-end">
                   <button
                     type="button"
@@ -713,19 +831,23 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
               <div className="date_and_time_body">
                 <div className="row row1">
                   <label>Name</label>{" "}
-                  <span>{userData && userData.name ? userData.name : ""}</span>
+                  <span>
+                    {userData && userData.fullName ? userData.fullName : ""}
+                  </span>
                 </div>
                 <div className="row row1">
                   <label>Contact number</label>
                   <span>
-                    {userData && userData.phone ? userData.phone : ""}
+                    {userData && userData.phoneNumber
+                      ? userData.phoneNumber
+                      : ""}
                   </span>
                 </div>
                 <div className="row row1">
                   <label>Address</label>
                   <span>
-                    {userData && userData.addresses && userData.addresses.length
-                      ? userData.addresses[0]
+                    {userData && userData.address && userData.address.length
+                      ? userData.address[0]
                       : ""}
                   </span>
                 </div>
