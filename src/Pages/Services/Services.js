@@ -5,11 +5,14 @@ import Navbar from '../../Components/Navbar1/Navbar'
 import { db } from '../../fbconfig';
 import GridContainer from '../../Components/Grid/GridContainer.js'
 import GridItem from '../../Components/Grid/GridItem.js'
-import { Col, Row } from 'react-bootstrap';import {
+import { Col, Row } from 'react-bootstrap';
+import './services.css' 
+import {
     Card,
     CardMedia,
     makeStyles,
   } from "@material-ui/core";
+import { NavLink } from 'react-router-dom';
   const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(0),
@@ -17,7 +20,7 @@ import { Col, Row } from 'react-bootstrap';import {
     },
     media: {
       // height: 240,
-      minHeight:250,
+      minHeight:200,
       
     },
   }));
@@ -55,29 +58,36 @@ export const Services = () => {
            <Col className="m-4">
                 <GridContainer>
                 {
-          categories.map(category => {
-            return <GridItem
-              xs={12} sm={12} md={6} lg={6}
-            >
-              <Card><CardMedia
-            className={classes.media}
-            image={
-              category.img
-            }
-            
-            title={"Image"}
-          />
-          <button
-                type="button"
-                className="btn btn-danger  m-4 "
-                >
-                {category.name}
-              </button></Card>
-          
-          <br></br>
-            </GridItem>
-          })
-        }
+                    categories.map(category => {
+                        return <GridItem
+                        xs={12} sm={12} md={4} lg={4}
+                        >
+                        <Card><CardMedia
+                        className={classes.media}
+                        image={
+                        category.img
+                        }
+                        
+                        title={"Image"}
+                    />
+                    <br></br>
+                    <div className='catBody'>
+                        <div className='catTitle'><h4><b>{category.name}</b></h4></div>
+                    
+                    <div className='catTitle'>
+                    <button
+                            type="button"
+                            className="btn btn-danger  m-4 "
+                            ><NavLink to={`/services/${category.id}/vendors`}>All Vendors</NavLink>
+                            {/* {category.name} */}
+                        </button>
+                    </div>
+                    </div>
+                    </Card>
+                     
+                        </GridItem>
+                    })
+                    }
             </GridContainer>
       </Col>
       </Row>

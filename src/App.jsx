@@ -10,6 +10,7 @@ import { LoginForm } from "./Components/accountBox/loginForm";
 import { SignupForm } from "./Components/accountBox/signupForm";
 import { Services } from "./Pages/Services/Services";
 import { Vendors } from "./Pages/Services/Vendors";
+import { Items } from "./Pages/Items/Items";
 
 
 
@@ -25,8 +26,8 @@ const App = () => {
           <Route path="/signin" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/vendors" element={<Vendors />} />
-          
+          <Route path="/services/:id/vendors" element={<Vendors />} />
+          <Route path="/vendors/:id/items" element={<Items />} />
           <Route path="/about" element={<About />} />
           <Route path="/specials" element={<Specials />} />
           <Route path="/pricing" element={<Pricing />} />

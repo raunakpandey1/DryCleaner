@@ -1,0 +1,25 @@
+.itemBody
+{
+   display: flex;  
+   justify-content: space-between;
+   flex-direction: row;
+}
+
+.itemTitle{
+    display: flex;
+     flex-direction: column;
+}
+
+.titCon h4 {
+    margin-left: 20px;
+}
+.titCon h6 {
+    margin-left: 20px;
+}
+.titCon p {
+    margin-left: 20px;
+}
+.titCon{
+    display: flex;
+    flex-direction: column;
+}

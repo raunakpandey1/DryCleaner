@@ -7,7 +7,7 @@ import './Navbar.css'
 import { motion } from 'framer-motion/dist/framer-motion'
 import { navbarAnimation } from "../../utils/Animations";
 import { NavLink, useNavigate } from 'react-router-dom';
-import avatar from '../../img/profilereplace.png'
+import avatar from '../../img/avatar.jpg'
 import { signOut } from 'firebase/auth';
 import { auth } from '../../fbconfig';
  
@@ -72,7 +72,7 @@ const Navbar = () => {
                                     <img src={ avatar} alt="" />
                                      
                                      <div>
-                                     <p className='profTitle'>Raunak</p>
+                                     <p className='profTitle'>Sham</p>
                                      </div>
                                 </div>
           </li>
