@@ -11,7 +11,8 @@ import { SignupForm } from "./Components/accountBox/signupForm";
 import { Services } from "./Pages/Services/Services";
 import { Vendors } from "./Pages/Services/Vendors";
 import { Items } from "./Pages/Items/Items";
-
+import { AuthContextProvider } from "./auth/useAuth";
+import Cart from "./Pages/Carts/Cart";
 
 
 
@@ -21,11 +22,13 @@ const App = () => {
     <div>
       <motion.div initial="hidden" animate="show" className="App">
       <ScrollToTop />
+      <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/cart" element={<Cart/>} />
           <Route path="/services/:id/vendors" element={<Vendors />} />
           <Route path="/vendors/:id/items" element={<Items />} />
           <Route path="/about" element={<About />} />
@@ -33,6 +36,7 @@ const App = () => {
           <Route path="/pricing" element={<Pricing />} />
           
         </Routes>
+        </AuthContextProvider>
         </motion.div> 
      
     </div>
