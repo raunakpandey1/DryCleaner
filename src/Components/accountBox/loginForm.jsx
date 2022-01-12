@@ -8,7 +8,7 @@ import {
   MutedLink,
   SubmitButton,
 
-} from "./common";
+} from "./register";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 import { auth, db } from '../../fbconfig.js'

@@ -18,9 +18,10 @@ import {
   updateDoc,
   where,
 } from "@firebase/firestore";
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from "../../auth/useAuth";
 import "./items.css";
-import { NavLink, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(0),
@@ -28,31 +29,46 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     // height: 240,
-    minHeight: 200,
+    minWidth: 150,
   },
+  mar:{
+    margin:theme.spacing(2),
+  },
+   
 }));
 
 export const Items = () => {
+  const navigate = useNavigate()
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
   const [items, setItems] = useState([]);
+  
   const addItemToCart = async (mSubType) => {
     // create clicked cart item
     const cartItem = {
+      id:mSubType.id,
       img: mSubType.image,
       name: mSubType.name,
       price: mSubType.price,
-      vat: mSubType.price * 0.05,
+      // vat: mSubType.price * 0.05,
       quantity:1
     };
+    if(user == undefined) {
+      alert("Login to continue")
+       navigate('/signin')
+    }
+    else{
+      const userCartRef = doc(db, "users", user.uid);
 
-    const userCartRef = doc(db, "users", user.uid);
-
-    // push updated cart items to db
-    await updateDoc(userCartRef, { carts: arrayUnion(cartItem) });
+      // push updated cart items to db
+      await updateDoc(userCartRef, { carts: arrayUnion(cartItem) });
+      alert('Item added to Cart')
+    }
+    
   };
 
+   
   const getItems = async () => {
     const vend = query(collection(db, "items"), where("vendorId", "==", id));
     //console.log(data);
@@ -74,34 +90,38 @@ export const Items = () => {
       <br></br>
       <br></br>
       <br></br>
-      <Row>
-        <Col className="m-4">
-          <GridContainer>
+      <Row className={classes.mar}>
+        <Col >
+          <GridContainer > 
             {items.map((item) => {
               return (
-                <GridItem xs={12} sm={12} md={4} lg={4}>
+                <GridItem xs={12} sm={12} md={12} lg={12}>
                   <Card>
-                    <CardMedia
+                  <div className="cardcont">
+                  <div className="cardit">
+                  <CardMedia
                       className={classes.media}
                       image={item.image}
                       title={"Image"}
                     />
-                    <br></br>
-                    <div className="itemBody">
+                  </div>
+                     <div className="cardit">
+                     <div className="itemBody">
                       <div className="itemTitle">
                         <div className="titCon">
-                          <h4>
+                          <h6>
                             <b>
-                              {item.name} &nbsp; ({item.type})
+                              {item.name}  
                             </b>
-                          </h4>
+                          </h6>
+                          <p>{item.desc}</p>
                         </div>
                         <div className="titCon">
                           <h6>
                             <b>${item.price}</b>
                           </h6>
                         </div>
-                        <div className="titCon">
+                        {/* <div className="titCon">
                           <p>
                             <b>{item.washIron && "wash & Iron"}</b>
                           </p>
@@ -114,7 +134,7 @@ export const Items = () => {
                           <p>
                             <b>{item.dryClean && "dry Clean"}</b>
                           </p>
-                        </div>
+                        </div> */}
                       </div>
 
                       <div className="itemTitle">
@@ -125,11 +145,16 @@ export const Items = () => {
                           type="button"
                           className="btn btn-danger  m-4 "
                         >
-                          Add to Cart
+                          +
                         </button>
                       </div>
                     </div>
+                     </div>
+                  </div>
+                 
+                    
                   </Card>
+                  <br></br>
                 </GridItem>
               );
             })}

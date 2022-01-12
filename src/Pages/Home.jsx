@@ -38,12 +38,12 @@ const Home = () => {
       return true
     }
   }
-  const { from } = { from: { pathname: '/signin' }};
-  if (!hasToken(JSON.parse(localStorage.getItem('authenticated')))) {
-    return (
-      <Navigate to={from} />
-    )
-  }
+  // const { from } = { from: { pathname: '/signin' }};
+  // if (!hasToken(JSON.parse(localStorage.getItem('authenticated')))) {
+  //   return (
+  //     <Navigate to={from} />
+  //   )
+  // }
    
   return (
 
@@ -70,11 +70,13 @@ const Home = () => {
       <Industry/>
       <Eco/>
       <Featured />
-      <Dry/>
+      
       <Book/>
-      <Affordable />
+      {/* <Affordable /> */}
       <Button />
+      
       <Search />
+      <Dry/>
       <Footer />
       
     </div>

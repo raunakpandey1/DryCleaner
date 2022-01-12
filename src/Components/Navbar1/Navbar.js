@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import Popup from '../Popup/Popup'
 import { AccountBox } from "../accountBox";
@@ -8,10 +8,14 @@ import { motion } from 'framer-motion/dist/framer-motion'
 import { navbarAnimation } from "../../utils/Animations";
 import { NavLink, useNavigate } from 'react-router-dom';
 import avatar from '../../img/avatar.jpg'
-import { signOut } from 'firebase/auth';
-import { auth } from '../../fbconfig';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth, db } from '../../fbconfig';
  
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
+import { useAuth } from '../../auth/useAuth';
+import { doc, getDoc, getDocs } from 'firebase/firestore';
 const Navbar = () => {
+  const { user } = useAuth();
   const navigate = useNavigate()
   const [click, setClick] = useState(false)
   const handleClick = () => setClick(!click)
@@ -25,14 +29,43 @@ const Navbar = () => {
     }
   }
 
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      firebaseUser ? setUserData(firebaseUser) : setUserData(null);
+      // console.log(firebaseUser)
+    });
+    
+    return () => unsubscribe();
+  }, []);
+  console.log(userData?.email)
+  // const [users, setUsers] = useState({});
+  // const usersCollectionRef = doc(db ,"users" ,userData.uid)
+
+    // const getUsers= async()=>{
+    //     const data = await getDoc(usersCollectionRef);
+    //     //console.log(data);
+    //     setUsers({...data.data(),id:data.id})
+    //   };
+      // console.log(users)
   // const { from } = { from: { pathname: '/signin' }};
   //           if (!hasToken(JSON.parse(localStorage.getItem('authenticated')))) {
   //             return (
   //               <Navigate to={from} />
   //             )
   //           }
+
+  // const [isSubscribed, setSubscribed] = useState(true);
+  // useEffect(() => {
+  //    getUsers();
+  //   return () => {
+  //     setSubscribed(false);
+  //   };
+  // }, []);
   return (
     <div>
+     
       <motion.div
 
         variants={navbarAnimation}
@@ -60,29 +93,43 @@ const Navbar = () => {
           </li>
           <li className='nav-item'>
             <a href='/pricing' onClick={closeMenu}>PRICING</a>
-          </li>
+          </li> 
           {/* <li className='nav-item'>
             <a href='/' onClick={closeMenu}>GALLERY</a>
           </li> */}
           <li className='nav-item'>
             <a href='/services' onClick={closeMenu}>SERVICES</a>
           </li>
-          <li className='nav-item navprof'>
+          
+          {user ? <li className='nav-item navprof'>
           <div className="cpUpperLeft">
                                     <img src={ avatar} alt="" />
                                      
                                      <div>
-                                     <p className='profTitle'>Sham</p>
+                                     <p className='profTitle'>{userData?.email}</p>
                                      </div>
+                                      
                                 </div>
-          </li>
-          <li className='nav-item'>
+          </li> :  <li className='nav-item'>  <div>
+              <div className="cho btn-success " onClick={() => navigate('/signin')} style={{ borderRadius: "1em" }}>
+                <span className="ripple27" >Login</span>
+              </div>
+            </div> </li> } 
+          
+            {/* <li className='nav-item'>  <div>
+              <div className="cho btn-success " onClick={() => setButtonPopup(true)} style={{ borderRadius: "1em" }}>
+                <span className="ripple27" >Login</span>
+              </div>
+            </div> </li>   */}
+         
+
+            {user ? <li className='nav-item'>
           <div>
-              <div className="cho btn-success " onClick={() => signOut(auth).then(() => {
+              <div className="cho btn-danger " onClick={() => signOut(auth).then(() => {
                   // Sign-out successful.
                   console.log('Sign-out successful')
                   localStorage.removeItem('authenticated');
-                  navigate('/signin')
+                  navigate('/')
                 }).catch((error) => {
                   // An error happened.
                   const errorCode = error.code;
@@ -91,14 +138,36 @@ const Navbar = () => {
                 <span className="ripple27" >Logout</span>
               </div>
             </div>
+          </li>  :  null } 
+          {/* <li className='nav-item'>
+          <div>
+              <div className="cho btn-danger " onClick={() => signOut(auth).then(() => {
+                  // Sign-out successful.
+                  console.log('Sign-out successful')
+                  localStorage.removeItem('authenticated');
+                  navigate('/')
+                }).catch((error) => {
+                  // An error happened.
+                  const errorCode = error.code;
+                  console.log(errorCode)
+                })} style={{ borderRadius: "1em" }}>
+                <span className="ripple27" >Logout</span>
+              </div>
+            </div>
+          </li> */}
+          <li className='nav-item'>
+          <div>
+              <div className="cho btn-success " onClick={() => navigate('/cart')}  style={{ borderRadius: "1em" }}>
+                 <AddShoppingCartIcon /> 
+              </div>
+            </div>
           </li>
-
           <div className="dragon">
-            {/* btn1 */}
-            <div className='ch1'>  <div className="cho9 btn-danger" style={{ borderRadius: "1em" }}>
-              <span className="ripple27">773 472-2391 </span>
-            </div></div>
-
+             
+            {/* <div className='ch1'>  <div className="cho9 btn-danger" style={{ borderRadius: "1em" }}>
+              <span className="ripple27"><AddShoppingCartIcon /> </span>
+            </div></div> */}
+                 
             {/* btn2 */}
             {/* <div className='ch1'>
               <div className="cho btn-danger " onClick={() => setButtonPopup1(true)} style={{ borderRadius: "1em" }}>
@@ -108,11 +177,11 @@ const Navbar = () => {
             </div> */}
             {/* btn3 */}
 
-            {/* <div>
+         {/* <div>
               <div className="cho btn-success " onClick={() => setButtonPopup(true)} style={{ borderRadius: "1em" }}>
                 <span className="ripple27" >Login</span>
               </div>
-            </div> */}
+            </div>   */}
             {/* <div>
               <div className="cho btn-success " onClick={() => signOut(auth).then(() => {
                   // Sign-out successful.

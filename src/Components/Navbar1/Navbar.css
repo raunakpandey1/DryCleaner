@@ -113,6 +113,15 @@ background-color: white;
     display: flex;
     flex-direction: column;
 }
+.header .navbar .dragon .cho9 {
+    margin-top: -4vw;
+    margin-left: 5vw;
+    width: 80px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+ 
 .menu-content {
     position: absolute;
     box-shadow: 0px 2px 6px rgba(0,0,0,20%);

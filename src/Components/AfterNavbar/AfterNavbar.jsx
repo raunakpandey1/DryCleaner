@@ -5,9 +5,19 @@ import Video from "../../img/video2.mp4";
 import { useScroll } from "../useScroll/useScroll";
 import { videoAnimation, textAnimation,  fromUp } from "../../utils/Animations";
 import "./afternavbar.scss";
+import { Navigate , useNavigate} from "react-router-dom";
+
 
 const Navbar = () => {
+  const navigate = useNavigate()
   const [element, controls] = useScroll();
+
+  function doThis(){
+    navigate('/services')
+  }
+  function doBook(){
+    navigate('/services')
+  }
   return (
     <div className="video1" ref={element}>
       <motion.div
@@ -44,14 +54,14 @@ const Navbar = () => {
             </p>
             <Row className="ok">
               <Col >
-                {/* btn1 */}
-                <div className="front btn btn-danger justify-content-center align-items-center" >
+             
+                <div className="front btn btn-danger justify-content-center align-items-center" onClick={doBook}>
                   <span className="ripple">Book Pickup</span>
                 </div>
-              </Col>
+              </Col>  
               <Col >
                 {/* btn2 */}
-                <div className="front btn btn-danger justify-content-center align-items-center" >
+                <div className="front btn btn-danger justify-content-center align-items-center" onClick={doThis}>
                   <span className="ripple">Our Services</span>
                 </div>
               </Col>

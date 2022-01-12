@@ -88,7 +88,7 @@ export const Vendors = () => {
                     <button
                             type="button"
                             className="btn btn-danger  m-4 "
-                            ><NavLink to={`/vendors/${vendor.id}/Items`}>All Items</NavLink>
+                            ><NavLink style={{color: 'white', textDecoration: 'none'}} to={`/vendors/${vendor.id}/Items`}>All Items</NavLink>
                             {/* {category.name} */}
                         </button>
                     </div>

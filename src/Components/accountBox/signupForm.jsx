@@ -9,10 +9,10 @@ import {
   Input,
   MutedLink,
   SubmitButton,
-} from "./common";
+} from "./register";
 import { Marginer } from "../marginer";
 import { useNavigate } from "react-router-dom";
-// import './common.scss'
+// import './register'
 export const SignupForm = (props) => {
   const [state, setState] = useState({
     name: '',
@@ -47,7 +47,7 @@ export const SignupForm = (props) => {
         }],
         currentAddress:{address: state.address, zipCode: state.zip, tag: "Home"},
         id:userCredential.user.uid
-      }).then(()=>navigate('/signin'))
+      }).then(()=>navigate('/'))
       
     })
       .catch((error) => {

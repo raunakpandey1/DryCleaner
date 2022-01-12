@@ -8,6 +8,7 @@ import {
   updateDoc,
   addDoc,
 } from "@firebase/firestore";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { auth, db } from "../../fbconfig";
@@ -16,13 +17,16 @@ import { onAuthStateChanged } from "@firebase/auth";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import Navbar from "../../Components/Navbar1/Navbar";
-
+import "./cart.css";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { useAuth } from '../../auth/useAuth';
 const Cart = ({ subTypesModal, setSubTypesModal }) => {
-  const [user, setUser] = useState(null);
-
+  const { user } = useAuth();
+  const [users, setUsers] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      firebaseUser ? setUser(firebaseUser) : setUser(null);
+      firebaseUser ? setUsers(firebaseUser) : setUsers(null);
     });
     return () => unsubscribe();
   }, []);
@@ -47,12 +51,84 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
     cardNumber: "",
     expiry: "",
     cvv: "",
+    dropAddress: {
+      address: "",
+      tag: "",
+      zipCode: "",
+    },
+    pickupAddress: {
+      address: "",
+      tag: "",
+      zipCode: "",
+    },
   });
 
+  const [totalPrice, setTotalPrice] = useState(0);
+  
+  const handleIncrement = async (e) => {
+    // console.log(e)
+    // e.preventDefault();
+     
+    for (let i = 0; i < userCartItems.length; i++) {
+      
+      if(userCartItems[i].id == e)
+      {
+        userCartItems[i].quantity +=1;
+         
+      }
+      
+  }
+  const userCartRef = doc(db, "users", users.uid);
+
+      // push updated cart items to db
+      await updateDoc(userCartRef, { carts: userCartItems });
+      // alert('Item added to Cart')
+     fetchCartItems();
+  };
+
+
+
+  const handleDecrement = async (e) => {
+    // console.log(e)
+    // e.preventDefault();
+     
+    for (let i = 0; i < userCartItems.length; i++) {
+      if(userCartItems[i].quantity > 1){
+        if(userCartItems[i].id == e)
+        {
+          userCartItems[i].quantity -=1;
+          const userCartRef = doc(db, "users", users.uid);
+
+          // push updated cart items to db
+            await updateDoc(userCartRef, { carts: userCartItems });
+            fetchCartItems();
+        }
+        
+      }
+      
+      // alert('Item added to Cart')
+     
+      
+  }
+  const userCartRef = doc(db, "users", users.uid);
+
+      // push updated cart items to db
+      await updateDoc(userCartRef, { carts: userCartItems });
+      // alert('Item added to Cart')
+     fetchCartItems();
+  };
   const changeCreds = (event) => {
     setState({ ...state, [event.target.name]: event.target.value });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await addDoc(collection(db, "OrderHistory"), {
+      ...state,
+      items: userCartItems,
+    });
+    alert("Order Placed Successfully");
+  };
   const handleOpenSubTypesModal = () => setSubTypesModal(true);
   const handleCloseSubTypesModal = () => {
     setTipAmount(0);
@@ -97,10 +173,10 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
   }, [congratsMessage]);
 
   useEffect(() => {
-    if (user && user?.uid) {
+    if (users && users?.uid) {
       fetchCartItems();
     }
-  }, [user, subTypesModal]);
+  }, [users, subTypesModal]);
 
   const [couponModal, setCouponModal] = useState(false);
   const handleOpenCouponModal = () => {
@@ -121,11 +197,11 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
   };
 
   const fetchCartItems = async () => {
-    if (!user || !user.uid) {
+    if (!users || !users.uid) {
       console.log();
       return;
     }
-    const userCartRef = doc(db, "users", user.uid);
+    const userCartRef = doc(db, "users", users.uid);
     const userSnap = await getDoc(userCartRef);
     if (
       userSnap.exists() &&
@@ -152,7 +228,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
 
     setLoadingCart(true);
     // push this to db
-    const userCartRef = doc(db, "users", user.uid);
+    const userCartRef = doc(db, "users", users.uid);
     await updateDoc(userCartRef, { carts: arrayRemove(mCartItem) });
     await fetchCartItems();
     setLoadingCart(false);
@@ -230,7 +306,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
           sub_type_id: cartItem.sub_type_id,
           tip: tipAmount,
           total_amount: cartItem.price + cartItem.price * 0.05 + tipAmount,
-          user_id: user && user.uid ? user.uid : "",
+          user_id: users && users.uid ? users.uid : "",
           user_review: "",
           user_sub_id: "",
           user_token: "",
@@ -298,92 +374,101 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
         centered
       > */}
       <div className="modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-body">
-            <div className="place_product_main">
-              <div className="row">
-                <div className="col-lg-6 place_left_main">
-                  <div className="row">
+        <div
+          className="modal-dialog-centered"
+          style={{
+            maxHeight: "100%",
+            overflowY: "auto",
+            width: "80%",
+            margin: "5px auto",
+          }}
+        >
+          <div className="modal-content">
+            <div className="modal-body">
+              <div className="place_product_main">
+                <div className="row">
+                  {!loadingCart ? (
+                    userCartItems.length ? (
+                      userCartItems.map((mCartItem, index) => (
+                        <div className="cartitem">
+                          <div className="cartitemWrapper">
+                            <div className="chleft">
+                              <img
+                                className="cartHeaderImg"
+                                src={mCartItem.img}
+                                alt="product image"
+                              />
+                              <div className="headerText">
+                                <h4>{mCartItem.name}</h4>
+                                <span className="ciPrice">
+                                  Price: ₹{mCartItem.price}/-
+                                </span>
+                                 
+                                <span
+                                  className="removeCart"
+                                  onClick={() => deleteCartItem(mCartItem)}
+                                >
+                                  Remove
+                                </span>
+                              </div>
+                            </div>
+                            <div className="secDiv">
+                              <div className="chmid">
+                                <div className="quanHandler">
+                                  <button className="idButton" onClick={() =>handleDecrement(mCartItem.id)}>-</button>
+                                  <span className="idTest">{mCartItem.quantity}</span>
+                                  <button
+                                    className="idButton"
+                                    onClick={() =>handleIncrement(mCartItem.id)}
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              </div>
+                              <div className="chright">
+                                <span className="ciPrice">₹{(mCartItem.price)*mCartItem.quantity }/-</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <span className="p-4">No Cart Items Found!</span>
+                    )
+                  ) : (
                     <div
                       className="row"
                       style={{
-                        maxHeight: "400px",
-                        overflowY: "auto",
                         width: "100%",
+                        justifyContent: "center",
+                        margin: "1em 0px",
                       }}
                     >
-                      {!loadingCart ? (
-                        userCartItems.length ? (
-                          userCartItems.map((mCartItem, index) => (
-                            <div className="col-12" key={index}>
-                              <div className="booking_product_inr">
-                                <div className="row align-items-center">
-                                  <div className="col-sm-6 pr-sm-0">
-                                    <img
-                                      className="img-fluid"
-                                      src={mCartItem.img}
-                                      alt="cart-item-img"
-                                    />
-                                  </div>
-                                  <div className="col-sm-6">
-                                    <h4>{mCartItem.name}</h4>
+                      <div className="spinner-border"></div>
+                    </div>
+                  )}
 
-                                    <div className="remove_add_btn d-flex align-items-center justify-content-between">
-                                      <h5>{`$ ${mCartItem.price}`}</h5>
-                                      <button
-                                        className="dlt_btn btn"
-                                        onClick={() =>
-                                          deleteCartItem(mCartItem)
-                                        }
-                                      >
-                                        <i
-                                          className="fa fa-trash"
-                                          aria-hidden="true"
-                                        ></i>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          ))
-                        ) : (
-                          <span className="p-4">No Cart Items Found!</span>
-                        )
-                      ) : (
-                        <div
-                          className="row"
-                          style={{
-                            width: "100%",
-                            justifyContent: "center",
-                            margin: "1em 0px",
-                          }}
-                        >
-                          <div className="spinner-border"></div>
-                        </div>
-                      )}
-                    </div>
-                    <div className="col-12 d-flex justify-content-center">
-                      <button
-                        style={{ backgroundColor: "#c9002b", border: "none" }}
-                        type="button"
-                        className="btn btn-primary m-2"
-                        onClick={handleCloseSubTypesModal}
-                      >
-                        Add more items!
-                      </button>
-                    </div>
+                  <div className="col-12 d-flex justify-content-center">
+                    <button
+                      style={{ backgroundColor: "#c9002b", border: "none" }}
+                      type="button"
+                      className="btn btn-primary m-2"
+                      onClick={() => navigate("/services")}
+                    >
+                      Add more items!
+                    </button>
                   </div>
                 </div>
-                <div className="col-lg-6 place_right_main">
-                  <div className="row">
-                    {/* if nonSubServices array is empty then show bill details */}
-                    {userCartItems && userCartItems.length ? (
-                      <>
-                        <div className="col-12 add_coupons">
-                          <div className="booking_product_inr">
-                            {/* <button className="btn">ADD COUPONS <i className="fa fa-chevron-right" aria-hidden="true"></i></button> */}
-                            {/* {appliedCoupon &&
+              </div>
+              <div className="col-lg-6 place_right_main">
+                <div className="row">
+                  {/* if nonSubServices array is empty then show bill details */}
+                  {userCartItems && userCartItems.length ? (
+                    <>
+                      <div className="col-12 add_coupons">
+                        <div className="booking_product_inr">
+                          {/* <button className="btn">ADD COUPONS <i className="fa fa-chevron-right" aria-hidden="true"></i></button> */}
+                          {/* {appliedCoupon &&
                               appliedCoupon.status &&
                               appliedCoupon.coupon ? (
                                 <button
@@ -404,67 +489,27 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                                   ADD COUPONS
                                 </button>
                               )} */}
-                          </div>
                         </div>
-                        <div className="col-12 bill_details">
-                          <div className="booking_product_inr">
-                            <h2 className="d-flex justify-content-between align-items-center">
-                              Bill Details
-                            </h2>
-                            <h5 className="d-flex justify-content-between align-items-center">
-                              Item Total <span>$ {userCartItems[0].price}</span>
-                            </h5>
-
-                            {/* {appliedCoupon && appliedCoupon.status ? (
-                                <h5
-                                  style={{ color: "green" }}
-                                  className="d-flex justify-content-between align-items-center"
-                                >
-                                  Coupon Discount{" "}
-                                  <span>- $ {appliedCoupon.benefit}</span>
-                                </h5>
-                              ) : (
-                                ""
-                              )} */}
-                            <h6 className="d-flex justify-content-between align-items-center">
-                              Tax Charges <span>$ {userCartItems[0].vat}</span>
-                            </h6>
-                            <h4 className="d-flex justify-content-between align-items-center">
-                              You pay{" "}
-                              <span>
-                                ${" "}
-                                {appliedCoupon && appliedCoupon.status
-                                  ? userCartItems[0].price +
-                                    userCartItems[0].vat +
-                                    tipAmount -
-                                    appliedCoupon.benefit
-                                  : userCartItems[0].price +
-                                    userCartItems[0].vat +
-                                    tipAmount}
-                              </span>
-                            </h4>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </div>
-                <div className="col-12 text-center">
-                  <button
-                    type="button"
-                    className="btn btn-primary place_btnn"
-                    onClick={() => {
-                      handleOpenDateTimeModal();
-                    }}
-                    disabled={!userCartItems.length}
-                    // data-toggle="modal"
-                    // data-target="#exampleModa7"
-                  >
-                    Place Booking
-                  </button>
-                </div>
+              </div>
+              <div className="col-12 text-center">
+                <button
+                  type="button"
+                  className="btn btn-primary place_btnn"
+                  onClick={() => {
+                    handleOpenDateTimeModal();
+                  }}
+                  disabled={!userCartItems.length}
+                  // data-toggle="modal"
+                  // data-target="#exampleModa7"
+                >
+                  Place Booking
+                </button>
               </div>
             </div>
           </div>
@@ -621,13 +666,17 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   </div>
                   <div className="col-3">
                     {" "}
-                    <textarea
-                      className="w-100"
-                      value={state.name}
-                      onChange={(event) => changeCreds(event)}
-                      id="name"
-                      name="name"
-                    ></textarea>
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="name"
+                        className="storeregInput"
+                        name="name"
+                        value={state.name}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="row row1">
@@ -637,13 +686,17 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   </div>
                   <div className="col-3">
                     {" "}
-                    <textarea
-                      className="w-100"
-                      value={state.email}
-                      onChange={(event) => changeCreds(event)}
-                      id="email"
-                      name="email"
-                    ></textarea>
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="email"
+                        name="email"
+                        className="storeregInput"
+                        value={state.email}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -654,13 +707,17 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   </div>
                   <div className="col-3">
                     {" "}
-                    <textarea
-                      className="w-100"
-                      value={state.mobile}
-                      onChange={(event) => changeCreds(event)}
-                      id="mobile"
-                      name="mobile"
-                    ></textarea>
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="mobile"
+                        name="mobile"
+                        className="storeregInput"
+                        value={state.mobile}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="row row1">
@@ -670,13 +727,17 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   </div>
                   <div className="col-3">
                     {" "}
-                    <textarea
-                      className="w-100"
-                      value={state.alternative}
-                      onChange={(event) => changeCreds(event)}
-                      id="alternative"
-                      name="alternative"
-                    ></textarea>
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="alternative"
+                        name="alternative"
+                        className="storeregInput"
+                        value={state.alternative}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -687,118 +748,374 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   </div>
                   <div className="col-3">
                     {" "}
-                    <textarea
-                      className="w-100"
-                      value={state.address}
-                      onChange={(event) => changeCreds(event)}
-                      id="address"
-                      name="address"
-                    ></textarea>
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="address"
+                        name="address"
+                        className="storeregInput"
+                        value={state.address}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div className="row row1">
-                  <div className="col-3"> <label>Card Holder Name</label>{" "}</div>
-                  <div className="col-3"> <textarea
-                    className="w-100"
-                    value={state.cardName}
-                    onChange={(event) => changeCreds(event)}
-                    id="cardName"
-                    name="cardName"
-                   
-                  ></textarea></div>
-                  
-                </div>
+                  <div className="col-3">
+                    {" "}
+                    <label>Card Holder Name</label>{" "}
+                  </div>
 
-                <div className="row row1">
-                  <div className="col-3"> <label>Card Number</label>{" "}</div>
-                  <div className="col-3"> <textarea
-                    className="w-100"
-                    value={state.cardNumber}
-                    onChange={(event) => changeCreds(event)}
-                    id="cardNumber"
-                    name="cardNumber"
-                   
-                  ></textarea></div>
-                  
-                </div>
-
-                <div className="row row1">
-                  <div className="col-3"> <label>Expiry</label>{" "}</div>
-                  <div className="col-3"> <textarea
-                    className="w-100"
-                    value={state.expiry}
-                    onChange={(event) => changeCreds(event)}
-                    id="expiry"
-                    name="expiry"
-                   
-                  ></textarea></div>
-                  
-                </div>
-
-                <div className="row row1">
-                  <div className="col-3"> <label>CVV</label>{" "}</div>
-                  <div className="col-3"> <textarea
-                    className="w-100"
-                    value={state.cvv}
-                    onChange={(event) => changeCreds(event)}
-                    id="cvv"
-                    name="cvv"
-                   
-                  ></textarea></div>
-                  
-                </div>
-
-                <div className="row row1">
-                  <label></label>
-                  <button className="change_btn">Change</button>
-                </div>
-                
-                <div className="row row2">
-                  {/* <div className="col-6">
-                      <label>Date</label>
-                      <DatePicker
-                        selected={startDate}
-                        onChange={(date) => {
-                          console.log(
-                            "DATE:",
-                            date.getDate(),
-                            date.getMonth(),
-                            date.getFullYear()
-                          );
-                          setStartDate(date);
-                        }}
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="cardName"
+                        name="cardName"
+                        className="storeregInput"
+                        value={state.cardName}
+                        onChange={(event) => changeCreds(event)}
                       />
-                    </div> */}
-                  <div className="col-6">
-                    <label>Date & Time</label>
-                    <Datetime
+                    </div>{" "}
+                  </div>
+                </div>
+
+                <div className="row row1">
+                  <div className="col-3">
+                    {" "}
+                    <label>Card Number</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="cardNumber"
+                        name="cardNumber"
+                        className="storeregInput"
+                        value={state.cardNumber}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                    </div>{" "}
+                  </div>
+                </div>
+
+                <div className="row row1">
+                  <div className="col-3">
+                    {" "}
+                    <label>Expiry</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="expiry"
+                        name="expiry"
+                        className="storeregInput"
+                        value={state.expiry}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                    </div>{" "}
+                  </div>
+                </div>
+
+                <div className="row row1">
+                  <div className="col-3">
+                    {" "}
+                    <label>CVV</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="cvv"
+                        name="cvv"
+                        className="storeregInput"
+                        value={state.cvv}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                    </div>{" "}
+                  </div>
+                </div>
+                <div className="row row1">
+                  <div className=" col-3">
+                    {" "}
+                    <label>PickUp Date</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <input
+                        type="date"
+                        required
+                        id="pickupDate"
+                        name="pickupDate"
+                        className="storeregInput"
+                        value={state.pickupDate}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                      {/* <Datetime
                       initialValue={dateTime}
+                      id="date"
+                      name="date"
                       onChange={(mDateTime) => {
                         console.log("DATETIME:", mDateTime.toDate().getTime());
                         setDateTime(mDateTime.toDate().getTime());
                       }}
-                    />
+                    /> */}
+                    </div>{" "}
                   </div>
                 </div>
-              
+
+                <div className="row row1">
+                  <div className=" col-3">
+                    {" "}
+                    <label>Zip Code</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="zip"
+                        name="zip"
+                        className="storeregInput"
+                        value={state.zip}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                    </div>{" "}
+                  </div>
+                </div>
+                <div className="row row1">
+                  <div className=" col-3">
+                    {" "}
+                    <label>Pickup Tag</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <FormControl variant="outlined" halfWidth>
+                        <InputLabel>PickupTag</InputLabel>
+                        <Select
+                          id="PickupTag"
+                          name="PickupTag"
+                          value={state.pickupTag}
+                          label="pickupTag"
+                          onChange={(event) => changeCreds(event)}
+                        >
+                          <MenuItem value="Leaving it outside in front porch or back porch">
+                            Leaving it outside in front porch or back porch
+                          </MenuItem>
+                          <MenuItem value="Leaving it with the doorman">
+                            Leaving it with the doorman
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>{" "}
+                  </div>
+                </div>
+                <div className="row row1">
+                  <div className=" col-3">
+                    {" "}
+                    <label>Select Time Slot</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <FormControl variant="outlined" halfWidth>
+                        <InputLabel>time Slot</InputLabel>
+                        <Select
+                          id="pickupTimeSlot"
+                          name="pickupTimeSlot"
+                          value={state.pickupTimeSlot}
+                          label="pickupTimeSlot"
+                          onChange={(event) => changeCreds(event)}
+                        >
+                          <MenuItem value="9:00 am - 5:00 pm">
+                            9:00 am - 5:00 pm
+                          </MenuItem>
+                          <MenuItem value="5:00 pm - 10:00 pm">
+                            5:00 pm - 10:00 pm
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>{" "}
+                  </div>
+                </div>
+
+                <div className="row row1">
+                  <div className=" col-3">
+                    {" "}
+                    <label>Drop Date</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <input
+                        type="date"
+                        required
+                        id="dropDate"
+                        name="dropDate"
+                        className="storeregInput"
+                        value={state.dropDate}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                    </div>{" "}
+                  </div>
+                </div>
+
+                <div className="row row1">
+                  <div className="col-3">
+                    {" "}
+                    <label>Drop Address</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="address"
+                        name="address"
+                        placeholder="Address"
+                        className="storeregInput"
+                        onChange={(e) => {
+                          setState({
+                            ...state,
+                            dropAddress: {
+                              ...state?.dropAddress,
+                              address: e.target.value,
+                            },
+                          });
+                        }}
+                      />
+                      <input
+                        type="text"
+                        required
+                        id="tag"
+                        name="tag"
+                        placeholder="tag"
+                        className="storeregInput"
+                        onChange={(e) => {
+                          setState({
+                            ...state,
+                            dropAddress: {
+                              ...state?.dropAddress,
+                              tag: e.target.value,
+                            },
+                          });
+                        }}
+                      />
+                      <input
+                        type="text"
+                        required
+                        id="zipCode"
+                        name="zipCode"
+                        className="storeregInput"
+                        placeholder="zipcode"
+                        onChange={(e) => {
+                          setState({
+                            ...state,
+                            dropAddress: {
+                              ...state?.dropAddress,
+                              zipCode: e.target.value,
+                            },
+                          });
+                        }}
+                      />
+                    </div>{" "}
+                  </div>
+                </div>
+
+                <div className="row row1">
+                  <div className="col-3">
+                    {" "}
+                    <label>Pickup Address</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="address"
+                        name="address"
+                        placeholder="Address"
+                        className="storeregInput"
+                        onChange={(e) => {
+                          setState({
+                            ...state,
+                            pickupAddress: {
+                              ...state?.pickupAddress,
+                              address: e.target.value,
+                            },
+                          });
+                        }}
+                      />
+                      <input
+                        type="text"
+                        required
+                        id="tag"
+                        name="tag"
+                        placeholder="tag"
+                        className="storeregInput"
+                        onChange={(e) => {
+                          setState({
+                            ...state,
+                            pickupAddress: {
+                              ...state?.pickupAddress,
+                              tag: e.target.value,
+                            },
+                          });
+                        }}
+                      />
+                      <input
+                        type="text"
+                        required
+                        id="zipCode"
+                        name="zipCode"
+                        className="storeregInput"
+                        placeholder="zipcode"
+                        onChange={(e) => {
+                          setState({
+                            ...state,
+                            pickupAddress: {
+                              ...state?.pickupAddress,
+                              zipCode: e.target.value,
+                            },
+                          });
+                        }}
+                      />
+                    </div>{" "}
+                  </div>
+                </div>
                 <div className="row justify-content-end">
                   <button
                     type="button"
                     className="btn btn-primary next_btnn"
-                    onClick={() => {
-                      if (nonSubServices.length) {
-                        // need for payment
-                        handleOpenPaymentModal();
-                      } else {
-                        // no need for payment
-                        handleOpenLocationModal();
-                      }
-                    }}
+                    onClick={handleSubmit}
+                    //   () => {
+                    //   if ( userCartItems.length) {
+                    //     // need for payment
+                    //     handleOpenPaymentModal();
+                    //   } else {
+                    //     // no need for payment
+                    //     handleOpenLocationModal();
+                    //   }
+                    // }}
                     // data-toggle="modal"
                     // data-target="#exampleModa9"
                   >
-                    NEXT
+                    Place Order
                   </button>
                 </div>
               </div>
