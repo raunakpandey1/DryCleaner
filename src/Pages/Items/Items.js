@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import Card from '../../Components/Cardfirst/Card'
 import Navbar from "../../Components/Navbar1/Navbar";
-import { db } from "../../fbconfig";
+import { auth, db } from "../../fbconfig";
 import GridContainer from "../../Components/Grid/GridContainer.js";
 import GridItem from "../../Components/Grid/GridItem.js";
 import { Col, Row } from "react-bootstrap";
@@ -22,6 +22,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from "../../auth/useAuth";
 import "./items.css";
 import {  useParams } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(0),
@@ -42,14 +43,22 @@ export const Items = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
+  const [userCartItems, setUserCartItems] = useState([]);
   const [items, setItems] = useState([]);
+  const [users, setUsers] = useState(null);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      firebaseUser ? setUsers(firebaseUser) : setUsers(null);
+    });
+    return () => unsubscribe();
+  }, []);
   
   const addItemToCart = async (mSubType) => {
     // create clicked cart item
     const cartItem = {
       id:mSubType.id,
       img: mSubType.image,
-      name: mSubType.name,
+      item: mSubType.name,
       price: mSubType.price,
       // vat: mSubType.price * 0.05,
       quantity:1
@@ -64,10 +73,58 @@ export const Items = () => {
       // push updated cart items to db
       await updateDoc(userCartRef, { carts: arrayUnion(cartItem) });
       alert('Item added to Cart')
+      fetchCartItems()
     }
     
   };
 
+  const handleIncrement = async (e) => {
+    e.quantity += 1;
+    const userCartRef = doc(db, "users", user.uid);
+
+    // push updated cart items to db
+    await updateDoc(userCartRef, { carts: userCartItems });
+    // alert('Item added to Cart')
+    fetchCartItems();
+  };
+
+  const handleDecrement = async (e) => {
+    // console.log(e)
+    // e.preventDefault();
+      if (e.quantity > 1) {
+        
+          e.quantity -= 1;
+          const userCartRef = doc(db, "users", user.uid);
+
+          // push updated cart items to db
+          await updateDoc(userCartRef, { carts: userCartItems });
+          fetchCartItems();
+        
+      }
+    const userCartRef = doc(db, "users", user.uid);
+
+    // push updated cart items to db
+    await updateDoc(userCartRef, { carts: userCartItems });
+    // alert('Item added to Cart')
+    fetchCartItems();
+  };
+
+  const fetchCartItems = async () => {
+    if (!users || !users.uid) {
+      return;
+    }
+    const userCartRef = doc(db, "users", users.uid);
+    const userSnap = await getDoc(userCartRef);
+    if (
+      userSnap.exists() &&
+      userSnap.data().carts &&
+      userSnap.data().carts.length
+    ) {
+      setUserCartItems(userSnap.data().carts);
+    } else {
+      setUserCartItems([]);
+    }
+  };
    
   const getItems = async () => {
     const vend = query(collection(db, "items"), where("vendorId", "==", id));
@@ -82,7 +139,11 @@ export const Items = () => {
       setSubscribed(false);
     };
   }, []);
-  console.log(items);
+  useEffect(() => {
+    if (users && users?.uid) {
+      fetchCartItems();
+    }
+  }, [users]);
   return (
     <div>
       <Navbar />
@@ -94,6 +155,9 @@ export const Items = () => {
         <Col >
           <GridContainer > 
             {items.map((item) => {
+              var containItem = userCartItems.find((element) => {
+                return element.id === item.id;
+              })
               return (
                 <GridItem xs={12} sm={12} md={12} lg={12}>
                   <Card>
@@ -109,11 +173,11 @@ export const Items = () => {
                      <div className="itemBody">
                       <div className="itemTitle">
                         <div className="titCon">
-                          <h6>
+                          <h4>
                             <b>
                               {item.name}  
                             </b>
-                          </h6>
+                          </h4>
                           <p>{item.desc}</p>
                         </div>
                         <div className="titCon">
@@ -138,7 +202,7 @@ export const Items = () => {
                       </div>
 
                       <div className="itemTitle">
-                        <button
+                        {!containItem?<button
                           onClick={async () => {
                             await addItemToCart(item);
                           }}
@@ -146,7 +210,29 @@ export const Items = () => {
                           className="btn btn-danger  m-4 "
                         >
                           +
-                        </button>
+                        </button>:
+                                <div className="quanHandler">
+                                  <button
+                                    className="idButton"
+                                    onClick={() =>
+                                      handleDecrement(containItem)
+                                    }
+                                  >
+                                    -
+                                  </button>
+                                  <span className="idTest">
+                                    {containItem.quantity}
+                                  </span>
+                                  <button
+                                    className="idButton"
+                                    onClick={() =>
+                                      handleIncrement(containItem)
+                                    }
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              }
                       </div>
                     </div>
                      </div>

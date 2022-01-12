@@ -78,7 +78,7 @@ export const Services = () => {
                     <button
                             type="button"
                             className="btn btn-success  m-4 "
-                            ><NavLink style={{color: 'white', textDecoration: 'none'}} to={`/services/${category.id}/vendors`}>All Vendors</NavLink>
+                            ><NavLink style={{color: 'white', textDecoration: 'none'}} to={`/services/vendors`}>All Vendors</NavLink>
                             {/* {category.name} */}
                         </button>
                     </div>

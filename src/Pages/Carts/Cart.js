@@ -7,19 +7,19 @@ import {
   increment,
   updateDoc,
   addDoc,
+  Timestamp
 } from "@firebase/firestore";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { auth, db } from "../../fbconfig";
-import { Link } from "react-router-dom";
-import { onAuthStateChanged } from "@firebase/auth";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import Navbar from "../../Components/Navbar1/Navbar";
 import "./cart.css";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { useAuth } from '../../auth/useAuth';
+import { useAuth } from "../../auth/useAuth";
+import { onAuthStateChanged } from "firebase/auth";
 const Cart = ({ subTypesModal, setSubTypesModal }) => {
   const { user } = useAuth();
   const [users, setUsers] = useState(null);
@@ -64,58 +64,32 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
   });
 
   const [totalPrice, setTotalPrice] = useState(0);
-  
+
   const handleIncrement = async (e) => {
-    // console.log(e)
-    // e.preventDefault();
-     
-    for (let i = 0; i < userCartItems.length; i++) {
-      
-      if(userCartItems[i].id == e)
-      {
-        userCartItems[i].quantity +=1;
-         
-      }
-      
-  }
-  const userCartRef = doc(db, "users", users.uid);
+    e.quantity += 1;
+    const userCartRef = doc(db, "users", users.uid);
 
-      // push updated cart items to db
-      await updateDoc(userCartRef, { carts: userCartItems });
-      // alert('Item added to Cart')
-     fetchCartItems();
+    // push updated cart items to db
+    await updateDoc(userCartRef, { carts: userCartItems });
+    // alert('Item added to Cart')
+    fetchCartItems();
   };
-
-
 
   const handleDecrement = async (e) => {
     // console.log(e)
     // e.preventDefault();
-     
-    for (let i = 0; i < userCartItems.length; i++) {
-      if(userCartItems[i].quantity > 1){
-        if(userCartItems[i].id == e)
-        {
-          userCartItems[i].quantity -=1;
+      if (e.quantity > 1) {
+        
+          e.quantity -= 1;
           const userCartRef = doc(db, "users", users.uid);
 
           // push updated cart items to db
-            await updateDoc(userCartRef, { carts: userCartItems });
-            fetchCartItems();
-        }
+          await updateDoc(userCartRef, { carts: userCartItems });
+          fetchCartItems();
         
       }
-      
-      // alert('Item added to Cart')
-     
-      
-  }
-  const userCartRef = doc(db, "users", users.uid);
-
-      // push updated cart items to db
-      await updateDoc(userCartRef, { carts: userCartItems });
-      // alert('Item added to Cart')
-     fetchCartItems();
+    // alert('Item added to Cart')
+    fetchCartItems();
   };
   const changeCreds = (event) => {
     setState({ ...state, [event.target.name]: event.target.value });
@@ -126,8 +100,12 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
     await addDoc(collection(db, "OrderHistory"), {
       ...state,
       items: userCartItems,
+      user_id: users && user.uid ? users.uid : "",
+          date_booked: Timestamp.now(),
+          totalAmount :totalPrice
     });
     alert("Order Placed Successfully");
+    navigate('/')
   };
   const handleOpenSubTypesModal = () => setSubTypesModal(true);
   const handleCloseSubTypesModal = () => {
@@ -198,7 +176,6 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
 
   const fetchCartItems = async () => {
     if (!users || !users.uid) {
-      console.log();
       return;
     }
     const userCartRef = doc(db, "users", users.uid);
@@ -208,7 +185,12 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       userSnap.data().carts &&
       userSnap.data().carts.length
     ) {
-      console.log(userSnap.data().carts);
+      var total =0;
+      userSnap.data().carts.forEach((item)=>{
+        total += item.price * item.quantity;
+      })
+      setTotalPrice(total)
+      console.log(total)
       setUserCartItems(userSnap.data().carts);
       setUserData(userSnap.data());
       state.name = userSnap.data()["fullName"];
@@ -274,85 +256,6 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
     }
   };
 
-  const placeFinalOrder = async () => {
-    try {
-      // TODO: decrease the count of subscription in user schema
-
-      userCartItems.map(async (cartItem) => {
-        const orderObj = {
-          address:
-            userData && userData.addresses.length ? userData.addresses[0] : "",
-          coordinates: "",
-          date_accepted: new Date().getTime(),
-          date_assigned: new Date().getTime(),
-          date_booked: new Date().getTime(),
-          date_completed: new Date().getTime(),
-          date_service: dateTime,
-          description,
-          employee_id: "",
-          employee_name: "",
-          employee_number: "",
-          employee_review: "",
-          employee_token: "",
-          image: "",
-          is_cancelled: false,
-          is_completed: false,
-          name: cartItem.name,
-          order_status: "placed",
-          paymentMethod: paymentMode,
-          price: cartItem.price,
-          service_id: cartItem.service_id,
-          sub_service_id: cartItem.sub_service_id,
-          sub_type_id: cartItem.sub_type_id,
-          tip: tipAmount,
-          total_amount: cartItem.price + cartItem.price * 0.05 + tipAmount,
-          user_id: users && users.uid ? users.uid : "",
-          user_review: "",
-          user_sub_id: "",
-          user_token: "",
-          vat: cartItem.price * 0.05,
-        };
-
-        const orderDocRef = await addDoc(collection(db, "orders"), orderObj);
-        console.log("ORder Doc written with ID: ", orderDocRef.id);
-        // TODO: update quantity in DB
-        // if (nonSubServices.length === 0) {
-        //   // all services are subscribed
-        //   let mSubs = [...userSubs];
-
-        //   if (mSubs && mSubs.length) {
-        //     mSubs.forEach((mSub, index) => {
-        //       let qt = mSub.quantity - 1;
-        //       console.log("hello", qt);
-        //       if (mSub.sub_type_id === cartItem.sub_type_id) {
-        //         // reduce the count of this subscription
-        //         mSubs[index] = {
-        //           quantity: qt,
-        //           ...mSubs[index],
-        //         };
-        //         console.log("hello", mSubs[index]);
-        //       }
-        //     });
-        //   }
-        //   console.log("hello", mSubs);
-        //   // await updateDoc(doc(db, "users", user.uid), {
-        //   //   subscriptions: mSubs,
-        //   // });
-        // } else {
-        //   console.log("ERRRRRROR", nonSubServices);
-        // }
-      });
-      handleOpenThankYouModal();
-      handleCloseDateTimeModal();
-      handleCloseLocationModal();
-      handleClosePaymentModal();
-      handleCloseSubStatusModal();
-      handleCloseSubTypesModal();
-    } catch (e) {
-      alert("error creating orders");
-      console.log("ERROR ORDER:", e);
-    }
-  };
 
   return (
     <div>
@@ -399,11 +302,11 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                                 alt="product image"
                               />
                               <div className="headerText">
-                                <h4>{mCartItem.name}</h4>
+                                <h4>{mCartItem.item}</h4>
                                 <span className="ciPrice">
                                   Price: ₹{mCartItem.price}/-
                                 </span>
-                                 
+
                                 <span
                                   className="removeCart"
                                   onClick={() => deleteCartItem(mCartItem)}
@@ -415,18 +318,31 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                             <div className="secDiv">
                               <div className="chmid">
                                 <div className="quanHandler">
-                                  <button className="idButton" onClick={() =>handleDecrement(mCartItem.id)}>-</button>
-                                  <span className="idTest">{mCartItem.quantity}</span>
                                   <button
                                     className="idButton"
-                                    onClick={() =>handleIncrement(mCartItem.id)}
+                                    onClick={() =>
+                                      handleDecrement(mCartItem)
+                                    }
+                                  >
+                                    -
+                                  </button>
+                                  <span className="idTest">
+                                    {mCartItem.quantity}
+                                  </span>
+                                  <button
+                                    className="idButton"
+                                    onClick={() =>
+                                      handleIncrement(mCartItem)
+                                    }
                                   >
                                     +
                                   </button>
                                 </div>
                               </div>
                               <div className="chright">
-                                <span className="ciPrice">₹{(mCartItem.price)*mCartItem.quantity }/-</span>
+                                <span className="ciPrice">
+                                  ₹{mCartItem.price * mCartItem.quantity}/-
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -511,6 +427,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   Place Booking
                 </button>
               </div>
+              <div><label>Total price : </label>{totalPrice}</div>
             </div>
           </div>
         </div>
@@ -1127,113 +1044,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
 
       {/* CONFIRM  location Modal */}
 
-      <Modal
-        show={locationModal}
-        onHide={handleCloseLocationModal}
-        className="fade confirm_location_modal"
-        id="exampleModa10"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-body">
-              <div className="apply_coupons_main">
-                <button className="btn header_back_modal">
-                  <i className="fa fa-arrow-left" aria-hidden="true"></i>
-                  Confirmation
-                </button>
-              </div>
-              <div className="date_and_time_body">
-                <div className="row row1">
-                  <label>Name</label>{" "}
-                  <span>
-                    {userData && userData.fullName ? userData.fullName : ""}
-                  </span>
-                </div>
-                <div className="row row1">
-                  <label>Contact number</label>
-                  <span>
-                    {userData && userData.phoneNumber
-                      ? userData.phoneNumber
-                      : ""}
-                  </span>
-                </div>
-                <div className="row row1">
-                  <label>Address</label>
-                  <span>
-                    {userData && userData.address && userData.address.length
-                      ? userData.address[0]
-                      : ""}
-                  </span>
-                </div>
-
-                <div className="google_maps">
-                  <iframe
-                    title="lazy"
-                    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15258072.40570261!2d82.75252935!3d20.98801345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1632411515739!5m2!1sen!2sin"
-                    allowfullscreen=""
-                    loading="lazy"
-                  ></iframe>
-                </div>
-
-                <div className="row row1">
-                  <label>Payment method</label>
-                  <span>{nonSubServices.length ? paymentMode : "N/A"}</span>
-                </div>
-                <div className="row row1">
-                  <label>Promo Code</label>
-                  <span>
-                    {appliedCoupon && appliedCoupon.status
-                      ? appliedCoupon.code
-                      : "N/A"}
-                  </span>
-                </div>
-                <div className="row row1">
-                  <label>Payable Amount</label>
-                  <span>
-                    {console.log("NONSUBSER:", nonSubServices)}
-                    {nonSubServices.length > 0 ? (
-                      <>
-                        {/* some non-subscribed services, payment is required */}
-                        <span>
-                          ${" "}
-                          {appliedCoupon && appliedCoupon.status
-                            ? userCartItems[0].price +
-                              userCartItems[0].vat +
-                              tipAmount -
-                              appliedCoupon.benefit
-                            : userCartItems[0].price +
-                              userCartItems[0].vat +
-                              tipAmount}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        {/* all subscribed services */}
-                        <span>Subscription is getting availed</span>
-                      </>
-                    )}
-                  </span>
-                </div>
-                <div className="row justify-content-center">
-                  <button
-                    type="button"
-                    className="btn btn-primary next_btnn"
-                    onClick={placeFinalOrder}
-                    // data-toggle="modal"
-                    // data-target="#exampleModa13"
-                  >
-                    BOOK
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Modal>
-      {/* map location Modal */}
+      
 
       {/* PAYMENT MODAL */}
       <Modal

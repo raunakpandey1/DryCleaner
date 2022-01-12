@@ -22,7 +22,7 @@ import { NavLink, useParams } from 'react-router-dom';
   }));
    
 export const Vendors = () => {
-  const { id } = useParams();
+  // const { id } = useParams();
   const classes = useStyles();
   const [vendors, setVendors] = useState([]);
   // const categoriesCollectionRef = collection(db, "Venders");
@@ -31,11 +31,9 @@ export const Vendors = () => {
   //   //console.log(data);
   //   setVendors(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   // };
- 
-   console.log(id)
   const getVendor = async () => {
     // let vender =[];
-    const vend = query(collection(db, 'Venders'), where('services', 'array-contains', id));
+    const vend = collection(db, 'Venders');
     const querySnapshot = await getDocs(vend);
       
   //    querySnapshot.forEach((doc) => {
@@ -96,7 +94,7 @@ export const Vendors = () => {
                     </Card>
                      
                         </GridItem> 
-                    })  :   <h1>Vendor Not available</h1>
+                    })  :   <h1></h1>
                     }
             </GridContainer>
       </Col>

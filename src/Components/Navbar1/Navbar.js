@@ -39,7 +39,6 @@ const Navbar = () => {
     
     return () => unsubscribe();
   }, []);
-  console.log(userData?.email)
   // const [users, setUsers] = useState({});
   // const usersCollectionRef = doc(db ,"users" ,userData.uid)
 
