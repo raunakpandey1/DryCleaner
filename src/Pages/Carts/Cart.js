@@ -101,7 +101,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       ...state,
       items: userCartItems,
       user_id: users && user.uid ? users.uid : "",
-          date_booked: Timestamp.now(),
+          createdAt: Timestamp.now(),
           totalAmount :totalPrice
     });
     alert("Order Placed Successfully");

@@ -185,23 +185,7 @@ export const Items = () => {
                             <b>${item.price}</b>
                           </h6>
                         </div>
-                        {/* <div className="titCon">
-                          <p>
-                            <b>{item.washIron && "wash & Iron"}</b>
-                          </p>
-                          <p>
-                            <b>{item.washOnly && "wash Only"}</b>
-                          </p>
-                          <p>
-                            <b>{item.ironOnly && "iron Only"}</b>
-                          </p>
-                          <p>
-                            <b>{item.dryClean && "dry Clean"}</b>
-                          </p>
-                        </div> */}
-                      </div>
-
-                      <div className="itemTitle">
+                        <div className="itemInc">
                         {!containItem?<button
                           onClick={async () => {
                             await addItemToCart(item);
@@ -234,6 +218,23 @@ export const Items = () => {
                                 </div>
                               }
                       </div>
+                        {/* <div className="titCon">
+                          <p>
+                            <b>{item.washIron && "wash & Iron"}</b>
+                          </p>
+                          <p>
+                            <b>{item.washOnly && "wash Only"}</b>
+                          </p>
+                          <p>
+                            <b>{item.ironOnly && "iron Only"}</b>
+                          </p>
+                          <p>
+                            <b>{item.dryClean && "dry Clean"}</b>
+                          </p>
+                        </div> */}
+                      </div>
+
+                     
                     </div>
                      </div>
                   </div>
