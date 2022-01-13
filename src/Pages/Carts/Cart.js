@@ -19,9 +19,24 @@ import Navbar from "../../Components/Navbar1/Navbar";
 import "./cart.css";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useAuth } from "../../auth/useAuth";
+import { Card, CardMedia, makeStyles } from "@material-ui/core";
 import { onAuthStateChanged } from "firebase/auth";
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(0),
+    minWidth: 160,
+  },
+  media: {
+    // height: 240,
+    minWidth: 150,
+  },
+  mar: {
+    margin: theme.spacing(2),
+  },
+}));
 const Cart = ({ subTypesModal, setSubTypesModal }) => {
   const { user } = useAuth();
+  const classes = useStyles();
   const [users, setUsers] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -87,7 +102,6 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       fetchCartItems();
     }
     // alert('Item added to Cart')
-    fetchCartItems();
   };
   const changeCreds = (event) => {
     setState({ ...state, [event.target.name]: event.target.value });
@@ -99,8 +113,8 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       ...state,
       items: userCartItems,
       user_id: users && user.uid ? users.uid : "",
-          createdAt: Timestamp.now(),
-          totalAmount :totalPrice
+      createdAt: Timestamp.now(),
+      totalAmount: totalPrice,
     });
     alert("Order Placed Successfully");
     navigate("/");
@@ -170,6 +184,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       mCouponsList.push({ id: doc.id, ...doc.data() });
     });
     setCouponsList(mCouponsList);
+    console.log(mCouponsList)
   };
 
   const fetchCartItems = async () => {
@@ -301,7 +316,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                               <div className="headerText">
                                 <h4>{mCartItem.item}</h4>
                                 <span className="ciPrice">
-                                  Price: ₹{mCartItem.price}/-
+                                  Price: ${mCartItem.price}/-
                                 </span>
 
                                 <span
@@ -334,7 +349,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                               </div>
                               <div className="chright">
                                 <span className="ciPrice">
-                                  ₹{mCartItem.price * mCartItem.quantity}/-
+                                ${mCartItem.price * mCartItem.quantity}/-
                                 </span>
                               </div>
                             </div>
@@ -356,6 +371,10 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                       <div className="spinner-border"></div>
                     </div>
                   )}
+                  <div className="col-12 d-flex justify-content-center">
+                <h3><label>Total price : $</label>
+                {totalPrice}</h3>
+              </div>
 
                   <div className="col-12 d-flex justify-content-center">
                     <button
@@ -420,18 +439,13 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   Place Booking
                 </button>
               </div>
-              <div>
-                <label>Total price : </label>
-                {totalPrice}
-              </div>
+              
             </div>
           </div>
         </div>
       </div>
       {/* </Modal> */}
       {/* END BOOKING MODAL */}
-
-      {/* END SUBSCRIPTION STATUS MODAL */}
 
       {/* APPLY COUPOBNS */}
       <Modal
@@ -550,13 +564,11 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       <Modal
         show={dateTimeModal}
         onHide={handleCloseDateTimeModal}
-        className="date_and_time"
-        id="exampleModa7"
+        className="fade payment_modal_design"
+        id="exampleModa9"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
-        centered
-        size="lg"
       >
         <div className="modal-dialog-centered">
           <div className="modal-content">
@@ -654,7 +666,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   </div>
                 </div>
 
-                <div className="row row1">
+                {/* <div className="row row1">
                   <div className="col-3">
                     {" "}
                     <label> Address</label>{" "}
@@ -673,8 +685,137 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                       />
                     </div>
                   </div>
+                </div> */}
+
+                {/* <div className="row row1">
+                  <div className=" col-3">
+                    {" "}
+                    <label>Zip Code</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <input
+                        type="text"
+                        required
+                        id="zip"
+                        name="zip"
+                        className="storeregInput"
+                        value={state.zip}
+                        onChange={(event) => changeCreds(event)}
+                      />
+                    </div>{" "}
+                  </div>
+                </div> */}
+                <div className="row row1">
+                  <div className=" col-3">
+                    {" "}
+                    <label>Pickup Tag</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <FormControl
+                        variant="outlined"
+                      >
+                        <InputLabel>PickupTag</InputLabel>
+                        <Select
+                          id="PickupTag"
+                          name="PickupTag"
+                          value={state.pickupTag}
+                          className={classes.formControl}
+                          label="pickupTag"
+                          onChange={(event) => changeCreds(event)}
+                        >
+                          <MenuItem value="Leaving it outside in front porch or back porch">
+                            Leaving it outside in front porch or back porch
+                          </MenuItem>
+                          <MenuItem value="Leaving it with the doorman">
+                            Leaving it with the doorman
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>{" "}
+                  </div>
+                </div>
+                <div className="row row1">
+                  <div className=" col-3">
+                    {" "}
+                    <label>Select Time Slot</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <FormControl variant="outlined" halfWidth>
+                        <InputLabel>Time Slot</InputLabel>
+                        <Select
+                          id="pickupTimeSlot"
+                          name="pickupTimeSlot"
+                          value={state.pickupTimeSlot}
+                          className={classes.formControl}
+                          label="pickupTimeSlot"
+                          onChange={(event) => changeCreds(event)}
+                        >
+                          <MenuItem value="9:00 am - 5:00 pm">
+                            9:00 am - 5:00 pm
+                          </MenuItem>
+                          <MenuItem value="5:00 pm - 10:00 pm">
+                            5:00 pm - 10:00 pm
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>{" "}
+                  </div>
                 </div>
 
+                <div className="row justify-content-end m-0">
+                  <button
+                    type="button"
+                    className="btn btn-primary next_btnn"
+                    onClick={() => {
+                      handleOpenThankYouModal();
+                      handleCloseDateTimeModal();
+                    }}
+                    // data-toggle="modal"
+                    // data-target="#exampleModa10"
+                  >
+                    Continue
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+      {/* DATE TIME MODAL */}
+
+      {/* CONFIRM  location Modal */}
+
+      {/* PAYMENT MODAL */}
+      <Modal
+        show={paymentModal}
+        onHide={handleClosePaymentModal}
+        className="fade payment_modal_design"
+        id="exampleModa9"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-body">
+              <div className="apply_coupons_main">
+                <button className="btn header_back_modal">
+                  <i
+                    className="fa fa-arrow-left"
+                    aria-hidden="true"
+                    onClick={handleClosePaymentModal}
+                  ></i>{" "}
+                  Payment Details
+                </button>
+              </div>
+
+              <div className="payment_modal_design_body">
                 <div className="row row1">
                   <div className="col-3">
                     {" "}
@@ -758,7 +899,112 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                     </div>{" "}
                   </div>
                 </div>
+                <div className="row justify-content-end m-0">
+                  <button
+                    type="button"
+                    className="btn btn-success next_btnn"
+                    onClick={(event)=>{handleClosePaymentModal();handleSubmit(event)}}
+                    // data-toggle="modal"
+                    // data-target="#exampleModa10"
+                  >
+                    Place Order
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+      {/* PAYMENT MODAL */}
+
+      {/* Address YOU MODAL */}
+      <Modal
+        show={thankYouModal}
+        onHide={handleCloseThankYouModal}
+        className="fade congrats_model"
+        id="exampleModa13"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-body">
+              <div className="apply_coupons_main">
+                <button className="btn header_back_modal">
+                  <i
+                    onClick={handleCloseThankYouModal}
+                    className="fa fa-arrow-left"
+                    aria-hidden="true"
+                  ></i>{" "}
+                  Details
+                </button>
+              </div>
+              <div className="row row1">
+                  <div className=" col-3">
+                    {" "}
+                    <label>Starch you want</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <FormControl
+                        variant="outlined"
+                        
+                      >
+                        <InputLabel >Select</InputLabel>
+                        <Select
+                          id="starchPref"
+                          name="starchPref"
+                          value={state.starchPref}
+                          label="starchPref"
+                          className={classes.formControl}
+                          onChange={(event) => changeCreds(event)}
+                        >
+                          <MenuItem value="Light ">
+                          Light 
+                          </MenuItem>
+                          <MenuItem value="Medium">
+                            Medium
+                          </MenuItem>
+                          <MenuItem value="Heavy">
+                            Heavy
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>{" "}
+                  </div>
+                </div>
                 <div className="row row1">
+                  <div className=" col-3">
+                    {" "}
+                    <label>How you want</label>{" "}
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    <div className="divinput">
+                      <FormControl variant="outlined" halfWidth>
+                        <InputLabel>  Select </InputLabel>
+                        <Select
+                          id="starchPref"
+                          name="starchPref"
+                          value={state.starchPref}
+                          label="starchPref"
+                          className={classes.formControl}
+                          onChange={(event) => changeCreds(event)}
+                        >
+                          <MenuItem value="Folded ">
+                          Folded 
+                          </MenuItem>
+                          <MenuItem value="Hanger">
+                          Hanger
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>{" "}
+                  </div>
+                </div>
+              <div className="row row1">
                   <div className=" col-3">
                     {" "}
                     <label>PickUp Date</label>{" "}
@@ -787,381 +1033,175 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                     </div>{" "}
                   </div>
                 </div>
-
-                <div className="row row1">
-                  <div className=" col-3">
-                    {" "}
-                    <label>Zip Code</label>{" "}
-                  </div>
-                  <div className="col-3">
-                    {" "}
-                    <div className="divinput">
-                      <input
-                        type="text"
-                        required
-                        id="zip"
-                        name="zip"
-                        className="storeregInput"
-                        value={state.zip}
-                        onChange={(event) => changeCreds(event)}
-                      />
-                    </div>{" "}
-                  </div>
+                
+              <div className="row row1">
+                <div className=" col-3">
+                  {" "}
+                  <label>Drop Date</label>{" "}
                 </div>
-                <div className="row row1">
-                  <div className=" col-3">
-                    {" "}
-                    <label>Pickup Tag</label>{" "}
-                  </div>
-                  <div className="col-3">
-                    {" "}
-                    <div className="divinput">
-                      <FormControl variant="outlined" halfWidth>
-                        <InputLabel>PickupTag</InputLabel>
-                        <Select
-                          id="PickupTag"
-                          name="PickupTag"
-                          value={state.pickupTag}
-                          label="pickupTag"
-                          onChange={(event) => changeCreds(event)}
-                        >
-                          <MenuItem value="Leaving it outside in front porch or back porch">
-                            Leaving it outside in front porch or back porch
-                          </MenuItem>
-                          <MenuItem value="Leaving it with the doorman">
-                            Leaving it with the doorman
-                          </MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>{" "}
-                  </div>
-                </div>
-                <div className="row row1">
-                  <div className=" col-3">
-                    {" "}
-                    <label>Select Time Slot</label>{" "}
-                  </div>
-                  <div className="col-3">
-                    {" "}
-                    <div className="divinput">
-                      <FormControl variant="outlined" halfWidth>
-                        <InputLabel>time Slot</InputLabel>
-                        <Select
-                          id="pickupTimeSlot"
-                          name="pickupTimeSlot"
-                          value={state.pickupTimeSlot}
-                          label="pickupTimeSlot"
-                          onChange={(event) => changeCreds(event)}
-                        >
-                          <MenuItem value="9:00 am - 5:00 pm">
-                            9:00 am - 5:00 pm
-                          </MenuItem>
-                          <MenuItem value="5:00 pm - 10:00 pm">
-                            5:00 pm - 10:00 pm
-                          </MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>{" "}
-                  </div>
-                </div>
-
-                <div className="row row1">
-                  <div className=" col-3">
-                    {" "}
-                    <label>Drop Date</label>{" "}
-                  </div>
-                  <div className="col-3">
-                    {" "}
-                    <div className="divinput">
-                      <input
-                        type="date"
-                        required
-                        id="dropDate"
-                        name="dropDate"
-                        className="storeregInput"
-                        value={state.dropDate}
-                        onChange={(event) => changeCreds(event)}
-                      />
-                    </div>{" "}
-                  </div>
-                </div>
-
-                <div className="row row1">
-                  <div className="col-3">
-                    {" "}
-                    <label>Drop Address</label>{" "}
-                  </div>
-                  <div className="col-3">
-                    {" "}
-                    <div className="divinput">
-                      <input
-                        type="text"
-                        required
-                        id="address"
-                        name="address"
-                        placeholder="Address"
-                        className="storeregInput"
-                        onChange={(e) => {
-                          setState({
-                            ...state,
-                            dropAddress: {
-                              ...state?.dropAddress,
-                              address: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                      <input
-                        type="text"
-                        required
-                        id="tag"
-                        name="tag"
-                        placeholder="tag"
-                        className="storeregInput"
-                        onChange={(e) => {
-                          setState({
-                            ...state,
-                            dropAddress: {
-                              ...state?.dropAddress,
-                              tag: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                      <input
-                        type="text"
-                        required
-                        id="zipCode"
-                        name="zipCode"
-                        className="storeregInput"
-                        placeholder="zipcode"
-                        onChange={(e) => {
-                          setState({
-                            ...state,
-                            dropAddress: {
-                              ...state?.dropAddress,
-                              zipCode: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                    </div>{" "}
-                  </div>
-                </div>
-
-                <div className="row row1">
-                  <div className="col-3">
-                    {" "}
-                    <label>Pickup Address</label>{" "}
-                  </div>
-                  <div className="col-3">
-                    {" "}
-                    <div className="divinput">
-                      <input
-                        type="text"
-                        required
-                        id="address"
-                        name="address"
-                        placeholder="Address"
-                        className="storeregInput"
-                        onChange={(e) => {
-                          setState({
-                            ...state,
-                            pickupAddress: {
-                              ...state?.pickupAddress,
-                              address: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                      <input
-                        type="text"
-                        required
-                        id="tag"
-                        name="tag"
-                        placeholder="tag"
-                        className="storeregInput"
-                        onChange={(e) => {
-                          setState({
-                            ...state,
-                            pickupAddress: {
-                              ...state?.pickupAddress,
-                              tag: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                      <input
-                        type="text"
-                        required
-                        id="zipCode"
-                        name="zipCode"
-                        className="storeregInput"
-                        placeholder="zipcode"
-                        onChange={(e) => {
-                          setState({
-                            ...state,
-                            pickupAddress: {
-                              ...state?.pickupAddress,
-                              zipCode: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                    </div>{" "}
-                  </div>
-                </div>
-                <div className="row justify-content-end">
-                  <button
-                    type="button"
-                    className="btn btn-primary next_btnn"
-                    onClick={handleSubmit}
-                    //   () => {
-                    //   if ( userCartItems.length) {
-                    //     // need for payment
-                    //     handleOpenPaymentModal();
-                    //   } else {
-                    //     // no need for payment
-                    //     handleOpenLocationModal();
-                    //   }
-                    // }}
-                    // data-toggle="modal"
-                    // data-target="#exampleModa9"
-                  >
-                    Place Order
-                  </button>
+                <div className="col-3">
+                  {" "}
+                  <div className="divinput">
+                    <input
+                      type="date"
+                      required
+                      id="dropDate"
+                      name="dropDate"
+                      className="storeregInput"
+                      value={state.dropDate}
+                      onChange={(event) => changeCreds(event)}
+                    />
+                  </div>{" "}
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </Modal>
-      {/* DATE TIME MODAL */}
 
-      {/* CONFIRM  location Modal */}
+              <div className="row row1">
+                <div className="col-3">
+                  {" "}
+                  <label>Drop Address</label>{" "}
+                </div>
+                <div className="col-3">
+                  {" "}
+                  <div className="divinput">
+                    <input
+                      type="text"
+                      required
+                      id="address"
+                      name="address"
+                      placeholder="Address"
+                      className="storeregInput"
+                      onChange={(e) => {
+                        setState({
+                          ...state,
+                          dropAddress: {
+                            ...state?.dropAddress,
+                            address: e.target.value,
+                          },
+                        });
+                      }}
+                    />
+                    {/* <input
+                      type="text"
+                      required
+                      id="tag"
+                      name="tag"
+                      placeholder="tag"
+                      className="storeregInput"
+                      onChange={(e) => {
+                        setState({
+                          ...state,
+                          dropAddress: {
+                            ...state?.dropAddress,
+                            tag: e.target.value,
+                          },
+                        });
+                      }}
+                    /> */}
+                    <input
+                      type="text"
+                      required
+                      id="zipCode"
+                      name="zipCode"
+                      className="storeregInput"
+                      placeholder="zipcode"
+                      onChange={(e) => {
+                        setState({
+                          ...state,
+                          dropAddress: {
+                            ...state?.dropAddress,
+                            zipCode: e.target.value,
+                          },
+                        });
+                      }}
+                    />
+                  </div>{" "}
+                </div>
+              </div>
 
-      {/* PAYMENT MODAL */}
-      <Modal
-        show={paymentModal}
-        onHide={handleClosePaymentModal}
-        className="fade payment_modal_design"
-        id="exampleModa9"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-body">
-              <div className="apply_coupons_main">
-                <button className="btn header_back_modal">
-                  <i className="fa fa-arrow-left" aria-hidden="true"></i>{" "}
-                  Payment Details
+              <div className="row row1">
+                <div className="col-3">
+                  {" "}
+                  <label>Pickup Address</label>{" "}
+                </div>
+                <div className="col-3">
+                  {" "}
+                  <div className="divinput">
+                    <input
+                      type="text"
+                      required
+                      id="address"
+                      name="address"
+                      placeholder="Address"
+                      className="storeregInput"
+                      onChange={(e) => {
+                        setState({
+                          ...state,
+                          pickupAddress: {
+                            ...state?.pickupAddress,
+                            address: e.target.value,
+                          },
+                        });
+                      }}
+                    />
+                    {/* <input
+                      type="text"
+                      required
+                      id="tag"
+                      name="tag"
+                      placeholder="tag"
+                      className="storeregInput"
+                      onChange={(e) => {
+                        setState({
+                          ...state,
+                          pickupAddress: {
+                            ...state?.pickupAddress,
+                            tag: e.target.value,
+                          },
+                        });
+                      }}
+                    /> */}
+                    <input
+                      type="text"
+                      required
+                      id="zipCode"
+                      name="zipCode"
+                      className="storeregInput"
+                      placeholder="zipcode"
+                      onChange={(e) => {
+                        setState({
+                          ...state,
+                          pickupAddress: {
+                            ...state?.pickupAddress,
+                            zipCode: e.target.value,
+                          },
+                        });
+                      }}
+                    />
+                  </div>{" "}
+                </div>
+              </div>
+              <div className="row justify-content-end m-0">
+                <button
+                  type="button"
+                  className="btn btn-primary next_btnn"
+                  onClick={() => {
+                    handleOpenPaymentModal();
+                    handleCloseThankYouModal();
+                  }}
+                  // data-toggle="modal"
+                  // data-target="#exampleModa10"
+                >
+                  Continue
                 </button>
               </div>
-
-              <div className="payment_modal_design_body">
-                <h3>How Would like to pay?</h3>
-                <div className="payment_cod">
-                  <span
-                    onClick={() => setPaymentMode("COD")}
-                    style={{
-                      backgroundColor: paymentMode === "COD" ? "#c9002b" : "",
-                      color: paymentMode === "COD" ? "#fff" : "",
-                      padding: "0.4em",
-                      borderRadius: "0.5rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    COD
-                  </span>
-
-                  <span style={{ padding: "0.4em" }}>
-                    <i className="fa fa-money" aria-hidden="true"></i>
-                  </span>
-                  <span
-                    onClick={() => setPaymentMode("ONLINE")}
-                    style={{
-                      backgroundColor:
-                        paymentMode === "ONLINE" ? "#c9002b" : "",
-                      color: paymentMode === "ONLINE" ? "#fff" : "",
-                      padding: "0.4em",
-                      borderRadius: "0.5rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Online
-                  </span>
-                </div>
-                {paymentMode === "ONLINE" ? (
-                  <div>
-                    <h3>Add a New Card</h3>
-
-                    <div className="payment_cod_input input_search_icon">
-                      <input type="text" />
-                    </div>
-
-                    <div className="payment_cod_input">
-                      <label>Number</label>
-                      <input type="password" />
-                    </div>
-                    <div className="payment_cod_input">
-                      <label>Name On Card</label>
-                      <input type="text" />
-                    </div>
-                    <div className="payment_cod_cvv">
-                      <div>
-                        <label>EXP</label>
-                        <input type="text" />
-                      </div>
-                      <div>
-                        <label>CVV</label>
-                        <input type="text" />
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  ""
-                )}
-                <div className="row justify-content-end m-0">
-                  <button
-                    type="button"
-                    className="btn btn-primary next_btnn"
-                    onClick={handleOpenLocationModal}
-                    // data-toggle="modal"
-                    // data-target="#exampleModa10"
-                  >
-                    Continue
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </Modal>
-      {/* PAYMENT MODAL */}
+      {/* Address YOU MODAL */}
 
-      {/* THANK YOU MODAL */}
-      <Modal
-        show={thankYouModal}
-        onHide={handleCloseThankYouModal}
-        className="fade congrats_model"
-        id="exampleModa13"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-body">
-              {/* <img className="img-fluid" src={noto} alt="" /> */}
-              <p>Thank you, Book again!</p>
-              <button className="track_btn">Track your Professional</button>
-            </div>
-          </div>
-        </div>
-      </Modal>
-      {/* THANK YOU MODAL */}
+
+      
     </div>
   );
 };

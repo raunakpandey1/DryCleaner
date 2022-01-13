@@ -63,7 +63,7 @@ export const Items = () => {
       // vat: mSubType.price * 0.05,
       quantity:1
     };
-    if(user == undefined) {
+    if(users == undefined) {
       alert("Login to continue")
        navigate('/signin')
     }
@@ -92,21 +92,12 @@ export const Items = () => {
     // console.log(e)
     // e.preventDefault();
       if (e.quantity > 1) {
-        
           e.quantity -= 1;
           const userCartRef = doc(db, "users", users.uid);
-
-          // push updated cart items to db
           await updateDoc(userCartRef, { carts: userCartItems });
           fetchCartItems();
-        
       }
-    const userCartRef = doc(db, "users", user.uid);
-
-    // push updated cart items to db
-    await updateDoc(userCartRef, { carts: userCartItems });
-    // alert('Item added to Cart')
-    fetchCartItems();
+    
   };
 
   const fetchCartItems = async () => {
@@ -197,7 +188,7 @@ export const Items = () => {
                         </button>:
                                 <div className="quanHandler">
                                   <button
-                                    className="idButton"
+                                    className="btn btn-danger  m-2 "
                                     onClick={() =>
                                       handleDecrement(containItem)
                                     }
@@ -208,7 +199,7 @@ export const Items = () => {
                                     {containItem.quantity}
                                   </span>
                                   <button
-                                    className="idButton"
+                                    className="btn btn-danger  m-2 "
                                     onClick={() =>
                                       handleIncrement(containItem)
                                     }
@@ -246,8 +237,23 @@ export const Items = () => {
               );
             })}
           </GridContainer>
+          <div className="col-12 text-center">
+                <button
+                  type="button"
+                  className="btn btn-success place_btnn"
+                  onClick={() => navigate('/cart')}
+                  disabled={!userCartItems.length}
+                  // data-toggle="modal"
+                  // data-target="#exampleModa7"
+                >
+                  Proceed To Checkout
+                </button>
+              </div>
+          
         </Col>
+        
       </Row>
+      
     </div>
   );
 };

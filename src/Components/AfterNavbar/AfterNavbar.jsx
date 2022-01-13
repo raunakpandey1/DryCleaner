@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Row } from 'react-bootstrap';
 import { motion } from 'framer-motion/dist/framer-motion'
-import Video from "../../img/video2.mp4";
+import Video from "../../img/homepage.mp4";
 import { useScroll } from "../useScroll/useScroll";
 import { videoAnimation, textAnimation,  fromUp } from "../../utils/Animations";
 import "./afternavbar.scss";
@@ -36,6 +36,7 @@ const Navbar = () => {
             top: "0%",
             bottom: "50%",
             objectFit: "cover",
+            filter: "brightness(50%)",
           }}
         >
           <source src={Video} type="video/mp4" />

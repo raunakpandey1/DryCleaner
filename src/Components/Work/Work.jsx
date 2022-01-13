@@ -10,8 +10,8 @@ const Work = () => {
     return (
         <div className='danny' >
             
-                <img src="./work.jpg" alt="" className='hd'  />
-                <div className="no">
+                <img src="./shirt2.jpg" alt="" className='hd' style={{ width: "100%" }} />
+                <div className="no"style={{padding:"22px"}}>
                 <motion.div
                 variants={cardAnimation}
                 animate={controls}

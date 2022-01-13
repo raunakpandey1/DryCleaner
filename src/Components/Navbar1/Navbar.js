@@ -7,7 +7,7 @@ import './Navbar.css'
 import { motion } from 'framer-motion/dist/framer-motion'
 import { navbarAnimation } from "../../utils/Animations";
 import { NavLink, useNavigate } from 'react-router-dom';
-import avatar from '../../img/avatar.jpg'
+import avatar from '../../img/user.png'
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth, db } from '../../fbconfig';
  
@@ -101,9 +101,8 @@ const Navbar = () => {
           </li>
           
           {user ? <li className='nav-item navprof'>
-          <div className="cpUpperLeft">
-                                    <img src={ avatar} alt="" />
-                                     
+          <div className="cpUpperLeft" >
+                                    <img  src={ avatar} alt="" />
                                      <div>
                                      <p className='profTitle'>{userData?.email}</p>
                                      </div>

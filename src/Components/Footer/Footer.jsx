@@ -41,13 +41,13 @@ const Footer = () => {
 
                         <div className="align">
 
-                            <a className="link d-inline " href='/'>Home</a>
-                            <a className="link d-block" href='/'>About Us</a>
-                            <a className="link d-block" href='/'>Pricing</a>
-                            <a className="link d-block" href='/'>Specials</a>
-                            <a className="link d-block" href='/'>Gallery</a>
-                            <a className="link d-block" href='/'>Contacts</a>
-                            <a className="link d-block" href='/'>Sitemap</a>
+                            <a className="link d-inline "style={{ textDecoration: 'none', color: 'white' }} href='/'>Home</a>
+                            <a className="link d-block" href='/about' style={{ textDecoration: 'none', color: 'white' }}>About Us</a>
+                            <a className="link d-block" href='/pricing' style={{ textDecoration: 'none', color: 'white' }}>Pricing</a>
+                            <a className="link d-block" href='/specials' style={{ textDecoration: 'none', color: 'white' }}>Specials</a>
+                            <a className="link d-block" href='/' style={{ textDecoration: 'none', color: 'white' }}>Gallery</a>
+                            <a className="link d-block" href='/' style={{ textDecoration: 'none', color: 'white' }}>Contacts</a>
+                            {/* <a className="link d-block" href='/' style={{ textDecoration: 'none', color: 'white' }}>Sitemap</a> */}
 
 
                         </div>
@@ -84,9 +84,9 @@ const Footer = () => {
                             <li>
 
                                 <span> Phone</span>
-                                <p>
+                                {/* <p>
                                     <a href='' style={{ textDecoration: 'none', color: 'white' }}>773 472-2391</a>
-                                </p>
+                                </p> */}
                                 <p>
                                     <a href='' style={{ textDecoration: 'none', color: 'white' }}>321.505.9138</a>
                                 </p>
@@ -129,11 +129,12 @@ const Footer = () => {
                         <Row class="row1">
                             <Col lg="7" class="col">
                                 <ul class="footer-social">
+                                {/* <i class="fab fa-facebook-f"  ></i> */}
                                     <li>
-                                        <a href="http://www.facebook.com/chicagogreencleaners" style={{ textDecoration: 'none', color: 'white',listStyleType: "none"  }}><i class="fab fa-facebook-f"  ></i> Facebook</a>
+                                        <a href="http://www.facebook.com/chicagogreencleaners" style={{ textDecoration: 'none', color: 'white',listStyleType: "none"  }}> Facebook</a>
                                     </li>
                                     <li>
-                                        <a href="https://www.instagram.com/chicagogreendrycleaners/" style={{ textDecoration: 'none', color: 'white',listStyleType: "none"  }}><i class="fab fa-instagram" ></i> Instagram</a>
+                                        <a href="https://www.instagram.com/chicagogreendrycleaners/" style={{ textDecoration: 'none', color: 'white',listStyleType: "none"  }}> Instagram</a>
                                     </li>
                                 </ul>
                             </Col>
