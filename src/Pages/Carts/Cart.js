@@ -7,7 +7,7 @@ import {
   increment,
   updateDoc,
   addDoc,
-  Timestamp
+  Timestamp,
 } from "@firebase/firestore";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -42,10 +42,10 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
   const [description, setDescription] = useState("");
   const [paymentMode, setPaymentMode] = useState("COD");
   const [state, setState] = useState({
-    name: "",
+    fullName: "",
     email: "",
-    alternative: "",
-    mobile: "",
+    alternative_phone: "",
+    phone: "",
     address: "",
     cardName: "",
     cardNumber: "",
@@ -78,16 +78,14 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
   const handleDecrement = async (e) => {
     // console.log(e)
     // e.preventDefault();
-      if (e.quantity > 1) {
-        
-          e.quantity -= 1;
-          const userCartRef = doc(db, "users", users.uid);
+    if (e.quantity > 1) {
+      e.quantity -= 1;
+      const userCartRef = doc(db, "users", users.uid);
 
-          // push updated cart items to db
-          await updateDoc(userCartRef, { carts: userCartItems });
-          fetchCartItems();
-        
-      }
+      // push updated cart items to db
+      await updateDoc(userCartRef, { carts: userCartItems });
+      fetchCartItems();
+    }
     // alert('Item added to Cart')
     fetchCartItems();
   };
@@ -101,11 +99,11 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       ...state,
       items: userCartItems,
       user_id: users && user.uid ? users.uid : "",
-          date_booked: Timestamp.now(),
-          totalAmount :totalPrice
+      createdAt: Timestamp.now(),
+      totalAmount: totalPrice,
     });
     alert("Order Placed Successfully");
-    navigate('/')
+    navigate("/");
   };
   const handleOpenSubTypesModal = () => setSubTypesModal(true);
   const handleCloseSubTypesModal = () => {
@@ -185,18 +183,18 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       userSnap.data().carts &&
       userSnap.data().carts.length
     ) {
-      var total =0;
-      userSnap.data().carts.forEach((item)=>{
+      var total = 0;
+      userSnap.data().carts.forEach((item) => {
         total += item.price * item.quantity;
-      })
-      setTotalPrice(total)
-      console.log(total)
+      });
+      setTotalPrice(total);
+      console.log(total);
       setUserCartItems(userSnap.data().carts);
       setUserData(userSnap.data());
-      state.name = userSnap.data()["fullName"];
+      state.fullName = userSnap.data()["fullName"];
       state.email = userSnap.data()["email"];
       state.address = userSnap.data()["currentAddress"]["address"];
-      state.mobile = userSnap.data()["phoneNumber"];
+      state.phone = userSnap.data()["phoneNumber"];
     } else {
       setUserCartItems([]);
     }
@@ -255,7 +253,6 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       }
     }
   };
-
 
   return (
     <div>
@@ -320,9 +317,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                                 <div className="quanHandler">
                                   <button
                                     className="idButton"
-                                    onClick={() =>
-                                      handleDecrement(mCartItem)
-                                    }
+                                    onClick={() => handleDecrement(mCartItem)}
                                   >
                                     -
                                   </button>
@@ -331,9 +326,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                                   </span>
                                   <button
                                     className="idButton"
-                                    onClick={() =>
-                                      handleIncrement(mCartItem)
-                                    }
+                                    onClick={() => handleIncrement(mCartItem)}
                                   >
                                     +
                                   </button>
@@ -427,7 +420,10 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   Place Booking
                 </button>
               </div>
-              <div><label>Total price : </label>{totalPrice}</div>
+              <div>
+                <label>Total price : </label>
+                {totalPrice}
+              </div>
             </div>
           </div>
         </div>
@@ -590,7 +586,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                         id="name"
                         className="storeregInput"
                         name="name"
-                        value={state.name}
+                        value={state.fullName}
                         onChange={(event) => changeCreds(event)}
                       />
                     </div>
@@ -631,7 +627,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                         id="mobile"
                         name="mobile"
                         className="storeregInput"
-                        value={state.mobile}
+                        value={state.phone}
                         onChange={(event) => changeCreds(event)}
                       />
                     </div>
@@ -651,7 +647,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                         id="alternative"
                         name="alternative"
                         className="storeregInput"
-                        value={state.alternative}
+                        value={state.alternative_phone}
                         onChange={(event) => changeCreds(event)}
                       />
                     </div>
@@ -1043,8 +1039,6 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       {/* DATE TIME MODAL */}
 
       {/* CONFIRM  location Modal */}
-
-      
 
       {/* PAYMENT MODAL */}
       <Modal

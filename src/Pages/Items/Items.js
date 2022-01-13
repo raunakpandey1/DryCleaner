@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const Items = () => {
   const navigate = useNavigate()
-  const { id } = useParams();
+  // const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
   const [userCartItems, setUserCartItems] = useState([]);
@@ -68,7 +68,7 @@ export const Items = () => {
        navigate('/signin')
     }
     else{
-      const userCartRef = doc(db, "users", user.uid);
+      const userCartRef = doc(db, "users", users.uid);
 
       // push updated cart items to db
       await updateDoc(userCartRef, { carts: arrayUnion(cartItem) });
@@ -80,7 +80,7 @@ export const Items = () => {
 
   const handleIncrement = async (e) => {
     e.quantity += 1;
-    const userCartRef = doc(db, "users", user.uid);
+    const userCartRef = doc(db, "users", users.uid);
 
     // push updated cart items to db
     await updateDoc(userCartRef, { carts: userCartItems });
@@ -94,7 +94,7 @@ export const Items = () => {
       if (e.quantity > 1) {
         
           e.quantity -= 1;
-          const userCartRef = doc(db, "users", user.uid);
+          const userCartRef = doc(db, "users", users.uid);
 
           // push updated cart items to db
           await updateDoc(userCartRef, { carts: userCartItems });
@@ -127,7 +127,7 @@ export const Items = () => {
   };
    
   const getItems = async () => {
-    const vend = query(collection(db, "items"), where("vendorId", "==", id));
+    const vend = collection(db, "items");
     //console.log(data);
     const querySnapshot = await getDocs(vend);
     setItems(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
