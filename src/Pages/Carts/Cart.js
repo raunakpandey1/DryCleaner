@@ -99,8 +99,8 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       ...state,
       items: userCartItems,
       user_id: users && user.uid ? users.uid : "",
-      createdAt: Timestamp.now(),
-      totalAmount: totalPrice,
+          createdAt: Timestamp.now(),
+          totalAmount :totalPrice
     });
     alert("Order Placed Successfully");
     navigate("/");
