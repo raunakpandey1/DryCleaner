@@ -165,12 +165,12 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
   useEffect(() => {
     if (users && users?.uid) {
       fetchCartItems();
+      fetchAllCoupons();
     }
   }, [users, subTypesModal]);
 
   const [couponModal, setCouponModal] = useState(false);
   const handleOpenCouponModal = () => {
-    fetchAllCoupons();
     setCouponModal(true);
   };
   const handleCloseCouponModal = () => setCouponModal(false);
@@ -184,7 +184,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       mCouponsList.push({ id: doc.id, ...doc.data() });
     });
     setCouponsList(mCouponsList);
-    console.log(mCouponsList)
+    console.log(mCouponsList);
   };
 
   const fetchCartItems = async () => {
@@ -233,40 +233,40 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
     // decrement quantity after success apply
 
     // check if date is valid
-    if (new Date() > new Date(mCoupon.validity)) {
-      return setCongratsMessage({
-        status: false,
-        message: `This coupon is expired`,
-      });
+    // if (new Date() > new Date(mCoupon.validity)) {
+    //   return setCongratsMessage({
+    //     status: false,
+    //     message: `This coupon is expired`,
+    //   });
+    // }
+
+    // order amount > min_order_amount
+
+    // TODO: replace discount with value from db
+
+    let benefit = userCartItems[0].price;
+    // total benefit < max_benefit
+    if (benefit > mCoupon.max_benefit) {
+      benefit = mCoupon.max_benefit;
     }
-    if (mCoupon.type === "percentage") {
-      // order amount > min_order_amount
-      if (userCartItems[0].price > mCoupon.min_order) {
-        // TODO: replace discount with value from db
-        const percentDiscount = 5;
-        let benefit = userCartItems[0].price * percentDiscount * 0.01;
-        // total benefit < max_benefit
-        if (benefit > mCoupon.max_benefit) {
-          benefit = mCoupon.max_benefit;
-        }
-        const couponDoc = doc(db, "coupons", mCoupon.id);
-        await updateDoc(couponDoc, { quantity: increment(-1) });
-        setCongratsMessage({
-          status: true,
-          message: `Congrats! You saved $ ${benefit}`,
-        });
-        setAppliedCoupon({
-          status: true,
-          coupon: mCoupon,
-          benefit,
-        });
-      } else {
-        setCongratsMessage({
-          status: false,
-          message: `Minimum order amount is $ ${mCoupon.min_order}`,
-        });
-      }
-    }
+    const couponDoc = doc(db, "coupons", mCoupon.id);
+    await updateDoc(couponDoc, { quantity: increment(-1) });
+    setCongratsMessage({
+      status: true,
+      message: `Congrats! You saved $ ${benefit}`,
+    });
+    setAppliedCoupon({
+      status: true,
+      coupon: mCoupon,
+      benefit,
+    });
+
+    // else {
+    //   setCongratsMessage({
+    //     status: false,
+    //     message: `Minimum order amount is $ ${mCoupon.min_order}`,
+    //   });
+    // }
   };
 
   return (
@@ -349,7 +349,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                               </div>
                               <div className="chright">
                                 <span className="ciPrice">
-                                ${mCartItem.price * mCartItem.quantity}/-
+                                  ${mCartItem.price * mCartItem.quantity}/-
                                 </span>
                               </div>
                             </div>
@@ -372,9 +372,11 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                     </div>
                   )}
                   <div className="col-12 d-flex justify-content-center">
-                <h3><label>Total price : $</label>
-                {totalPrice}</h3>
-              </div>
+                    <h3>
+                      <label>Total price : $</label>
+                      {totalPrice}
+                    </h3>
+                  </div>
 
                   <div className="col-12 d-flex justify-content-center">
                     <button
@@ -395,28 +397,34 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                     <>
                       <div className="col-12 add_coupons">
                         <div className="booking_product_inr">
-                          {/* <button className="btn">ADD COUPONS <i className="fa fa-chevron-right" aria-hidden="true"></i></button> */}
-                          {/* {appliedCoupon &&
-                              appliedCoupon.status &&
-                              appliedCoupon.coupon ? (
-                                <button
-                                  type="button"
-                                  className="btn btn-primary"
-                                  style={{ color: "green" }}
-                                >
-                                  {appliedCoupon.coupon.code}
-                                </button>
-                              ) : (
-                                <button
-                                  type="button"
-                                  className="btn btn-primary"
-                                  // data-toggle="modal"
-                                  // data-target="#exampleModa4"
-                                  onClick={handleOpenCouponModal}
-                                >
-                                  ADD COUPONS
-                                </button>
-                              )} */}
+                          <button className="btn">
+                            ADD COUPONS{" "}
+                            <i
+                              className="fa fa-chevron-right"
+                              aria-hidden="true"
+                            ></i>
+                          </button>
+                          {appliedCoupon &&
+                          appliedCoupon.status &&
+                          appliedCoupon.coupon ? (
+                            <button
+                              type="button"
+                              className="btn btn-primary"
+                              style={{ color: "green" }}
+                            >
+                              {appliedCoupon.coupon.code}
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="btn btn-primary"
+                              // data-toggle="modal"
+                              // data-target="#exampleModa4"
+                              onClick={handleOpenCouponModal}
+                            >
+                              ADD COUPONS
+                            </button>
+                          )}
                         </div>
                       </div>
                     </>
@@ -439,7 +447,6 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   Place Booking
                 </button>
               </div>
-              
             </div>
           </div>
         </div>
@@ -472,8 +479,11 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 <div className="enter_cooupon_code">
                   <input
                     type="text"
-                    name=""
-                    id=""
+                    id="code"
+                    className="storeregInput"
+                    name="code"
+                    value={state.code}
+                    onChange={(event) => changeCreds(event)}
                     placeholder="Enter Coupon Code"
                   />
                   <button
@@ -483,7 +493,11 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                     // data-target="#exampleModa5"
                     // data-dismiss="modal"
                     onClick={() => {
-                      // TODO: add custom coupon code
+                      var containItem = couponsList.find((element) => {
+                        return element.code === state.code;
+                      });
+                      if (containItem)
+                        totalPrice = totalPrice - containItem.price;
                     }}
                   >
                     Apply
@@ -495,7 +509,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                       <div className="applicable_coupons">
                         <h5>{mCoupon.code}</h5>
                         <p className="d-flex justify-content-between align-items-center">
-                          {mCoupon.description}
+                          {/* {mCoupon.description} */}
                           <button
                             type="button"
                             className="btn btn-primary"
@@ -507,7 +521,6 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                             Apply
                           </button>
                         </p>
-                        <h4>Details</h4>
                       </div>
                     ))
                   : ""}
@@ -715,9 +728,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   <div className="col-3">
                     {" "}
                     <div className="divinput">
-                      <FormControl
-                        variant="outlined"
-                      >
+                      <FormControl variant="outlined">
                         <InputLabel>PickupTag</InputLabel>
                         <Select
                           id="PickupTag"
@@ -903,7 +914,10 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   <button
                     type="button"
                     className="btn btn-success next_btnn"
-                    onClick={(event)=>{handleClosePaymentModal();handleSubmit(event)}}
+                    onClick={(event) => {
+                      handleClosePaymentModal();
+                      handleSubmit(event);
+                    }}
                     // data-toggle="modal"
                     // data-target="#exampleModa10"
                   >
@@ -941,87 +955,74 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 </button>
               </div>
               <div className="row row1">
-                  <div className=" col-3">
-                    {" "}
-                    <label>Starch you want</label>{" "}
-                  </div>
-                  <div className="col-3">
-                    {" "}
-                    <div className="divinput">
-                      <FormControl
-                        variant="outlined"
-                        
-                      >
-                        <InputLabel >Select</InputLabel>
-                        <Select
-                          id="starchPref"
-                          name="starchPref"
-                          value={state.starchPref}
-                          label="starchPref"
-                          className={classes.formControl}
-                          onChange={(event) => changeCreds(event)}
-                        >
-                          <MenuItem value="Light ">
-                          Light 
-                          </MenuItem>
-                          <MenuItem value="Medium">
-                            Medium
-                          </MenuItem>
-                          <MenuItem value="Heavy">
-                            Heavy
-                          </MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>{" "}
-                  </div>
+                <div className=" col-3">
+                  {" "}
+                  <label>Starch you want</label>{" "}
                 </div>
-                <div className="row row1">
-                  <div className=" col-3">
-                    {" "}
-                    <label>How you want</label>{" "}
-                  </div>
-                  <div className="col-3">
-                    {" "}
-                    <div className="divinput">
-                      <FormControl variant="outlined" halfWidth>
-                        <InputLabel>  Select </InputLabel>
-                        <Select
-                          id="starchPref"
-                          name="starchPref"
-                          value={state.starchPref}
-                          label="starchPref"
-                          className={classes.formControl}
-                          onChange={(event) => changeCreds(event)}
-                        >
-                          <MenuItem value="Folded ">
-                          Folded 
-                          </MenuItem>
-                          <MenuItem value="Hanger">
-                          Hanger
-                          </MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>{" "}
-                  </div>
-                </div>
-              <div className="row row1">
-                  <div className=" col-3">
-                    {" "}
-                    <label>PickUp Date</label>{" "}
-                  </div>
-                  <div className="col-3">
-                    {" "}
-                    <div className="divinput">
-                      <input
-                        type="date"
-                        required
-                        id="pickupDate"
-                        name="pickupDate"
-                        className="storeregInput"
-                        value={state.pickupDate}
+                <div className="col-3">
+                  {" "}
+                  <div className="divinput">
+                    <FormControl variant="outlined">
+                      <InputLabel>Select</InputLabel>
+                      <Select
+                        id="starchPref"
+                        name="starchPref"
+                        value={state.starchPref}
+                        label="starchPref"
+                        className={classes.formControl}
                         onChange={(event) => changeCreds(event)}
-                      />
-                      {/* <Datetime
+                      >
+                        <MenuItem value="Light ">Light</MenuItem>
+                        <MenuItem value="Medium">Medium</MenuItem>
+                        <MenuItem value="Heavy">Heavy</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </div>{" "}
+                </div>
+              </div>
+              <div className="row row1">
+                <div className=" col-3">
+                  {" "}
+                  <label>How you want</label>{" "}
+                </div>
+                <div className="col-3">
+                  {" "}
+                  <div className="divinput">
+                    <FormControl variant="outlined" halfWidth>
+                      <InputLabel> Select </InputLabel>
+                      <Select
+                        id="starchPref"
+                        name="starchPref"
+                        value={state.starchPref}
+                        label="starchPref"
+                        className={classes.formControl}
+                        onChange={(event) => changeCreds(event)}
+                      >
+                        <MenuItem value="Folded ">Folded</MenuItem>
+                        <MenuItem value="Hanger">Hanger</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </div>{" "}
+                </div>
+              </div>
+              <div className="row row1">
+                <div className=" col-3">
+                  {" "}
+                  <label>PickUp Date</label>{" "}
+                </div>
+                <div className="col-3">
+                  {" "}
+                  <div className="divinput">
+                    <input
+                      type="date"
+                      required
+                      id="pickupDate"
+                      name="pickupDate"
+                      className="storeregInput"
+                      value={state.pickupDate}
+                      onChange={(event) => changeCreds(event)}
+                    />
+                    {/* <Datetime
                       initialValue={dateTime}
                       id="date"
                       name="date"
@@ -1030,10 +1031,10 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                         setDateTime(mDateTime.toDate().getTime());
                       }}
                     /> */}
-                    </div>{" "}
-                  </div>
+                  </div>{" "}
                 </div>
-                
+              </div>
+
               <div className="row row1">
                 <div className=" col-3">
                   {" "}
@@ -1199,9 +1200,6 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
         </div>
       </Modal>
       {/* Address YOU MODAL */}
-
-
-      
     </div>
   );
 };
