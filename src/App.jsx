@@ -37,7 +37,6 @@ const App = () => {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/account" element={<Account />} />
           <Route path="/contact" element={<Contact />} />
-          
         </Routes>
         </AuthContextProvider>
         </motion.div> 

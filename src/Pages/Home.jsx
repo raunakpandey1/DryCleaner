@@ -16,7 +16,7 @@ import Book from '../Components/Book/Book';
 import Work from '../Components/Work/Work';
 import Popup from '../Components/Popup/Popup';
 import { useNavigate ,Navigate} from "react-router-dom";
-
+import Indust  from "../Indust/Indust";
 
 
 const Home = () => {
@@ -67,7 +67,7 @@ const Home = () => {
         <Checkout />
       </Popup> */}
       <Work/>
-      <Industry/>
+      <Indust/>
       <Eco/>
       <Featured />
       

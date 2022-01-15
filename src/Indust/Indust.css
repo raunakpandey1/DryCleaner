@@ -1,0 +1,68 @@
+
+body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+.contai{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+:root{
+    --primary: hsla(192, 100%, 78%, 0.65);
+    --secondary: hsla(192, 100%, 78%, 0.65);
+}
+.contai .box{
+    position: relative;
+    width: 350px;
+    padding: 40px;
+    /* background: rgba(255, 255, 255, 0.151); */
+    background-image: url('./hotel.jpeg');
+    border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.1);
+    margin: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary), var(--secondary)),
+                url('./hotel.jpeg') no-repeat center / cover;
+}
+.contai h3{
+    font-size: 6vmin;
+    text-align: center;
+    color: white;
+    font-weight: 500;
+    margin: 10px 0;
+    padding: 0;
+}
+.contai p{
+    margin: 0;
+    color: #000;
+    text-align: center;
+    padding: 0;
+}
+.contai a{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: inline-block;
+    padding: 10px 20px;
+    background: orangered;
+    border-radius: 25px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    margin-top: 20px;
+}
+.contai a:hover{
+    color: #fff;
+    border: 2px solid orangered;
+    background: none;
+}
