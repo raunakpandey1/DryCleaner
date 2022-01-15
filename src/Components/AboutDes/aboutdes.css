@@ -1,0 +1,54 @@
+.about {
+  background-color: #6D9FB2;
+  padding: 2vw;
+  color: white;
+  margin-top: 5vw;
+}
+
+.p {
+  margin-left: 24vw;
+}
+
+.p1 {
+  margin-left: -10vw;
+  padding-top: 1vw;
+  color: white;
+}
+
+.p2 {
+  padding-top: 1vw;
+  color: white;
+}
+
+.h1 {
+  display: none;
+}
+
+@media screen and (max-width: 430px) {
+  .about {
+    margin-top: 23vw;
+  }
+  .h1 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-left: 4.0vw;
+  }
+  .p {
+    font-size: 3.2vw;
+    margin-left: 10.1vw;
+  }
+  .p1 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 3.2vw;
+    margin-left: 10.0vw;
+    margin-bottom: -4.0vw;
+    margin-top: 1.0vw;
+  }
+  .p2 {
+    margin-top: 2.0vw;
+  }
+}
+/*# sourceMappingURL=aboutdes.css.map */

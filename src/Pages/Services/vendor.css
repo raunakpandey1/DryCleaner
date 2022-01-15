@@ -1,0 +1,14 @@
+.venBody
+{
+   display: flex;  
+   justify-content: space-between;
+}
+
+.venTitle{
+    display: flex;
+    flex-direction: row;
+}
+
+.venTitle h4{
+    margin-left: 20px;
+}

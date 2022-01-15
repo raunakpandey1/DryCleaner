@@ -1,0 +1,49 @@
+.cardcont{
+    display: flex;
+}
+.cardit{
+    display: flex;
+}
+.itemBody 
+{
+   display: flex;  
+   justify-content: space-between;
+   flex-direction: row;
+}
+.makeStyles-grid-4 {
+    padding: 0 15px !important;
+    margin: 10px auto;
+}
+/* .rowCard{
+    margin: 10px;
+} */
+.itemTitle{ 
+    display: flex;
+     flex-direction: column;
+}
+
+.titCon h4 {
+    margin-left: 20px;
+}
+.titCon h6 {
+    margin-left: 20px;
+}
+.titCon p {
+    margin-left: 20px;
+}
+.titCon{
+    display: flex;
+    flex-direction: column;
+}
+.itemInc{
+    
+}
+@media screen and (max-width: 430px) {
+    /* .cardcont{
+        display: flex;
+    }
+    .cardit{
+        display: flex;
+         
+    } */
+  }

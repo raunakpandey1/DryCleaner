@@ -1,0 +1,31 @@
+.p9 {
+  border: 1px solid #9F9B97;
+  padding: 3vw 3vw 3vw 3vw;
+  color: #8A7A77;
+  font-weight: 500;
+  font-size: 1.1vw;
+  margin: 5vw 10vw -2vw 10vw;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+@media screen and (max-width: 430px) {
+  .p9 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    border: 1px solid #9F9B97;
+    padding: 3vw 3vw 3vw 3vw;
+    color: #8A7A77;
+    font-weight: 500;
+    font-size: 3.5vw;
+    margin: 5vw 5vw 5vw 5vw;
+  }
+}
+/*# sourceMappingURL=specialfeatures.css.map */

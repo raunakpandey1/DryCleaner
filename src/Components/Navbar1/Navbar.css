@@ -1,0 +1,264 @@
+.header {
+    display         : flex;
+    justify-content : space-between;
+    align-items     : center;
+    padding         : 0px 40px;
+    height          : 80px;
+    position        : fixed;
+    height          : 90px;
+    width           : 100%;
+    top             : 0;
+    left            : 0;
+    z-index         : 1;
+    transition      : .3s ease-in;
+    overflow        : hidden;
+background-color: white;
+
+}
+
+.header .navbar {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    max-width      : 1240px;
+    margin         : auto;
+    margin-bottom: 12%;
+    height         : 100%;
+    padding        : 0 1rem;
+}
+
+.header .nav-menu a {
+    color: #000;
+    
+}
+
+.nav-menu{
+    margin-right: 50vw;
+    margin-left:28%;
+    z-index:500;
+}
+
+
+.header .nav-menu {
+    display: flex;
+}
+
+.header .nav-item {
+    color                : black;
+    display              : grid;
+    grid-template-columns: repeat(6, auto);
+    grid-gap             : 0px;
+    padding              : 0.5rem;
+    font-weight          : 500;
+    font-size: 15px;
+    margin-top:-3% ;
+    
+}
+
+.header .nav-item a:hover {
+    padding-bottom: 12px;
+    border-bottom : 3px solid var(--secondary-color);
+}
+
+.hamburger {
+    display: none;
+}
+
+.dragon {
+    display      : flex;
+    float        : left;
+    margin-left  : -5%;
+    height       : 4vh;
+    margin-top   : 4%;
+    padding-top  : 0px;
+}
+
+.cho {
+    cursor: pointer;
+    margin-left: 4px;
+    width: 5rem;
+    margin-top: -11px;
+    padding: 10px;
+    align-items: center;
+}
+
+.cho9 {
+    margin-left    : -85%;
+    width          : 8rem;
+}
+
+.header .dragon .cho9 span {
+
+    padding-left: 12px;
+}
+
+.header .dragon .cho span {
+    padding-left: 12px;
+}
+ 
+.cpUpperLeft img {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    margin-top: -20px;
+    margin-left: 42px;
+    border: 2px solid #7438FF;
+    position: relative; 
+}
+.profTitle{
+    margin-top: -45px;
+    margin-left: 121px;
+}
+.cpUpperLeft img:hover .menu-content{
+    display: flex;
+    flex-direction: column;
+}
+.header .navbar .dragon .cho9 {
+    margin-top: -4vw;
+    margin-left: 5vw;
+    width: 80px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+ 
+.menu-content {
+    position: absolute;
+    box-shadow: 0px 2px 6px rgba(0,0,0,20%);
+    padding: 10px 2px;
+    background-color:white;
+    margin-top:-70px;
+    border-radius: 5px;
+    z-index: 100;
+    transition-delay: 0.5s;
+     
+ }
+.menuList{
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 0px 10px;
+ }
+ .links{
+    text-decoration: none;
+    color: #363636;
+    font-family: Roboto;
+}
+
+
+@media screen and (max-width:430px) {
+    .header {
+        max-width       : 100%;
+        z-index         : 1;
+        transition      : .3s ease-in;
+        overflow        : hidden;
+        background-color: rgba(0, 0, 0, .9);
+    }
+    .cpUpperLeft{
+        display: flex;
+        flex-direction: row;
+        max-width: 10px; 
+    }
+    .cpUpperLeft img {
+        height: 46px;
+        margin-left: 20px;
+    }
+    .navprof{
+        width: 100px;
+    }
+    .profTitle{
+        color: #fff;
+        margin-top: -9px;
+        margin-left: 9px;
+        font-size: 17px;
+    }
+    .logo {
+        margin-top : 2.2vw;
+        width      : 50px;
+        height     : 50px;
+        margin-left: -10vw;
+    }
+
+    .header .nav-menu a {
+        color: #fff;
+        
+    }
+
+    .header .navbar {
+        color: white;
+        max-width: 100%;
+    }
+
+    .header .navbar .nav-menu {
+        color: white;
+    }
+
+    .hamburger {
+        display    : block;
+        margin-left: 75vw;
+        margin-top : -19vw;
+    }
+    .nav-menu{
+    margin-right: 0%;
+    margin-left: 0%;
+}
+
+
+    .nav-menu {
+        position        : fixed;
+        left            : -100%;
+        top             : 90px;
+        flex-direction  : column;
+        background-color: rgba(0, 0, 0, .9);
+        width           : 100%;
+        height          : 90vh;
+        z-index         : 999;
+        text-align      : center;
+        transition      : .3s;
+    }
+
+    .nav-menu.active {
+        left: 0;
+        
+    }
+
+    .nav-item {
+        margin: 1.5rem 0;
+    }
+
+    .header .navbar img {
+        width: 250px;
+    }
+
+   
+
+    .signin-up {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+
+    .dragon {
+        display: none;
+    }
+
+    .dragon .cho {
+        display: none;
+    }
+
+    .cho9 {
+        display: none;
+    }
+
+    .header .navbar .dragon .cho9 span {
+        display: none;
+    }
+
+    .header .navbar .dragon .cho span {
+        display: none;
+    }
+}

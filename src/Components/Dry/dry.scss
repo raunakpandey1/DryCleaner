@@ -1,0 +1,23 @@
+.container10{
+    padding: 4%;
+    background-color: #87ceea;
+}
+.ch{
+    margin: 8px;
+    width: inherit!important;
+    height: inherit!important;
+    }
+
+    .ripple{
+        font-size: 26px;
+    }
+    @media screen and (max-width: 430px) {
+        .container10{
+            margin: 0%;
+            padding: 2%;
+            background-color: #87ceea;
+            width:100%;
+
+        }
+ 
+    }

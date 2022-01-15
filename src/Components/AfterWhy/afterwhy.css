@@ -1,0 +1,40 @@
+.join1 {
+  padding: 4%;
+  background-color: #ffffff;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.title {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 2%;
+}
+
+@media screen and (max-width: 430px) {
+  .join1 {
+    padding: 0%;
+    margin: 0%;
+    margin-top: 0px;
+    z-index: 0;
+  }
+  .join1 .row {
+    display: block;
+  }
+  .join1 h2 {
+    font-size: 34px;
+  }
+  .join1 p {
+    font-size: 16px;
+    padding: 1rem;
+  }
+  .join1 .row .work {
+    padding: 2rem;
+  }
+  .join1 .row .told {
+    padding: 2rem;
+  }
+}
+/*# sourceMappingURL=afterwhy.css.map */

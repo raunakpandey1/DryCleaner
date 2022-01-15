@@ -1,0 +1,14 @@
+.catBody
+{
+   display: flex;  
+   justify-content: space-between;
+}
+
+.catTitle{
+    display: flex;
+    flex-direction: row;
+}
+
+.catTitle h4{
+    margin-left: 20px;
+}

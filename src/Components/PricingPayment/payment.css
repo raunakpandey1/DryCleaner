@@ -1,0 +1,71 @@
+.payment {
+  border: 1px solid #9F9B97;
+  padding: 3vw 3vw 3vw 3vw;
+  color: #8A7A77;
+  font-weight: 400;
+  margin: 2vw 10vw -2vw 10vw;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.pay1 {
+  color: black;
+  font-weight: 600;
+  font-size: 2.8vw;
+}
+
+.p98 {
+  font-weight: 500;
+}
+
+@media screen and (max-width: 430px) {
+  .payment {
+    border: 1px solid #9F9B97;
+    padding: 3vw 3vw 3vw 3vw;
+    color: #8A7A77;
+    font-weight: 500;
+    font-size: 3.5vw;
+    margin: 5vw 5vw 5vw 5vw;
+  }
+  .pay1 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    font-weight: 700;
+    font-size: 7.2vw;
+  }
+  .p99 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    font-weight: 400;
+    font-size: 3.8vw;
+    margin-top: 3.2vw;
+  }
+  .p98 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    font-weight: 500;
+    font-size: 3.8vw;
+  }
+}
+/*# sourceMappingURL=payment.css.map */

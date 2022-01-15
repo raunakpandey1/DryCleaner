@@ -1,0 +1,34 @@
+.scrollToTop {
+  background-color: #121258;
+  border-radius: 100%;
+  position: fixed;
+  height: 4rem;
+  width: 4rem;
+  bottom: 40px;
+  right: 40px;
+  z-index: 2000;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.scrollToTop svg {
+  color: white;
+  font-size: 2rem;
+}
+
+.scrollToTop:hover {
+  background-color: white;
+}
+
+.scrollToTop:hover svg {
+  color: #121258;
+}
+/*# sourceMappingURL=ScrollToTop.css.map */

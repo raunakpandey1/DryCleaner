@@ -1,0 +1,31 @@
+.head{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10vw 10vw 10vw 10vw;
+    font-size: 1.2vw;
+    color: #8A7A77;
+    font-weight: 500;
+}
+
+
+.b1{
+    margin-left: 3.0vw;
+    background-color: #87CEEA;
+    color: white;
+    border: none;
+    padding: 1vw 1vw 1vw 1vw;
+}
+
+@media screen and (max-width: 430px) {
+    .head{
+        font-size: 3.5vw;
+        position: relative;
+    }
+    .b1{
+        position: absolute;
+        margin-top: 25vw;
+        margin-right: 60vw;
+        padding: 2vw 2vw 2vw 2vw;
+    }
+}

@@ -1,0 +1,121 @@
+.major1 {
+  display: fixed;
+  background-color: white;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 80%;
+  height: 90vh;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 15px;
+  margin-bottom: 4%;
+  margin-left: 6%;
+}
+
+.major1 h2 {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 3%;
+  color: #04880f;
+  font-size: 42px;
+}
+
+.major1 .ex {
+  display: block;
+  padding: 1%;
+  margin-left: -8%;
+}
+
+.major1 .label1 {
+  margin-left: 16%;
+  color: #d1cccc;
+  margin-top: 1rem;
+  font-size: 18px;
+}
+
+.frt {
+  padding: 2%;
+  margin-left: 17%;
+}
+
+input[type="radio"] {
+  margin-right: 6%;
+}
+
+.major1 .label2 {
+  margin-left: 16%;
+  color: #d1cccc;
+  margin-top: 1rem;
+  font-size: 21px;
+}
+
+.ex27 {
+  margin-left: 0%;
+  color: #d1cccc;
+  margin-top: 1rem;
+  font-size: 22px;
+}
+
+.ex9 {
+  outline: 0;
+  border-width: 0 0 3px;
+  border-color: #d1cccc;
+  margin-left: 1%;
+  font-size: 18px;
+  padding-bottom: 0%;
+  width: 80%;
+}
+
+.garuda {
+  font-size: 22px;
+  justify-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 80%;
+  margin-left: 12%;
+  margin-top: 6%;
+}
+
+@media screen and (max-width: 430px) {
+  .major1 {
+    height: 73vh;
+  }
+  .ex27 {
+    margin-left: -10px;
+    color: #d1cccc;
+    margin-top: 1rem;
+    font-size: 18px;
+  }
+  .ex9 {
+    outline: 0;
+    border-width: 0 0 3px;
+    border-color: #d1cccc;
+    margin-left: -10px;
+    font-size: 18px;
+    padding-bottom: 0%;
+    width: 100%;
+  }
+  .garuda {
+    justify-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    width: 80%;
+    margin-left: 12%;
+    margin-top: 6%;
+    margin-left: 16%;
+  }
+}
+/*# sourceMappingURL=checkout.css.map */

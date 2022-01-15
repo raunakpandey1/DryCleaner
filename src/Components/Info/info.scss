@@ -1,0 +1,71 @@
+.major{
+    display:fixed;
+    background-color: rgb(255, 255, 255);
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 90vh;
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin-bottom: 4%;
+    margin-left: 6%;
+}
+
+.dj{
+    justify-content: center;
+    align-items: center;
+    
+}
+.major h2{
+    display:flex;
+align-items: center;
+justify-content: center;
+
+padding-top: 3%;
+color: rgb(4, 136, 15);
+}
+
+.major label{
+margin-left: 16%;
+color: #d1cccc;
+margin-top: 1rem;
+}
+.major input{
+    outline: 0;
+    border-width: 0 0 3px;
+    border-color: #d1cccc;
+    margin-left: 16%;
+    font-size:18px;
+    padding-bottom: 1%;
+    width:80%;
+    
+}
+.major .ex{
+    display: block;
+    padding: 1%;
+    margin-left:-8%;
+}
+
+.major .btn {
+    justify-items: center;
+    justify-content: center;
+    width:80%;
+    margin-left:16%;
+    margin-top:6%;
+    }
+
+@media screen and (max-width: 430px){
+.major{
+    height: 69vh;
+}
+.major h2{
+    font-size:25px
+}
+.major .btn {
+justify-items: center;
+justify-content: center;
+width:80%;
+margin-left:12%;
+margin-top:6%;
+}
+}
