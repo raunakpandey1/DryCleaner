@@ -2,6 +2,7 @@
 {
    display: flex;  
    justify-content: space-between;
+   
 }
 
 .venTitle{
@@ -11,4 +12,8 @@
 
 .venTitle h4{
     margin-left: 20px;
+}
+.servicebody{
+    margin:0 10%
+    
 }

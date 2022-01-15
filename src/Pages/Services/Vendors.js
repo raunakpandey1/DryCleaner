@@ -59,6 +59,7 @@ export const Vendors = () => {
       <br></br>
       <br></br>
       <br></br>
+      <div className="servicebody">
       <Row >
            <Col className="m-4">
                 <GridContainer>
@@ -99,6 +100,7 @@ export const Vendors = () => {
             </GridContainer>
       </Col>
       </Row>
+      </div>
     </div>
   );
 };

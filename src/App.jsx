@@ -14,6 +14,7 @@ import { Items } from "./Pages/Items/Items";
 import { AuthContextProvider } from "./auth/useAuth";
 import Cart from "./Pages/Carts/Cart";
 import Account from './Pages/Account/Account';
+import Contact from './Pages/Contact/Contact';
 
 
 
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/specials" element={<Specials />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/account" element={<Account />} />
+          <Route path="/contact" element={<Contact />} />
           
         </Routes>
         </AuthContextProvider>
