@@ -20,6 +20,8 @@ const Button = () => {
 
   
   return (
+
+    
     <div className="button100">
 
 
@@ -54,14 +56,15 @@ const Button = () => {
         <div
           className="ch btn btn-danger mr-5"
           style={{ borderRadius: '0.25em' }}
-        >
-          <span className="ripple">Submit Review</span>
+        >{ show ? <div onClick={closeModalHandler} className="back-drop"></div> : null }
+          <span onClick={() => setShow(true)} className="ripple">Submit Review</span>
+          <Modal show={show} close={closeModalHandler} />
           {/* start */}
-          <div >
+          {/* <div >
       { show ? <div onClick={closeModalHandler} className="back-drop"></div> : null }
       <button onClick={() => setShow(true)} className="btn-openModal">Submit Review</button>
       <Modal show={show} close={closeModalHandler} />
-    </div>
+    </div> */}
       {/* end */}
       
         </div>
