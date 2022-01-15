@@ -11,6 +11,7 @@ const Contact = () => {
         <div className="conta-body">
         <div class="container">
         <div class="text">Contact Form</div>
+        <div class="tea">Let' have a cup of tea</div>
         <form action="#">
            <div class="form-row">
               <div class="input-data">
