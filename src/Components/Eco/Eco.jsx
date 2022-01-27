@@ -23,7 +23,7 @@ const Eco = () => {
                         transition={{ delay: 0.2, type: "tween" }}
                     > What is Eco Friendly dry Cleaning
                     </motion.div></h2>
-                <Row className="row align-items-center">
+                <Row className="row align-items-center ">
                     <Col className="work xl=7 lg=6" ref={element}>
                         <motion.div
                             variants={textAnimation}
@@ -32,7 +32,7 @@ const Eco = () => {
                                 duration: 1,
                             }}
                         >
-                            <p>Most cleaners claim they are ‘eco-friendly’ however, if you look closer, they are using a dry cleaning solution called hydrocarbon. Yes, it is far better than the cancer-causing perchloroethylene, or PERC, which
+                            <p className='ecoCont'>Most cleaners claim they are ‘eco-friendly’ however, if you look closer, they are using a dry cleaning solution called hydrocarbon. Yes, it is far better than the cancer-causing perchloroethylene, or PERC, which
                                 will be banned as of 2023. However, hydrocarbon is still a petrochemical with little research on the ongoing effects on the environment and our health. Be cautious of cleaners that say they are ‘organic’, and/or ‘environmentally friendly’ dry cleaners, as hydrocarbon is a by-product of oil, which is actually ‘organic’ and naturally occurring. Be sure to ask, what dry cleaning solvent do you use!
                             </p>
 
@@ -42,7 +42,7 @@ const Eco = () => {
                         </motion.div>
                     </Col>
                     <Col className='told'>
-                        <div class="video" ref={element}>
+                        <div class="video434" ref={element}>
                             <motion.div
 
                                 variants={imageAnimation}

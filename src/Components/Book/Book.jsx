@@ -32,13 +32,13 @@ const Book = () => {
                                     <Row>
                                         <Col>
                                             {/* btn1 */}
-                                            <div className="ch btn btn-danger justify-content-center align-items-center" style={{ borderRadius: "0.25em" }}>
+                                            <div className="ch btn btn-success justify-content-center align-items-center" style={{ borderRadius: "0.25em" }}>
                                                 <span className="ripple">Book Now</span>
                                             </div>
                                         </Col>
                                         <Col>
                                             {/* btn2 */}
-                                            <div className="ch btn btn-danger justify-content-center align-items-center" style={{ borderRadius: "0.25em" }}>
+                                            <div className="ch btn btn-success justify-content-center align-items-center" style={{ borderRadius: "0.25em" }}>
                                                 <span className="ripple">Read Now</span>
                                             </div>
                                         </Col>
@@ -47,7 +47,7 @@ const Book = () => {
                                 </motion.div>
                         </Col>
                         <Col lg="6" md="6" className='where '>
-                            <div class="video" ref={element}>
+                            <div class="video56" ref={element}>
                                 <motion.div
 
                                     variants={imageAnimation}

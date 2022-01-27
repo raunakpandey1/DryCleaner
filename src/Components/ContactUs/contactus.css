@@ -1,0 +1,191 @@
+/* @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap'); */
+/* *{
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+} */
+/* body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px;
+  background: linear-gradient(115deg, #56d8e4 10%, #9f01ea 90%);
+} */
+.bluelinenew{
+    background: rgb(95, 177, 255);
+    height: 13vmin;
+    margin-top: 109px;
+    width: 100vw;
+    margin-bottom: 30px;
+}
+.bluelinenew p{
+    /* margin-top: auto; */
+    padding: 2.3% 0;
+    font-size: 2.2vmin;
+    font-weight: 500;
+    text-align: center;
+    color: white;
+}
+.contactpage{
+    display: flex;
+    height: 100vh;
+     
+  }
+  .signupContainer {
+    height: calc(100vh - 50px);
+    width: 60%;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:5px
+}
+.text{
+  /* text-align: center; */
+  font-size: 35px;
+  font-weight: 600;
+  color: #000;
+}
+  .tea{
+    font-size: 2.6vmin;
+    color: #444;
+    margin-top: 1%;
+}
+.signupWrapper {
+    width: 80%;
+    height: 85%;
+     
+    display: flex;
+}
+
+.signupRight {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.signupBox {
+    border-radius: 5%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: space-around;
+    box-shadow: 0px 0px 27px -10px rgba(0,0,0,0.45);
+    -webkit-box-shadow: 0px 0px 27px -10px rgba(0,0,0,0.45);
+    -moz-box-shadow: 0px 0px 27px -10px rgba(0,0,0,0.45);
+}
+.divinput{
+    display: flex;
+     width: 100%;
+     position: relative;
+      
+ }
+ .divinput label{
+        position: absolute;
+        top: 8px;
+        left: 10px;
+        color: rgb(117 98 98);
+        text-transform: capitalize;
+        font-size: 18px;
+        transition: top .3s;
+        padding: 0 5px;
+        pointer-events: none;
+ }
+ .divinput input:focus ~ label, .divinput input:not(:focus):valid ~ label{
+        top:-12px;
+        background-color:white ;
+        font-size: 15px;
+        color: #1775ee;
+        border-radius: 10px;
+}
+      
+.signupInput {
+    height: 40px;
+    background: transparent;
+    padding-left: 20px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid grey;
+    outline: none;
+    width: 100%;
+}
+.signupInput:focus {
+    border: 1px solid blue;
+}
+ 
+
+.signupButton, .loginRegisterButton {
+    height: 40px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+.signupButton{
+    background-color: #283290;
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+}
+.signupButton:disabled{
+    cursor: not-allowed;
+}
+ 
+.contactpage .right{
+    
+  margin-top: 4rem ;
+  margin-left: 30px;
+  align-items: center;
+  justify-content: center;
+}
+ .right h2{
+   
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+.right h3{
+   
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+.atag{
+   margin-bottom: 35px;
+ }
+@media only screen and (max-width: 768px) {
+  .contactpage{
+    flex-direction: column;
+  }
+   
+
+
+.signupContainer {
+  margin:5px auto;
+  width:80%
+}
+.signupWrapper {
+  width: 100%;
+    
+}
+
+.tea{
+  font-size: 3.6vmin;
+  
+}
+.contactpage .right{
+    
+    margin-top: 15px ;
+    margin-left: 30px;
+    align-items: center;
+    justify-content: center;
+}
+ 
+.divadd{
+  margin-top: 5%;
+}
+}

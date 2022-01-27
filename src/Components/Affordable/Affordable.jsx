@@ -70,7 +70,7 @@ const Affordable = () => {
                 </Row >
 {/* button */}
                 <div className='last69'>
-                <div className="ch btn btn-danger justify-content-center align-items-center"style={{borderRadius:"0.25em"}}>
+                <div className="ch btn btn-success justify-content-center align-items-center"style={{borderRadius:"0.25em"}}>
         <span className="ripple">View Full Price List</span>
       </div>
                 </div>

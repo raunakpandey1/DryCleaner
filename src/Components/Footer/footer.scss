@@ -7,4 +7,18 @@
     text-decoration: none;
     }
     
-    
+ .footImg{
+     width: 20%;
+ } 
+ .footer-social{
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+ }
+
+ .imgSocialFoot{
+     cursor: pointer;
+ }
+ .yelpFoot{
+     margin-left: -13%;
+ }

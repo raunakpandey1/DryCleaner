@@ -17,7 +17,20 @@
 .gt{
     margin-right: 50px;
 }
+ 
+.storeregInput {
+    background: transparent;
+    border-radius: 10px;
+    padding-left: 3%;
+    border: 1px solid grey;
+    outline: none;
+     height: 30px;
+}
+.storeregInput:focus {
+    border: 1px solid blue;
+}
 
+ 
 .ckButton{
     background-color: #42b72a;
     margin: 20px;
@@ -46,7 +59,9 @@
     font-size: 25px;
     cursor: pointer;
 }
-
+ .col-3{
+     width: 180px !important;
+ }
 
 
 
@@ -120,7 +135,34 @@
 .row1{
     margin: 10px auto;
 }
+.btn-primary{
+    color : white !important
+}
 
+.addzip{
+    margin-top: 4%;
+}
+.modal-content{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 3.3rem !important;
+    outline: 0;
+}
+/* .modal11{
+    border-radius: 10% !important;
+     
+} */
+
+.contBtn{
+    width: 50%;
+    margin: auto;
+}
 @media only screen and (max-width: 650px) {
     .addtocartpageWrapper{
         margin: 10px 0px;

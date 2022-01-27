@@ -23,7 +23,7 @@ import { Card, CardMedia, makeStyles } from "@material-ui/core";
 import { onAuthStateChanged } from "firebase/auth";
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    margin: theme.spacing(0),
+    margin: theme.spacing(1),
     minWidth: 160,
   },
   media: {
@@ -59,13 +59,16 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
   const [state, setState] = useState({
     fullName: "",
     email: "",
-    alternative_phone: "",
+    alternative: "",
     phone: "",
     address: "",
-    cardName: "",
+    cardHolderName: "",
     cardNumber: "",
     expiry: "",
     cvv: "",
+    foldedOrHanged:"",
+    pickupTag:"",
+    starchPref:"",
     dropAddress: {
       address: "",
       tag: "",
@@ -79,7 +82,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
   });
 
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const [discountPrice, setDiscountPrice] = useState(0);
   const handleIncrement = async (e) => {
     e.quantity += 1;
     const userCartRef = doc(db, "users", users.uid);
@@ -112,12 +115,32 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
     await addDoc(collection(db, "OrderHistory"), {
       ...state,
       items: userCartItems,
-      user_id: users && user.uid ? users.uid : "",
+      userId: users && user.uid ? users.uid : "",
       createdAt: Timestamp.now(),
-      totalAmount: totalPrice,
+      totalAmount: totalPrice ,
+       finalAmount : totalPrice - discountPrice,
+       couponCode : appliedCoupon && appliedCoupon.coupon && appliedCoupon.coupon.code ?  appliedCoupon.coupon.code :"",
+       discountAmount : discountPrice
     });
-    alert("Order Placed Successfully");
-    navigate("/");
+    setTotalPrice(0)
+    setDiscountPrice(0)
+    const userCartRef = doc(db, "users", users.uid);
+
+    // push updated cart items to db
+    await updateDoc(userCartRef, {cardHolderName : state?.cardHolderName , cardNumber : state?.cardNumber , cvv : state?.cvv ,expiry :state?.expiry,  pickupAddress: {address : state.pickupAddress.address , zipCode : state.pickupAddress.zipCode}, dropAddress: {address : state.dropAddress.address , zipCode : state.dropAddress.zipCode}});
+    // alert("Order Placed Successfully");
+    setPlacedMessage({
+      status: true,
+      message: "Congratulations for placing this order \n\n\n Please follow us on Facebbok and Instagram for special offer updates",
+    });
+    handleOpenOrderPlacedModal()
+    userCartItems.length && (
+      userCartItems.map((mCartItem, index) => (
+         deleteCartItem(mCartItem) 
+                 
+      ))
+    )
+    // navigate("/");
   };
   const handleOpenSubTypesModal = () => setSubTypesModal(true);
   const handleCloseSubTypesModal = () => {
@@ -149,6 +172,19 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
   const [thankYouModal, setThankYouModal] = useState(false);
   const handleOpenThankYouModal = () => setThankYouModal(true);
   const handleCloseThankYouModal = () => setThankYouModal(false);
+
+
+  const [orderPlacedModal, setOrderPlacedModal] = useState(false);
+  const handleOpenOrderPlacedModal = () => setOrderPlacedModal(true);
+  const handleCloseOrderPlacedModal = () => setOrderPlacedModal(false);
+
+  const [placedMessage, setPlacedMessage] = useState({
+    status: false,
+    message: "",
+  });
+
+
+
 
   const [congratsMessage, setCongratsMessage] = useState({
     status: false,
@@ -205,11 +241,20 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       setTotalPrice(total);
       console.log(total);
       setUserCartItems(userSnap.data().carts);
+      console.log(userSnap.data())
       setUserData(userSnap.data());
       state.fullName = userSnap.data()["fullName"];
       state.email = userSnap.data()["email"];
       state.address = userSnap.data()["currentAddress"]["address"];
       state.phone = userSnap.data()["phoneNumber"];
+      state.cardHolderName = userSnap.data()["cardHolderName"];
+      state.cardNumber = userSnap.data()["cardNumber"];
+      state.cvv = userSnap.data()["cvv"];
+      state.expiry = userSnap.data()["expiry"];
+      state.dropAddress.address = userSnap.data()["dropAddress"]["address"];
+      state.dropAddress.zipCode = userSnap.data()["dropAddress"]["zipCode"];
+      state.pickupAddress.address = userSnap.data()["pickupAddress"]["address"];
+      state.pickupAddress.zipCode = userSnap.data()["pickupAddress"]["zipCode"];
     } else {
       setUserCartItems([]);
     }
@@ -230,43 +275,20 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
   };
 
   const checkCouponValidity = async (mCoupon) => {
-    // decrement quantity after success apply
-
-    // check if date is valid
-    // if (new Date() > new Date(mCoupon.validity)) {
-    //   return setCongratsMessage({
-    //     status: false,
-    //     message: `This coupon is expired`,
-    //   });
-    // }
-
-    // order amount > min_order_amount
-
-    // TODO: replace discount with value from db
-
-    let benefit = userCartItems[0].price;
-    // total benefit < max_benefit
-    if (benefit > mCoupon.max_benefit) {
-      benefit = mCoupon.max_benefit;
-    }
-    const couponDoc = doc(db, "coupons", mCoupon.id);
-    await updateDoc(couponDoc, { quantity: increment(-1) });
+  
+    setDiscountPrice(mCoupon.discount)
+    let val1 = mCoupon.discount
     setCongratsMessage({
       status: true,
-      message: `Congrats! You saved $ ${benefit}`,
+      message: `Congrats! You saved $ ${mCoupon.discount}`,
     });
     setAppliedCoupon({
       status: true,
       coupon: mCoupon,
-      benefit,
+      val1
     });
-
-    // else {
-    //   setCongratsMessage({
-    //     status: false,
-    //     message: `Minimum order amount is $ ${mCoupon.min_order}`,
-    //   });
-    // }
+  
+    
   };
 
   return (
@@ -288,6 +310,8 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
         aria-hidden="true"
         centered
       > */}
+      {/* <div className="cho btn-danger " onClick={() => navigate('/orderDetails')} style={{ borderRadius: "1em" , marginTop: "10px" , marginLeft: "80px" ,height :"40px" , width : "140px"}}>
+      <span className="ripple27" >ORDER DETAILS</span></div> */}
       <div className="modal-dialog-centered">
         <div
           className="modal-dialog-centered"
@@ -377,7 +401,13 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                       {totalPrice}
                     </h3>
                   </div>
-
+                  <br></br><br></br>
+                  <div className="col-12 d-flex justify-content-center">
+                    <h3>
+                      <label>Final price : $</label>
+                      {totalPrice - discountPrice}
+                    </h3>
+                  </div>
                   <div className="col-12 d-flex justify-content-center">
                     <button
                       style={{ backgroundColor: "#c9002b", border: "none" }}
@@ -397,7 +427,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                     <>
                       <div className="col-12 add_coupons">
                         <div className="booking_product_inr">
-                          <button className="btn">
+                          <button className="btn" onClick={handleOpenCouponModal}>
                             ADD COUPONS{" "}
                             <i
                               className="fa fa-chevron-right"
@@ -468,13 +498,13 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
           <div className="modal-content">
             <div className="modal-body">
               <div className="apply_coupons_main">
-                <button className="btn header_back_modal">
+                <button className="btn header_back_modal"  onClick={handleCloseCouponModal}>
                   <i
-                    onClick={handleCloseCouponModal}
+                   
                     className="fa fa-arrow-left"
                     aria-hidden="true"
                   ></i>{" "}
-                  Apply coupon
+                  Back
                 </button>
                 <div className="enter_cooupon_code">
                   <input
@@ -493,23 +523,40 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                     // data-target="#exampleModa5"
                     // data-dismiss="modal"
                     onClick={() => {
+                      console.log(state.code)
                       var containItem = couponsList.find((element) => {
                         return element.code === state.code;
                       });
-                      if (containItem)
-                        totalPrice = totalPrice - containItem.price;
-                    }}
+                      if (containItem){
+                        console.log(containItem.discount)
+                        setDiscountPrice(containItem.discount)
+                        let val1 = containItem.discount
+                        setCongratsMessage({
+                          status: true,
+                          message: `Congrats! You saved $ ${containItem.discount}`,
+                        });
+                        setAppliedCoupon({
+                          status: true,
+                          coupon: containItem,
+                          val1
+                        });
+                        
+                        }
+                        
+                    }
+                    
+                    }
                   >
                     Apply
                   </button>
                 </div>
-                <h3>Applicable coupons</h3>
+                {/* <h3>Applicable coupons</h3>
                 {couponsList && couponsList.length
                   ? couponsList.map((mCoupon) => (
                       <div className="applicable_coupons">
                         <h5>{mCoupon.code}</h5>
                         <p className="d-flex justify-content-between align-items-center">
-                          {/* {mCoupon.description} */}
+                           
                           <button
                             type="button"
                             className="btn btn-primary"
@@ -523,7 +570,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                         </p>
                       </div>
                     ))
-                  : ""}
+                  : ""} */}
               </div>
             </div>
           </div>
@@ -555,6 +602,10 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
             <button
               type="button"
               className="btn btn-info"
+              onClick={() => {
+                  setCongratsMessage({ status: false, message: "" });
+                  handleCloseCongratsModal();
+                }}
               // data-toggle="modal"
               // data-target="#exampleModa3"
               // data-dismiss="modal"
@@ -562,10 +613,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
               <i
                 class="fa fa-times"
                 aria-hidden="true"
-                onClick={() => {
-                  setCongratsMessage({ status: false, message: "" });
-                  handleCloseCongratsModal();
-                }}
+                
               ></i>
             </button>
           </div>
@@ -573,23 +621,64 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
       </Modal>
       {/* CONGRATS */}
 
+
+{/* Order Placed */}
+<Modal
+        show={orderPlacedModal}
+        onHide={handleCloseOrderPlacedModal}
+        className="congrats_model you_save_aed_10"
+        id="exampleModa5"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        centered
+      >
+        <div className="modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-body">
+              {/* {congratsMessage.status ? (
+                  <img className="img-fluid" src={noto} alt="dd" />
+                ) : (
+                  ""
+                )} */}
+              <h4>{placedMessage.message}</h4>
+            </div>
+            <button
+              type="button"
+              className="btn btn-info"
+              onClick={() => {
+                  setPlacedMessage({ status: false, message: "" });
+                  handleCloseOrderPlacedModal();
+                }}
+            >
+              <i
+                class="fa fa-times"
+                aria-hidden="true"
+                
+              ></i>
+            </button>
+          </div>
+        </div>
+      </Modal>
+      {/* Order Placed */}
+
       {/* DATE TIME MODAL */}
       <Modal
         show={dateTimeModal}
         onHide={handleCloseDateTimeModal}
-        className="fade payment_modal_design"
+        className="fade payment_modal_design "
         id="exampleModa9"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog-centered">
-          <div className="modal-content">
+        <div className="modal-dialog-centered ">
+          <div className="modal-content modal11">
             <div className="modal-body">
               <div className="apply_coupons_main">
-                <button className="btn header_back_modal">
+                <button className="btn header_back_modal" onClick={handleCloseDateTimeModal}>
                   <i
-                    onClick={handleCloseDateTimeModal}
+                    
                     className="fa fa-arrow-left"
                     aria-hidden="true"
                   ></i>{" "}
@@ -600,7 +689,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 <div className="row row1">
                   <div className="col-3">
                     {" "}
-                    <label>Name</label>{" "}
+                    <label><b>Name</b></label>{" "}
                   </div>
                   <div className="col-3">
                     {" "}
@@ -613,14 +702,14 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                         name="name"
                         value={state.fullName}
                         onChange={(event) => changeCreds(event)}
-                      />
+                      required/>
                     </div>
                   </div>
                 </div>
                 <div className="row row1">
                   <div className="col-3">
                     {" "}
-                    <label>Email</label>{" "}
+                    <label><b>Email</b></label>{" "}
                   </div>
                   <div className="col-3">
                     {" "}
@@ -633,7 +722,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                         className="storeregInput"
                         value={state.email}
                         onChange={(event) => changeCreds(event)}
-                      />
+                      required/>
                     </div>
                   </div>
                 </div>
@@ -641,7 +730,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 <div className="row row1">
                   <div className="col-3">
                     {" "}
-                    <label>Number</label>{" "}
+                    <label><b>Number</b></label>{" "}
                   </div>
                   <div className="col-3">
                     {" "}
@@ -654,14 +743,14 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                         className="storeregInput"
                         value={state.phone}
                         onChange={(event) => changeCreds(event)}
-                      />
+                      required/>
                     </div>
                   </div>
                 </div>
                 <div className="row row1">
                   <div className="col-3">
                     {" "}
-                    <label>Alternate Number</label>{" "}
+                    <label><b>Alternate Number</b></label>{" "}
                   </div>
                   <div className="col-3">
                     {" "}
@@ -672,9 +761,9 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                         id="alternative"
                         name="alternative"
                         className="storeregInput"
-                        value={state.alternative_phone}
+                        value={state.alternative}
                         onChange={(event) => changeCreds(event)}
-                      />
+                      required/>
                     </div>
                   </div>
                 </div>
@@ -723,7 +812,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 <div className="row row1">
                   <div className=" col-3">
                     {" "}
-                    <label>Pickup Tag</label>{" "}
+                    <label><b>Pickup Tag</b></label>{" "}
                   </div>
                   <div className="col-3">
                     {" "}
@@ -731,18 +820,21 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                       <FormControl variant="outlined">
                         <InputLabel>PickupTag</InputLabel>
                         <Select
-                          id="PickupTag"
-                          name="PickupTag"
+                          id="pickupTag"
+                          name="pickupTag"
                           value={state.pickupTag}
                           className={classes.formControl}
                           label="pickupTag"
                           onChange={(event) => changeCreds(event)}
-                        >
+                        required>
                           <MenuItem value="Leaving it outside in front porch or back porch">
                             Leaving it outside in front porch or back porch
                           </MenuItem>
                           <MenuItem value="Leaving it with the doorman">
                             Leaving it with the doorman
+                          </MenuItem>
+                          <MenuItem value="Someone will be available at home during pickup">
+                            Someone will be available at home during pickup
                           </MenuItem>
                         </Select>
                       </FormControl>
@@ -752,7 +844,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 <div className="row row1">
                   <div className=" col-3">
                     {" "}
-                    <label>Select Time Slot</label>{" "}
+                    <label><b>Select Time Slot</b></label>{" "}
                   </div>
                   <div className="col-3">
                     {" "}
@@ -766,7 +858,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                           className={classes.formControl}
                           label="pickupTimeSlot"
                           onChange={(event) => changeCreds(event)}
-                        >
+                        required>
                           <MenuItem value="9:00 am - 5:00 pm">
                             9:00 am - 5:00 pm
                           </MenuItem>
@@ -782,8 +874,12 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 <div className="row justify-content-end m-0">
                   <button
                     type="button"
-                    className="btn btn-primary next_btnn"
+                    className="btn btn-primary next_btnn contBtn"
                     onClick={() => {
+                      if(state.pickupTag =="" || state.alternative =="" || state.pickupTimeSlot==""){
+                        alert('Complete all fields')
+                        return
+                      }
                       handleOpenThankYouModal();
                       handleCloseDateTimeModal();
                     }}
@@ -816,11 +912,16 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
           <div className="modal-content">
             <div className="modal-body">
               <div className="apply_coupons_main">
-                <button className="btn header_back_modal">
+                <button className="btn header_back_modal" onClick={() => {
+                  
+                    handleClosePaymentModal()
+                    handleOpenThankYouModal();
+                  }}>
                   <i
                     className="fa fa-arrow-left"
                     aria-hidden="true"
-                    onClick={handleClosePaymentModal}
+                    
+                    
                   ></i>{" "}
                   Payment Details
                 </button>
@@ -830,7 +931,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 <div className="row row1">
                   <div className="col-3">
                     {" "}
-                    <label>Card Holder Name</label>{" "}
+                    <label><b>Card Holder Name</b></label>{" "}
                   </div>
 
                   <div className="col-3">
@@ -839,10 +940,10 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                       <input
                         type="text"
                         required
-                        id="cardName"
-                        name="cardName"
+                        id="cardHolderName"
+                        name="cardHolderName"
                         className="storeregInput"
-                        value={state.cardName}
+                        value={state.cardHolderName}
                         onChange={(event) => changeCreds(event)}
                       />
                     </div>{" "}
@@ -852,7 +953,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 <div className="row row1">
                   <div className="col-3">
                     {" "}
-                    <label>Card Number</label>{" "}
+                    <label><b>Card Number</b></label>{" "}
                   </div>
                   <div className="col-3">
                     <div className="divinput">
@@ -872,7 +973,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 <div className="row row1">
                   <div className="col-3">
                     {" "}
-                    <label>Expiry</label>{" "}
+                    <label><b>Expiry</b></label>{" "}
                   </div>
                   <div className="col-3">
                     {" "}
@@ -893,7 +994,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 <div className="row row1">
                   <div className="col-3">
                     {" "}
-                    <label>CVV</label>{" "}
+                    <label><b>CVV</b></label>{" "}
                   </div>
                   <div className="col-3">
                     {" "}
@@ -913,8 +1014,12 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                 <div className="row justify-content-end m-0">
                   <button
                     type="button"
-                    className="btn btn-success next_btnn"
+                    className="btn btn-success next_btnn contBtn"
                     onClick={(event) => {
+                      if(state.cardNumber =="" || state.cardName =="" || state.cvv=="" || state.expiry ==""  ){
+                        alert('Complete all fields')
+                        return
+                      }
                       handleClosePaymentModal();
                       handleSubmit(event);
                     }}
@@ -945,9 +1050,13 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
           <div className="modal-content">
             <div className="modal-body">
               <div className="apply_coupons_main">
-                <button className="btn header_back_modal">
+                <button className="btn header_back_modal" onClick={() => {
+                    // console.log('HEWllo')
+                    handleOpenDateTimeModal()
+                    handleCloseThankYouModal();
+                  }}>
                   <i
-                    onClick={handleCloseThankYouModal}
+                    
                     className="fa fa-arrow-left"
                     aria-hidden="true"
                   ></i>{" "}
@@ -957,7 +1066,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
               <div className="row row1">
                 <div className=" col-3">
                   {" "}
-                  <label>Starch you want</label>{" "}
+                  <label><b>Starch you want</b></label>{" "}
                 </div>
                 <div className="col-3">
                   {" "}
@@ -983,7 +1092,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
               <div className="row row1">
                 <div className=" col-3">
                   {" "}
-                  <label>How you want</label>{" "}
+                  <label><b>How you want</b></label>{" "}
                 </div>
                 <div className="col-3">
                   {" "}
@@ -991,10 +1100,10 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                     <FormControl variant="outlined" halfWidth>
                       <InputLabel> Select </InputLabel>
                       <Select
-                        id="starchPref"
-                        name="starchPref"
-                        value={state.starchPref}
-                        label="starchPref"
+                        id="foldedOrHanged"
+                        name="foldedOrHanged"
+                        value={state.foldedOrHanged}
+                        label="foldedOrHanged"
                         className={classes.formControl}
                         onChange={(event) => changeCreds(event)}
                       >
@@ -1008,17 +1117,18 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
               <div className="row row1">
                 <div className=" col-3">
                   {" "}
-                  <label>PickUp Date</label>{" "}
+                  <label><b>PickUp Date</b></label>{" "}
                 </div>
                 <div className="col-3">
                   {" "}
                   <div className="divinput">
                     <input
                       type="date"
+                       
                       required
                       id="pickupDate"
                       name="pickupDate"
-                      className="storeregInput"
+                      className="pkDate storeregInput"
                       value={state.pickupDate}
                       onChange={(event) => changeCreds(event)}
                     />
@@ -1038,7 +1148,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
               <div className="row row1">
                 <div className=" col-3">
                   {" "}
-                  <label>Drop Date</label>{" "}
+                  <label><b>Drop Date</b></label>{" "}
                 </div>
                 <div className="col-3">
                   {" "}
@@ -1057,9 +1167,30 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
               </div>
 
               <div className="row row1">
+                <div className=" col-3">
+                  {" "}
+                  <label><b>Pickup Time</b></label>{" "}
+                </div>
                 <div className="col-3">
                   {" "}
-                  <label>Drop Address</label>{" "}
+                  <div className="divinput">
+                    <input
+                      type="time"
+                      required
+                      id="pickupTime"
+                      name="pickupTime"
+                      className="storeregInput"
+                      value={state.pickupTime}
+                      onChange={(event) => changeCreds(event)}
+                    />
+                  </div>{" "}
+                </div>
+              </div>
+
+              <div className="row row1">
+                <div className="col-3">
+                  {" "}
+                  <label><b>Drop Address</b></label>{" "}
                 </div>
                 <div className="col-3">
                   {" "}
@@ -1069,6 +1200,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                       required
                       id="address"
                       name="address"
+                      value={state.dropAddress.address}
                       placeholder="Address"
                       className="storeregInput"
                       onChange={(e) => {
@@ -1080,7 +1212,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                           },
                         });
                       }}
-                    />
+                    /></div>
                     {/* <input
                       type="text"
                       required
@@ -1098,11 +1230,14 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                         });
                       }}
                     /> */}
+                     
+                    <div className="divinput addzip">
                     <input
                       type="text"
                       required
                       id="zipCode"
                       name="zipCode"
+                      value={state.dropAddress.zipCode}
                       className="storeregInput"
                       placeholder="zipcode"
                       onChange={(e) => {
@@ -1118,11 +1253,11 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                   </div>{" "}
                 </div>
               </div>
-
+               
               <div className="row row1">
                 <div className="col-3">
                   {" "}
-                  <label>Pickup Address</label>{" "}
+                  <label><b>Pickup Address</b></label>{" "}
                 </div>
                 <div className="col-3">
                   {" "}
@@ -1132,6 +1267,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                       required
                       id="address"
                       name="address"
+                      value={state.pickupAddress.address}
                       placeholder="Address"
                       className="storeregInput"
                       onChange={(e) => {
@@ -1143,7 +1279,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                           },
                         });
                       }}
-                    />
+                    /> </div>
                     {/* <input
                       type="text"
                       required
@@ -1161,11 +1297,13 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                         });
                       }}
                     /> */}
+                    <div className="divinput addzip">
                     <input
                       type="text"
                       required
                       id="zipCode"
                       name="zipCode"
+                      value={state.pickupAddress.zipCode}
                       className="storeregInput"
                       placeholder="zipcode"
                       onChange={(e) => {
@@ -1184,8 +1322,12 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
               <div className="row justify-content-end m-0">
                 <button
                   type="button"
-                  className="btn btn-primary next_btnn"
+                  className="btn btn-primary next_btnn contBtn"
                   onClick={() => {
+                    if(state.starchPref =="" || state.foldedOrHanged =="" || state.dropDate=="" || state.pickupDate =="" || state.dropAddress.address =="" ||state.dropAddress.zipCode =="" || state.pickupAddress.address =="" ||state.pickupAddress.zipCode ==""  ){
+                        alert('Complete all fields')
+                        return
+                      }
                     handleOpenPaymentModal();
                     handleCloseThankYouModal();
                   }}

@@ -1,0 +1,220 @@
+.development-cards{
+    margin-top: 6%;
+    background: none;
+  }
+  .section-containerrr
+  {
+  margin-bottom: 20vmin;
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  }
+  .section-containerrr .columnsss
+  {
+  flex:0 0 auto;
+  width:45%;
+  }
+  .section-containerrr .colsss
+  {
+  flex:0 0 auto;
+  width:53%;
+  }
+  
+  .section-containerrr .columnsss.imageee
+  {
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  }
+  .section-containerrr .colsss.imggg
+  {
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  }
+  /* .section-containerrr .colsss.imggg img{
+    margin-right: 10%;
+  } */
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  .section-containerrr .columnsss.contenttt .content-containerrr
+  {
+  padding:40px 90px;
+  margin-left: 2%;
+  
+  }
+  .section-containerrr .columnsss.contenttt .content-containerrr h6{
+    font-size: 2.6vmin;
+    color: #444;
+    font-weight: 450;
+  
+  }
+  
+  .section-containerrr .columnsss.contenttt .content-containerrr h5
+  {
+  
+  margin-top: 10%;
+  font-weight: 650;
+  font-size: 6.5vmin;
+  line-height: 8vmin;
+  font-family: Inter;
+  color: #222;
+  }
+  .section-containerrr .columnsss.contenttt .content-containerrr p
+  {
+  
+  font-weight: 400;
+  padding: 2% 0;
+  font-size: 2.4vmin;  
+  color: rgba(33, 33, 33, 0.6);    
+  
+  }
+  .section-containerrr .columnsss.contenttt .content-containerrr a
+  {
+    display: inline-block;
+    background: none;
+    color:#FF9C33;
+    font-size: 2.4vmin;
+    font-weight: 600;
+    padding: 2vmin 5%;
+    margin-top: 20px;
+    border-radius: 6vmin;
+    border: 2px solid #FF8300;
+    transition: all 0.3s ease;
+  }
+  
+  @media screen and (max-width:767px)
+  {
+  .section-containerrr
+  {
+  flex-flow:row wrap;
+  }
+  .section-containerrr .columnsss.imageee{
+  display:block;
+  order:1;
+  width:100%;
+  height:250px;
+  
+  }
+  .section-containerrr .colsss.imggg{
+    display:block;
+    order:1;
+    padding: 1rem;
+    width:100%;
+    }
+  .section-containerrr .columnsss.contenttt
+  {
+  display:block;
+  order:2;
+  width:100%;
+  }
+  .section-containerrr .columnsss.contenttt .content-containerrr
+  {
+  padding:20px 45px;
+  }
+  .section-containerrr .columnsss.contenttt .content-containerrr h5
+  {
+  margin-bottom:5px;
+  }
+  
+   
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  .tilt-box-wrap{
+      /* width: 600px;
+      height: 600px; */
+      position: relative;
+      transition: all 0.6s ease-out;
+      perspective: 1000px
+  }
+  .tilt-box-wrap:hover{
+      transition: all 0.3s linear;
+      transform: scale(1.1);
+  }
+  .tilt-box{
+      width: 100%;
+      height: 100%;
+      background: none;
+      position: relative;
+      display: flex;
+      /* align-items: center; */
+      justify-content: space-around;
+      text-align: center;
+      color: #fff;
+      font-size: 90px;
+      font-weight: 700;
+      text-transform: uppercase;
+      transition: all 0.6s ease-out;
+      transform:rotateX(0deg) rotateY(0deg);
+      perspective: 1000px;
+      transform-style: preserve-3d;
+  }
+  .tilt-box strong{
+      transform:translateZ(40px);
+  }
+  .t_over{
+      width: 33.333%;
+      height: 33.333%;
+      position: absolute;
+      z-index: 1;
+  }
+  
+  .t_over:nth-child(1){ left: 0; top: 0; }
+  .t_over:nth-child(2){ left: 33.333%; top: 0; }
+  .t_over:nth-child(3){ left: 66.666%; top: 0; }
+  .t_over:nth-child(4){ left: 0; top: 33.333%; }
+  .t_over:nth-child(5){ left: 33.333%; top: 33.333%; }
+  .t_over:nth-child(6){ left: 66.666%; top: 33.333%; }
+  .t_over:nth-child(7){ left: 0; top: 66.666%; }
+  .t_over:nth-child(8){ left: 33.333%; top: 66.666%; }
+  .t_over:nth-child(9){ left: 66.666%; top: 66.666%; }
+  .t_over:nth-child(1):hover ~ .tilt-box{transform:rotateX(-20deg) rotateY(20deg);}
+  .t_over:nth-child(2):hover ~ .tilt-box{transform: rotateX(-20deg) rotateY(0deg)}
+  .t_over:nth-child(3):hover ~ .tilt-box{transform: rotateX(-20deg) rotateY(-20deg)}
+  .t_over:nth-child(4):hover ~ .tilt-box{transform: rotateX(0deg) rotateY(20deg)}
+  .t_over:nth-child(5):hover ~ .tilt-box{transform: rotateX(0deg) rotateY(0deg)}
+  .t_over:nth-child(6):hover ~ .tilt-box{transform: rotateX(0deg) rotateY(-20deg)}
+  .t_over:nth-child(7):hover ~ .tilt-box{transform:rotateX(20deg) rotateY(20deg);}
+  .t_over:nth-child(8):hover ~ .tilt-box{transform: rotateX(20deg) rotateY(0deg)}
+  .t_over:nth-child(9):hover ~ .tilt-box{transform: rotateX(20deg) rotateY(-20deg)}
+  
+  
+  
+  
+  

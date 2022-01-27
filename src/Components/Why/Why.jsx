@@ -46,7 +46,7 @@ const Why = () => {
             </motion.div>
           </Col>
           <Col className='told'>
-            <div class="video" ref={element}>
+            <div class="video1" ref={element}>
               <motion.div
 
                 variants={imageAnimation}

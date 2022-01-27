@@ -1,0 +1,274 @@
+/* services section styling */
+/* slider start*/
+
+.container2 {
+  max-width: 100vw;
+}
+.container2 .carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.container2 .carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.container2 .carousel .item {
+  margin: 8vmin 2vmin;
+  padding: 4vmin;
+  width: 60vmin;
+  border-radius: 16px;
+  flex: none;
+}
+.container2 .carousel .item {
+  box-shadow: 10px 20px 9px rgba(0, 0, 0, 0.5);
+  background: #333;
+  border-top: 3px solid white;
+  border-left: 3px solid white;
+  backdrop-filter: blur(5px);
+}
+.container2 .carousel .item:hover {
+  background: crimson;
+}
+.container2 .carousel .item .box {
+  transition: all 0.3s ease;
+}
+.container2 .carousel .item:hover .box {
+  transform: scale(1.05);
+}
+.container2 .buttons {
+  width: 100%;
+  text-align: center;
+}
+.container2 .buttons button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.container2 .buttons button:first-child img {
+  transform: rotate(180deg);
+}
+
+/* .set img{
+      border-radius: 50%;
+      width: 30%;
+      height: auto;
+  } */
+.item img {
+  border-radius: 50%;
+  /* border: 3px solid white; */
+  width: 25%;
+  height: auto;
+}
+.container2 .carousel .box h4 {
+  font-size: 3vmin;
+  font-weight: 600;
+}
+.container .carousel .item .name {
+  font-size: 2.8vmin;
+  font-weight: bold;
+  margin-left: 9%;
+  text-decoration: none;
+  margin-top: 900%;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+}
+.stars {
+  color: yellow;
+  margin-left: 30%;
+}
+
+.description {
+  color: #fff;
+  font-size: 2vmin;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+}
+
+.services,
+.teams {
+  color: #fff;
+  padding: 5% 0;
+  background-color: rgba(221, 221, 221, 0.959);
+}
+.services h2 {
+  font-size: 7vmin;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding-bottom: 30px;
+  margin: 2px auto;
+}
+.services h3 {
+  font-size: 3vmin;
+  text-align: center;
+  color: black;
+  padding-bottom: 25px;
+}
+.services h2 span {
+  text-decoration: underline;
+  text-underline-position: under;
+  text-decoration-color: red;
+}
+
+.services .serv-content .card {
+  /* height: calc(33% - 2%); */
+  width: 60vmin;
+  height: 70vmin;
+  background: #222;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5vmin 8vmin;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.services .serv-content .card:hover {
+  background: crimson;
+}
+.services .serv-content .card .box {
+  transition: all 0.3s ease;
+}
+.services .serv-content .card:hover .box {
+  transform: scale(1.05);
+}
+.services .serv-content .card i {
+  font-size: 50px;
+  color: crimson;
+  transition: color 0.3s ease;
+}
+.services .serv-content .card:hover i {
+  color: #fff;
+}
+.services .serv-content .card .text {
+  font-size: 4vmin;
+  font-weight: 500;
+  /* margin: 10px 0 7px 0; */
+}
+.services .serv-content .card p {
+  font-size: 2.4vmin;
+}
+.services .serv-content .card h5 {
+  font-size: 2.4vmin;
+  font-weight: 450;
+}
+.services .serv-content .card h4 {
+  font-size: 2.4vmin;
+}
+.services .serv-content .card img {
+  height: 18vmin;
+  width: 18vmin;
+  /* object-fit: cover; */
+  border-radius: 50%;
+  /* border: 5px solid crimson; */
+  transition: all 0.3s ease;
+}
+.last691 {
+  margin-left: 42%;
+}
+
+.reviewContainer {
+  height: 400px;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reviewWrapper {
+  width: 100%;
+  height: 85%;
+
+  display: flex;
+}
+
+.reviewRight {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.reviewBox {
+  border-radius: 5%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  justify-content: space-around;
+  box-shadow: 0px 0px 27px -10px rgba(0, 0, 0, 0.45);
+  -webkit-box-shadow: 0px 0px 27px -10px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: 0px 0px 27px -10px rgba(0, 0, 0, 0.45);
+}
+.reviewinput {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+.reviewinput label {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  color: rgb(117 98 98);
+  text-transform: capitalize;
+  font-size: 18px;
+  transition: top 0.3s;
+  padding: 0 5px;
+  pointer-events: none;
+}
+.reviewinput input:focus ~ label,
+.reviewinput input:not(:focus):valid ~ label {
+  top: -12px;
+  background-color: white;
+  font-size: 15px;
+  color: #1775ee;
+  border-radius: 10px;
+}
+
+.reviewupInput {
+  height: 40px;
+  background: transparent;
+  padding-left: 20px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: 1px solid grey;
+  outline: none;
+  width: 100%;
+}
+.reviewupInput:focus {
+  border: 1px solid blue;
+}
+
+.reviewButton {
+  height: 40px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.reviewupButton {
+  background-color: #283290;
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+}
+.reviewButton:disabled {
+  cursor: not-allowed;
+}
+
+.mobBox {
+  width: 600px;
+}
+
+@media screen and (max-width: 430px) {
+  .mobBox {
+    width: 380px;
+  }
+  .reviewWrapper {
+    width: 90%;
+  }
+  .last691 {
+    margin-left: 34%;
+  }
+}

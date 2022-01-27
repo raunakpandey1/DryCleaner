@@ -118,8 +118,110 @@
         margin-top: 5vw;
         margin-right: 2vw;
     }
+    .reviewContainer {
+        height: 400px;
+        width: 100%;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+         
+    }
+      
+    .reviewWrapper {
+        width: 100%;
+        height: 85%;
+         
+        display: flex;
+    }
+    
+    .reviewRight {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .reviewBox {
+        border-radius: 5%;
+        height: 100%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        justify-content: space-around;
+        box-shadow: 0px 0px 27px -10px rgba(0,0,0,0.45);
+        -webkit-box-shadow: 0px 0px 27px -10px rgba(0,0,0,0.45);
+        -moz-box-shadow: 0px 0px 27px -10px rgba(0,0,0,0.45);
+    }
+    .reviewinput{
+        display: flex;
+         width: 100%;
+         position: relative;
+          
+     }
+     .reviewinput label{
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            color: rgb(117 98 98);
+            text-transform: capitalize;
+            font-size: 18px;
+            transition: top .3s;
+            padding: 0 5px;
+            pointer-events: none;
+     }
+     .reviewinput input:focus ~ label, .reviewinput input:not(:focus):valid ~ label{
+            top:-12px;
+            background-color:white ;
+            font-size: 15px;
+            color: #1775ee;
+            border-radius: 10px;
+    }
+          
+    .reviewupInput {
+        height: 40px;
+        background: transparent;
+        padding-left: 20px;
+        font-size: 18px;
+        border-radius: 10px;
+        border: 1px solid grey;
+        outline: none;
+        width: 100%;
+    }
+    .reviewupInput:focus {
+        border: 1px solid blue;
+    }
+     
+    
+    .reviewButton  {
+        height: 40px;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+    }
+    .reviewupButton{
+        background-color: #283290;
+        font-size: 20px;
+        font-weight: 500;
+        color: white;
+    }
+    .reviewButton:disabled{
+        cursor: not-allowed;
+    }
+    
+    .mobBox{
+        width: 600px;
+    }
     
     @media screen and (max-width: 430px) {
+        .mobBox{
+            width: 380px;
+        }
+        .reviewWrapper {
+            width: 90%;
+        } 
         .button100 {
             background-color: #87CEEA;
             display: flex;

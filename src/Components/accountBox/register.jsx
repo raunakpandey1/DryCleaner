@@ -2,7 +2,7 @@ import styled from "styled-components";
 
  
 export const BoxContainer = styled.div`
-  width: 20rem;
+  width: 25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,14 +17,15 @@ export const FormContainer = styled.form`
 `;
 
 export const MutedLink = styled.a`
-  font-size: 11px;
-  color: rgba(200, 200, 200, 0.8);
+  font-size: 20px;
+  ${'' /* color: rgba(200, 200, 200, 0.8); */}
+  color : black;
   font-weight: 500;
   text-decoration: none;
 `;
 
 export const BoldLink = styled.a`
-  font-size: 11px;
+  font-size: 20px;
   color: rgb(241, 196, 15);
   font-weight: 500;
   text-decoration: none;
@@ -33,13 +34,13 @@ export const BoldLink = styled.a`
 
 export const Input = styled.input`
   width: 100%;
-  height: 42px;
+  height: 60px;
   outline: none;
   border: 1px solid rgba(200, 200, 200, 0.3);
   padding: 0px 10px;
   border-bottom: 1.4px solid transparent;
   transition: all 200ms ease-in-out;
-  font-size: 12px;
+  font-size: 25px;
   &::placeholder {
     color: rgba(200, 200, 200, 1);
   }
@@ -51,6 +52,8 @@ export const Input = styled.input`
     border-bottom: 2px solid rgb(241, 196, 15);
   }
 `;
+
+ 
 
 export const SubmitButton = styled.button`
   width: 100%;
@@ -72,3 +75,5 @@ export const SubmitButton = styled.button`
     filter: brightness(1.03);
   }
 `;
+
+ 

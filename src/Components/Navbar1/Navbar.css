@@ -34,7 +34,7 @@ background-color: white;
 
 .nav-menu{
     margin-right: 50vw;
-    margin-left:28%;
+    margin-left: 20%;
     z-index:500;
 }
 
@@ -75,13 +75,32 @@ background-color: white;
 
 .cho {
     cursor: pointer;
-    margin-left: 4px;
-    width: 5rem;
-    margin-top: -11px;
+     
+    width: 8rem;
+    height: 38px;
+    margin-top:-11px;
     padding: 10px;
     align-items: center;
 }
-
+.cho36 {
+    cursor: pointer;
+     
+    width: 10rem;
+    height: 38px;
+    margin-top:-11px;
+    padding: 10px;
+    align-items: center;
+    background-color: rgb(108, 192, 192) !important;
+}
+.cho34 {
+    cursor: pointer;
+     
+    width: 5rem;
+    height: 38px;
+    margin-top:-11px;
+    padding: 10px;
+    align-items: center;
+}
 .cho9 {
     margin-left    : -85%;
     width          : 8rem;
@@ -98,16 +117,17 @@ background-color: white;
  
 .cpUpperLeft img {
     border-radius: 50%;
-    height: 60px;
-    width: 60px;
-    margin-top: -20px;
-    margin-left: 42px;
+    height: 43px;
+    width: 43px;
+    margin-top: -14px;
+    margin-left: -1px;
     border: 2px solid #7438FF;
     position: relative; 
+    cursor: pointer;
 }
 .profTitle{
     margin-top: -45px;
-    margin-left: 121px;
+    margin-left: 50px;
 }
 .cpUpperLeft img:hover .menu-content{
     display: flex;
@@ -159,20 +179,22 @@ background-color: white;
         display: flex;
         flex-direction: row;
         max-width: 10px; 
-    }
-    .cpUpperLeft img {
-        height: 46px;
-        margin-left: 20px;
+        
+    }  
+     .cpUpperLeft img {
+        height: 51px;
+        margin-left: 3px;
+        width: 20px;
     }
     .navprof{
         width: 100px;
     }
-    .profTitle{
+    /* .profTitle{
         color: #fff;
         margin-top: -9px;
         margin-left: 9px;
         font-size: 17px;
-    }
+    } */
     .logo {
         margin-top : 2.2vw;
         width      : 50px;

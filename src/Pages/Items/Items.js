@@ -77,6 +77,20 @@ export const Items = () => {
     }
     
   };
+  const [loadingCart, setLoadingCart] = useState(false);
+  const deleteCartItem = async (mCartItem) => {
+    // let tempCartItems = [...userCartItems];
+    // tempCartItems = tempCartItems.filter(
+    //   (mCart) => mCartItem.sub_type_id !== mCart.sub_type_id
+    // );
+
+    setLoadingCart(true);
+    // push this to db
+    const userCartRef = doc(db, "users", users.uid);
+    await updateDoc(userCartRef, { carts: arrayRemove(mCartItem) });
+    await fetchCartItems();
+    setLoadingCart(false);
+  };
 
   const handleIncrement = async (e) => {
     e.quantity += 1;
@@ -168,47 +182,23 @@ export const Items = () => {
                             <b>
                               {item.name}  
                             </b>
+                           
                           </h4>
                           <p>{item.desc}</p>
                         </div>
                         <div className="titCon">
                           <h6>
                             <b>${item.price}</b>
+                            {containItem && <span
+                                  className="removeCart1"
+                                  onClick={() => deleteCartItem(containItem)}
+                                >
+                                  Remove
+                                </span>}
                           </h6>
+                          
                         </div>
-                        <div className="itemInc">
-                        {!containItem?<button
-                          onClick={async () => {
-                            await addItemToCart(item);
-                          }}
-                          type="button"
-                          className="btn btn-danger  m-4 "
-                        >
-                          +
-                        </button>:
-                                <div className="quanHandler">
-                                  <button
-                                    className="btn btn-danger  m-2 "
-                                    onClick={() =>
-                                      handleDecrement(containItem)
-                                    }
-                                  >
-                                    -
-                                  </button>
-                                  <span className="idTest">
-                                    {containItem.quantity}
-                                  </span>
-                                  <button
-                                    className="btn btn-danger  m-2 "
-                                    onClick={() =>
-                                      handleIncrement(containItem)
-                                    }
-                                  >
-                                    +
-                                  </button>
-                                </div>
-                              }
-                      </div>
+                       
                         {/* <div className="titCon">
                           <p>
                             <b>{item.washIron && "wash & Iron"}</b>
@@ -224,7 +214,41 @@ export const Items = () => {
                           </p>
                         </div> */}
                       </div>
-
+                      <div className="itemInc">
+                        {!containItem?<button
+                          onClick={async () => {
+                            await addItemToCart(item);
+                          }}
+                          type="button"
+                          className="itemBut btn btn-danger  m-4 "
+                        >
+                          +
+                        </button>:
+                                <div className="quanHandler">
+                                  <button
+                                    className="itemBut btn btn-danger  m-2 "
+                                    onClick={() =>
+                                      handleDecrement(containItem)
+                                    }
+                                  >
+                                    -
+                                  </button>
+                                  <span className="idTest">
+                                    {containItem.quantity}
+                                  </span>
+                                  <button
+                                    className="itemBut btn btn-danger  m-2 "
+                                    onClick={() =>
+                                      handleIncrement(containItem)
+                                    }
+                                  >
+                                    +
+                                  </button>
+                                  
+                                </div>
+                              
+                              }
+                      </div>
                      
                     </div>
                      </div>

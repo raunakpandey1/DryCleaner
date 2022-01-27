@@ -1,4 +1,4 @@
-.popup{
+.popup1{
     position: fixed;
     top: 0;
     left: 0;
@@ -11,32 +11,66 @@
     z-index: 100;
   }
   
-  .popup-inner{
+  .popup-inner1{
     position: relative;
-    padding: 32px;
+    padding: 0px;
     width: 100%;
-    max-width: 640px;
-    background-color: rgb(245, 239, 239);
+    max-width: 300px;
+    // background-color: rgb(245, 239, 239);
     border-radius: 30px;
   }
-  .popup-inner:hover{
+  .popup-inner1:hover{
     background-color: rgb(253, 253, 253);
     border-radius: 10px;
   }
   
-  .popup-inner .close-btn{
+  .popImg222{
+    border-radius: 5rem;
+  }
+  .popup-inner1 .close-btn{
     position: absolute;
     top: 16px;
-    right: 16px;
+    right: -12%;
     border-radius: 10px;
+    width: 12%;
   }
-  .popup-inner .close-btn:hover{
+
+  .popup-inner1 .okayBtn{
+    position: absolute;
+    bottom: 18px;
+    right: 17%;
+    border-radius: 10px;
+    width: 16%;
+    height: 12%;
+    background-color: red;
+    color: white;
+  }
+  .popup-inner1 .close-btn:hover{
     background-color: rgb(245, 79, 79);
   }
   
   @media screen and (max-width: 430px) {
-    .popup{
+    .popup1{
       width: 94%;
       height: 100vh;
+    }
+    .pop11{
+      width: 250px;
+      margin-left: -13%;
+      
+    }
+    .popup-inner1 .close-btn{
+      
+      top: 16px;
+      right: 2%;
+       
+    }
+    .popup-inner1 .okayBtn{
+      
+      bottom: 16px;
+      right: 31%;
+       width: 16%;
+      height: 12%;
+       
     }
   }

@@ -19,7 +19,7 @@ const Navbar = () => {
     navigate('/services')
   }
   return (
-    <div className="video1" ref={element}>
+    <div className="video12" ref={element}>
       <motion.div
         variants={videoAnimation}
         animate={controls}
@@ -54,15 +54,15 @@ const Navbar = () => {
               Your Dry cleaning at the best Eco Friendly Dry cleaners in Chicago.
             </p>
             <Row className="ok">
-              <Col >
+              <Col className="btnCol">
              
-                <div className="front btn btn-danger justify-content-center align-items-center" onClick={doBook}>
+                <div className="front btn btn-success justify-content-center align-items-center" onClick={doBook}>
                   <span className="ripple">Book Pickup</span>
                 </div>
               </Col>  
               <Col >
                 {/* btn2 */}
-                <div className="front btn btn-danger justify-content-center align-items-center" onClick={doThis}>
+                <div className="front btn btn-success justify-content-center align-items-center" onClick={doThis}>
                   <span className="ripple">Our Services</span>
                 </div>
               </Col>

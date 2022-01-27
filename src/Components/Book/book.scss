@@ -17,6 +17,9 @@ width: inherit!important;
 height: inherit!important;
 }
 
+.video56{
+    margin-top: -2%;
+}
 @media screen and (max-width: 430px){
     .ripple{
         font-size: 12px;
@@ -38,5 +41,8 @@ height: inherit!important;
     .join3 .ko .where{
         align-items: center;
         justify-content: center;
+    }
+    .video56{
+        margin-left: -80px;
     }
 }

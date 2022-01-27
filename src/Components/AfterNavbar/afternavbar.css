@@ -30,8 +30,11 @@
   width: 50% !important;
   height: inherit !important;
   border-radius: 0.25em !important;
+   
 }
-
+.ok .btn-success{
+  color : white !important;
+}
 .ripple {
   font-size: 12px;
 }

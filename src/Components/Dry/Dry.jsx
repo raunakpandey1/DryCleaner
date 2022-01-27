@@ -4,8 +4,9 @@ import { cardAnimation, headerAnimation } from "../../utils/Animations";
 import { useScroll } from "../useScroll/useScroll";
 import { motion } from 'framer-motion/dist/framer-motion'
 import "./dry.scss"
-
+import { NavLink, useNavigate } from 'react-router-dom';
 const Dry = () => {
+    const navigate = useNavigate()
     const [element, controls] = useScroll();
     return (
         <div className='container10' ref={element}>
@@ -24,16 +25,16 @@ transition={{ delay: 0.2, type: "tween" }}
                     <Row className='now'>
                         {/* btn1 */}
 
-                        <div className="ch btn btn-danger justify-content-center align-items-center" style={{ borderRadius: "0.25em" }}>
-                            <span className="ripple">Email Us</span>
+                        <div className="ch btn btn-success justify-content-center align-items-center" style={{ borderRadius: "0.25em" }}>
+                            <span className="ripple riple123" onClick={() =>  window.location.href = "mailto:{azim@chicagogreendrycleaners.com}" }>Email Us</span>
                         </div>
                         {/* btn2 */}
-                        <div className="ch btn btn-danger justify-content-center align-items-center" style={{ borderRadius: "0.25em" }}>
-                            <span className="ripple">Call Us</span>
+                        <div className="ch btn btn-success justify-content-center align-items-center" style={{ borderRadius: "0.25em" }}>
+                            <span className="ripple riple123" onClick={() =>  window.location.href = "tel:{312.505.9138}" }>Call Us</span>
                         </div>
                         {/* btn3 */}
-                        <div className="ch btn btn-danger justify-content-center align-items-center" style={{ borderRadius: "0.25em" }}>
-                            <span className="ripple"> Schedule A Pickup</span>
+                        <div className="ch btn btn-success justify-content-center align-items-center" style={{ borderRadius: "0.25em" }}>
+                            <span className="ripple riple123" onClick={() => navigate('/services')}> Schedule A Pickup</span>
                         </div>
 
                     </Row>

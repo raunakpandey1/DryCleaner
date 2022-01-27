@@ -10,7 +10,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import avatar from '../../img/user.png'
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth, db } from '../../fbconfig';
- 
+import CallIcon from '@mui/icons-material/Call';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import { useAuth } from '../../auth/useAuth';
 import { doc, getDoc, getDocs } from 'firebase/firestore';
@@ -73,7 +73,7 @@ const Navbar = () => {
         className='header'>
       <nav className='navbar'>
         <a href='/' className='logo'>
-          <img src="/logo.jpg" alt="logo" width={300} height={50} />
+          <img src="/logo.jpg" alt="logo" width={250} height={50} />
         </a>
         <div className='hamburger' onClick={handleClick}>
           {click ? (<FaTimes size={30} style={{ color: '#ffffff' }} />)
@@ -93,26 +93,37 @@ const Navbar = () => {
           <li className='nav-item'>
             <a href='/pricing' onClick={closeMenu}>PRICING</a>
           </li> 
-          {/* <li className='nav-item'>
-            <a href='/' onClick={closeMenu}>GALLERY</a>
-          </li> */}
           <li className='nav-item'>
-            <a href='/services' onClick={closeMenu}>SERVICES</a>
+            <a href='/contacts' onClick={closeMenu}>CONTACT</a>
+          </li>
+          <li className='nav-item'>
+            <a href='/Gallery' onClick={closeMenu}>GALLERY</a>
+          </li>
+          <li className='nav-item'>
+          <div className="cho36 btn-danger" onClick={() =>  window.location.href = "tel:{(312) 505-9138}" } style={{ borderRadius: "1em" }}>
+          <CallIcon /><span className="ripple27">(312)505-9138</span>
+          </div></li>
+          <li className='nav-item'>
+          <div className="cho btn-danger " onClick={() => navigate('/services')} style={{ borderRadius: "1em"  }}>
+                <span className="ripple27" >SUBMIT ORDER</span>
+              </div>
+            {/* <a href='/services' onClick={closeMenu}>SERVICES</a> */}
           </li>
           
-          {user ? <li className='nav-item navprof'>
+          {user ? "":  <li className='nav-item'>  <div>
+              <div className="cho34 btn-success " onClick={() => navigate('/signin')} style={{ borderRadius: "1em" }}>
+                <span className="ripple27" >Login</span>
+              </div>
+            </div> </li> }
+           {/* <li className='nav-item navprof'>
           <div className="cpUpperLeft" >
                                     <img  src={ avatar} alt="" />
                                      <div>
                                      <p className='profTitle'>{userData?.email}</p>
                                      </div>
                                       
-                                </div>
-          </li> :  <li className='nav-item'>  <div>
-              <div className="cho btn-success " onClick={() => navigate('/signin')} style={{ borderRadius: "1em" }}>
-                <span className="ripple27" >Login</span>
-              </div>
-            </div> </li> } 
+                                </div></li> */}
+            
           
             {/* <li className='nav-item'>  <div>
               <div className="cho btn-success " onClick={() => setButtonPopup(true)} style={{ borderRadius: "1em" }}>
@@ -123,7 +134,7 @@ const Navbar = () => {
 
             {user ? <li className='nav-item'>
           <div>
-              <div className="cho btn-danger " onClick={() => signOut(auth).then(() => {
+              <div className="cho34 btn-danger " onClick={() => signOut(auth).then(() => {
                   // Sign-out successful.
                   console.log('Sign-out successful')
                   localStorage.removeItem('authenticated');
@@ -155,11 +166,20 @@ const Navbar = () => {
           </li> */}
           <li className='nav-item'>
           <div>
-              <div className="cho btn-success " onClick={() => navigate('/cart')}  style={{ borderRadius: "1em" }}>
+              <div className="cho btn-success " onClick={() => navigate('/cart')}  style={{ borderRadius: "1em", width : "50px" }}>
                  <AddShoppingCartIcon /> 
               </div>
             </div>
           </li>
+          {user && <li className='nav-item navprof'>
+          <div className="cpUpperLeft" >
+                                    <img  src={ avatar} onClick={() => navigate('/orderDetails')} alt="" />
+                                     {/* <div>
+                                     <p className='profTitle'>{userData?.email}</p>
+                                     </div> */}
+                                      
+                                </div></li> }
+          
           <div className="dragon">
              
             {/* <div className='ch1'>  <div className="cho9 btn-danger" style={{ borderRadius: "1em" }}>

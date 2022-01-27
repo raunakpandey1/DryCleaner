@@ -20,7 +20,7 @@ background-color: white;
     display        : flex;
     justify-content: space-between;
     align-items    : center;
-    max-width      : 1240px;
+    max-width      : 1102px;
     margin         : auto;
     margin-bottom: 12%;
     height         : 100%;
@@ -29,6 +29,7 @@ background-color: white;
 
 .header .navbar .logo{
     margin-top: 1vw;
+    margin-left: -6%;
 }
 
 .header .nav-menu a {
@@ -38,7 +39,7 @@ background-color: white;
 
 .nav-menu{
     margin-right: 50vw;
-    margin-left:28%;
+    margin-left: 14%;
     z-index:500;
 }
 

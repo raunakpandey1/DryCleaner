@@ -33,14 +33,20 @@ border-radius: 0.25em!important;
 .ripple{
     font-size: 12px;
 }
+.ok .btn-success{
+    color : white !important;
+}
+ .ok .btn-success:hover{
+     background-color: rgb(92, 172, 238) !important;;
+ }
   @media screen and (max-width: 430px) {
     .welcome{
        margin-bottom: 5px;
        font-size: 24px;
        display: none;
     }
-    .video1{
-        margin-top: 22.0vw;
+    .video12{
+        margin-top: 80px;
     }
 
     .typography{

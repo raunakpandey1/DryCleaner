@@ -11,7 +11,13 @@
     padding:2%;
     
 }
+.video434{
+    margin-top: 5%;
+}
 
+.ecoCont{
+    margin-top: -17%;
+}
 @media screen and (max-width: 430px) {
     .join1{
         padding:0%;
@@ -35,5 +41,12 @@
     .join1 .row .told{
         padding: 2rem;
         
+    }
+
+    .ecoCont{
+        margin-top: -5%;
+    }
+    .video434{
+        margin-top: -13%;
     }
 }

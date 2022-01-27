@@ -1,9 +1,14 @@
 .danny{
     display:flex;
     flex:2;
+    
 }
 .danny img{
     display:fixed;
+}
+.danny .tro {
+     
+    margin-top: -24%;
 }
 .danny .tro .lp{
     display:block;
@@ -35,9 +40,16 @@
 }
 
 .juice{
-    margin-left:29%;
+    margin-left:35%;
 }
 
+.imgwork{
+    margin-left:40%;
+}
+
+.imgwork1{
+    margin-left:35%;
+}
 @media screen and (max-width: 430px) {
     .danny{
         display:block;
@@ -51,19 +63,33 @@
      width:90%;
      height:120vh;
     }
+    .danny .tro {
+     
+        margin-top: 10%;
+    }
     .danny .no .zz{
         display:block;
         border-color: white;
 
     }
+
+    
     .danny .no .ll p{
         display:flex;
         justify-content: center;
         padding-left:4%;
-        color: black;
+        color: white;
     }
 
     .juice{
+        margin-left:42%;
+    }
+
+    .imgwork{
+        margin-left:45%;
+    }
+    
+    .imgwork1{
         margin-left:42%;
     }
     .danny .tro .lp h2{
@@ -71,7 +97,7 @@
     }
     .danny .tro .lp p{
         padding-left: 4%;
-        color: black;
+        color: white;
     }
 
     .danny .no .ll{
