@@ -27,7 +27,7 @@ const Account = () => {
   const columns = [
     { id: "id", label: "Order id"  },
     { id: "fullName", label: "Name"  },
-    { id: "zipCode", label: "Delivery Zipcode"  },
+    // { id: "zipCode", label: "Delivery Zipcode"    },
     { id: "couponCode", label: "Coupon"  },
     { id: "discountAmount", label: "Coupan Value"  },
     { id: "totalAmount", label: "Total"  },
@@ -170,6 +170,7 @@ const [isSubscribed, setSubscribed] = useState(true);
                         tabIndex={-1}
                         key={order.code}
                         onClick={() => handleClick(order.id)}
+                        style={{ cursor : "pointer" }}
                       >
                         {columns.map((column) => {
                           const value = order[column.id];

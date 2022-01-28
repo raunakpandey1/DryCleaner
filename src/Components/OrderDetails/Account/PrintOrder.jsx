@@ -75,7 +75,7 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
   return (
     <div ref={ref}>
       <Card>
-        <h4 style={{ textAlign: "center", color: "black" }}><b> Dry Cleaning</b> </h4>
+        <h4 style={{ textAlign: "center", color: "green" }}><b> CHICAGO GREEN <br></br><span style={{ textAlign: "center", color: "blue" }}>CLEANERS</span></b> </h4>
         <br></br>
         <h5 style={{ textAlign: "center", color: "red" }}>
           <b>Order Details</b>
@@ -85,7 +85,7 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
             <Card className={classes.content}>
               <b>
                 Order Id : &nbsp;&nbsp;&nbsp;
-                {eachOrder.id}
+                {props.value}
               </b>
               <br></br>
               <b>

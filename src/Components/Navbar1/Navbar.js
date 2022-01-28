@@ -112,7 +112,7 @@ const Navbar = () => {
           
           {user ? "":  <li className='nav-item'>  <div>
               <div className="cho34 btn-success " onClick={() => navigate('/signin')} style={{ borderRadius: "1em" }}>
-                <span className="ripple27" >Login</span>
+                <span className="ripple27" >LOGIN</span>
               </div>
             </div> </li> }
            {/* <li className='nav-item navprof'>
@@ -144,7 +144,7 @@ const Navbar = () => {
                   const errorCode = error.code;
                   console.log(errorCode)
                 })} style={{ borderRadius: "1em" }}>
-                <span className="ripple27" >Logout</span>
+                <span className="ripple27" >LOGOUT</span>
               </div>
             </div>
           </li>  :  null } 

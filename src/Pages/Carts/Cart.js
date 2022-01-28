@@ -140,7 +140,7 @@ const Cart = ({ subTypesModal, setSubTypesModal }) => {
                  
       ))
     )
-    // navigate("/");
+    navigate("/orderDetails");
   };
   const handleOpenSubTypesModal = () => setSubTypesModal(true);
   const handleCloseSubTypesModal = () => {

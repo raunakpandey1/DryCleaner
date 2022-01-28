@@ -14,10 +14,19 @@
     display:block;
     margin-top: 20%;
 }
-.danny .tro .lp h2{
+// .danny .tro .lp h2{
+//     color: red;
+//     font-size: 42px;
+//     font-weight: bold;
+// }
+.workHead h2{
+    display: flex;
+    justify-content: center;
     color: red;
     font-size: 42px;
     font-weight: bold;
+    align-items: center;
+     
 }
 .danny .tro .lp p{
     color:#9C99A1;
@@ -52,20 +61,25 @@
 }
 @media screen and (max-width: 430px) {
     .danny{
-        display:block;
-        margin-top: 60%;
+        // display:block;
+        display: flex;
+        flex-direction: column;
+        margin-top: 20%;
         padding-bottom:0;
         height: 100vh;
     }
+    .workHead h2{
+        margin-top: 60%;
+    }
     .danny .hd{
-     position: absolute;   
+    //  position: absolute;   
      z-index: -639654; 
      width:90%;
      height:120vh;
     }
     .danny .tro {
      
-        margin-top: 10%;
+        margin-top: 2%;
     }
     .danny .no .zz{
         display:block;
@@ -78,7 +92,7 @@
         display:flex;
         justify-content: center;
         padding-left:4%;
-        color: white;
+        color: rgb(20, 13, 13);
     }
 
     .juice{
@@ -97,7 +111,7 @@
     }
     .danny .tro .lp p{
         padding-left: 4%;
-        color: white;
+        color: rgb(0, 0, 0);
     }
 
     .danny .no .ll{
